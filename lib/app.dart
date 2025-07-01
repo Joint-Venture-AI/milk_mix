@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:milk_mix/presentation/authentication/signin_screen.dart';
-import 'package:milk_mix/presentation/splash_screen.dart';
+import 'package:get/get.dart';
+import 'package:milk_mix/routes.dart';
 
 class MilkMix extends StatelessWidget {
   const MilkMix({super.key});
@@ -13,18 +13,18 @@ class MilkMix extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Milk Mix',
           theme: ThemeData(
             useMaterial3: true,
             scaffoldBackgroundColor: Colors.white,
-            //  fontFamily: 'inter',
+            fontFamily: 'inter',
           ),
-          home: child,
+          initialRoute: AppRoutes.splashScreen,
+          getPages: AppRoutes.pages,
         );
       },
-      child: const SigninScreen(),
     );
   }
 }
