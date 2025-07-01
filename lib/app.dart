@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:milk_mix/presentation/authentication/signin_screen.dart';
 import 'package:milk_mix/presentation/splash_screen.dart';
 
 class MilkMix extends StatelessWidget {
@@ -15,11 +16,15 @@ class MilkMix extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Milk Mix',
-          theme: ThemeData(useMaterial3: true),
+          theme: ThemeData(
+            useMaterial3: true,
+            scaffoldBackgroundColor: Colors.white,
+            //  fontFamily: 'inter',
+          ),
           home: child,
         );
       },
-      child: const SplashScreen(),
+      child: const SigninScreen(),
     );
   }
 }
