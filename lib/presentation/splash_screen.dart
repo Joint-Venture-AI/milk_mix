@@ -30,7 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
         height: 1.sh,
         color: AppColors.surface,
         child: Center(
-          child: SvgPicture.asset('assets/logos/milkmix.svg', width: 171.w),
+          child: Row(
+            children: [
+              SizedBox(width: 81.w),
+              SvgPicture.asset('assets/logos/milkmix.svg', width: 171.w),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );

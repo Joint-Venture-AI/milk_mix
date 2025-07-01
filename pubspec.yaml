@@ -22,13 +22,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/logos/milkmix.svg
-
-flutter:
-  assets:
-    - assets/logos/milkmix.svg
+    - assets/backgrounds/Frame.svg
 
   fonts:
     - family: Inter
