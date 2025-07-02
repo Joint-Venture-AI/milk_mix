@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class AppColors {
-  static const primary = Color(0xff2E7FC9);
-  static const surface = Color(0xffFFFFFF);
-  static const secondary = Color(0x00e6a516);
-  static const text = Color(0x0012253F);
-  static const shade = Color(0x00F4F6F8);
+  static const primary = Color(0xFF2E7FC9);
+  static const surface = Color(0xFFFFFFFF);
+  static const secondary = Color(0xFFE6A516);
+  static const text = Color(0xFF12253F);
+  static const textGrey = Color(0xFF4A4A4A);
+  static const shade = Color(0xFFF4F6F8);
 }
