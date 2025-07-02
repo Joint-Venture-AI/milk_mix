@@ -28,7 +28,8 @@ flutter:
     - assets/backgrounds/Frame.svg
     - assets/images/onboard_1.png
     - assets/images/onboard_2.png
-
+    - assets/logos/apple.svg
+    - assets/logos/google.svg
 
   fonts:
     - family: Inter
