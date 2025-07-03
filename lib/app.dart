@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 
 class MilkMix extends StatelessWidget {
@@ -22,23 +23,21 @@ class MilkMix extends StatelessWidget {
             fontFamily: 'inter',
             inputDecorationTheme: InputDecorationTheme(
               filled: true,
-              fillColor: const Color.fromARGB(
-                255,
-                194,
-                194,
-                194,
-              ).withOpacity(0.08),
+              fillColor: Color(0xFFFFFFFF),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 12.w,
                 vertical: 14.h,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
-                borderSide: const BorderSide(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(color: Colors.grey, width: 1.5),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),
-                borderSide: const BorderSide(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5,
+                ),
               ),
             ),
           ),
