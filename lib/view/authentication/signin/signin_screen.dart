@@ -30,7 +30,7 @@ class _SigninScreenState extends State<SigninScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: EdgeInsets.all(20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,6 +56,8 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
               ),
               SizedBox(height: 24.h),
+
+              ///--
               Container(
                 height: 45.h,
                 decoration: BoxDecoration(
@@ -66,15 +68,23 @@ class _SigninScreenState extends State<SigninScreen> {
                   padding: const EdgeInsets.all(6.0),
                   child: Row(
                     children: [
-                      ToggleButton('individual', 'Individual User'),
-                      ToggleButton('farm', 'Farm User'),
+                      ToggleButton(
+                        'individual',
+                        'assets/logos/user-line.svg',
+                        'Individual User',
+                      ),
+                      ToggleButton(
+                        'farm',
+                        'assets/logos/multi-user.svg',
+                        'Farm User',
+                      ),
                     ],
                   ),
                 ),
               ),
 
               SizedBox(height: 42.h),
-
+              //---individula user-----
               if (selectedType == 'individual') ...[
                 Text(
                   'Email',
@@ -94,6 +104,19 @@ class _SigninScreenState extends State<SigninScreen> {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(12.w),
+                      child: SvgPicture.asset(
+                        'assets/logos/mail.svg',
+                        width: 20.w,
+                        height: 20.h,
+                      ),
+                    ),
+
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.h,
+                    ),
                   ),
                   style: TextStyle(
                     color: AppColors.textPrimary,
@@ -110,15 +133,27 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 6.h),
                 TextField(
-                  controller: _passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your password',
+                    hintText: 'Enter your pasword',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(12.w),
+                      child: SvgPicture.asset(
+                        'assets/logos/lock.svg',
+                        width: 20.w,
+                        height: 20.h,
+                      ),
+                    ),
+
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.h,
                     ),
                   ),
                   style: TextStyle(
@@ -236,10 +271,41 @@ class _SigninScreenState extends State<SigninScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20.h),
                   ],
                 ),
                 SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ] else ...[
+                //-------farm user-----
                 Text(
                   'Farm Username',
                   style: TextStyle(
@@ -249,13 +315,28 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 6.h),
                 TextField(
-                  controller: _usernameController,
-                  keyboardType: TextInputType.name,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'Enter your username',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(12.w),
+                      child: SvgPicture.asset(
+                        'assets/logos/at.svg',
+                        width: 20.w,
+                        height: 20.h,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.h,
                     ),
                   ),
                   style: TextStyle(
@@ -280,6 +361,20 @@ class _SigninScreenState extends State<SigninScreen> {
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(12.w),
+                      child: SvgPicture.asset(
+                        'assets/logos/mail.svg',
+                        width: 20.w,
+                        height: 20.h,
+                      ),
+                    ),
+
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.h,
                     ),
                   ),
                   style: TextStyle(
@@ -297,20 +392,39 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 6.h),
                 TextField(
-                  controller: _passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your password',
+                    hintText: 'Enter your email',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(12.w),
+                      child: SvgPicture.asset(
+                        'assets/logos/lock.svg',
+                        width: 20.w,
+                        height: 20.h,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.h,
                     ),
                   ),
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 14.sp,
                   ),
+                ),
+                SizedBox(height: 44.h),
+                TextWidgetButton(
+                  text: 'Login as Farm Member',
+                  onPressed: () {},
                 ),
               ],
             ],
@@ -320,12 +434,12 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
-  Widget ToggleButton(String value, String text) {
+  Widget ToggleButton(String value, String imagePath, String label) {
     final isSelected = selectedType == value;
+
     return Expanded(
       child: SizedBox(
         height: 33.h,
-
         child: GestureDetector(
           onTap: () => setState(() => selectedType = value),
           child: Container(
@@ -333,15 +447,25 @@ class _SigninScreenState extends State<SigninScreen> {
               color: isSelected ? AppColors.primary : Colors.transparent,
               borderRadius: BorderRadius.circular(5.r),
             ),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  imagePath,
+                  height: 16.h,
                   color: isSelected ? Colors.white : AppColors.textGrey,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14.sp,
                 ),
-              ),
+                SizedBox(width: 6.w),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : AppColors.textGrey,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

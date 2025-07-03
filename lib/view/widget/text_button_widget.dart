@@ -18,7 +18,7 @@ class TextWidgetButton extends StatelessWidget {
       height: 48.h,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(10.r),
         color: AppColors.primary,
       ),
       child: ElevatedButton(
@@ -28,7 +28,7 @@ class TextWidgetButton extends StatelessWidget {
           shadowColor: Colors.transparent,
 
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(10.r),
           ),
         ),
         child: Text(

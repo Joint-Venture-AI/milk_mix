@@ -30,6 +30,11 @@ flutter:
     - assets/images/onboard_2.png
     - assets/logos/apple.svg
     - assets/logos/google.svg
+    - assets/logos/lock.svg
+    - assets/logos/mail.svg
+    - assets/logos/multi-user.svg
+    - assets/logos/user-line.svg
+    - assets/logos/at.svg
 
   fonts:
     - family: Inter
