@@ -35,6 +35,7 @@ flutter:
     - assets/logos/multi-user.svg
     - assets/logos/user-line.svg
     - assets/logos/at.svg
+    - assets/logos/user.svg
 
   fonts:
     - family: Inter

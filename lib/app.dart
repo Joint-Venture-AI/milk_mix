@@ -30,7 +30,10 @@ class MilkMix extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(color: Colors.grey, width: 1.5),
+                borderSide: const BorderSide(
+                  color: AppColors.shade,
+                  width: 1.5,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),

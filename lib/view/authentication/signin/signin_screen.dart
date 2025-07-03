@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -175,7 +178,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       'Forgot password',
                       style: TextStyle(
                         color: AppColors.primary,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -293,7 +296,9 @@ class _SigninScreenState extends State<SigninScreen> {
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.createaccount);
+                      },
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(
@@ -328,8 +333,8 @@ class _SigninScreenState extends State<SigninScreen> {
                       padding: EdgeInsets.all(12.w),
                       child: SvgPicture.asset(
                         'assets/logos/at.svg',
-                        width: 20.w,
-                        height: 20.h,
+                        width: 18.w,
+                        height: 18.h,
                         color: AppColors.textPrimary,
                       ),
                     ),
@@ -370,11 +375,6 @@ class _SigninScreenState extends State<SigninScreen> {
                         width: 20.w,
                         height: 20.h,
                       ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
                     ),
                   ),
                   style: TextStyle(
