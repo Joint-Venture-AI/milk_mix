@@ -135,6 +135,41 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 40.h),
               TextWidgetButton(text: 'Create Account', onPressed: () {}),
+              SizedBox(height: 40.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(width: 4.w),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.createaccount);
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 14,
+
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   Expanded(
@@ -155,7 +190,7 @@ class CreateAccountScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   Expanded(
@@ -223,37 +258,6 @@ class CreateAccountScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  SizedBox(width: 4.w),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.createaccount);
-                    },
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],
