@@ -11,5 +11,5 @@ List<LanguageModel> languages = [
     name: 'English United Kingdom',
     flag: 'assets/flags/uk.png',
   ),
-  LanguageModel(code: 'sp', name: 'Spanish', flag: 'assets/flags/sp.png'),
+  LanguageModel(code: 'es', name: 'Spain', flag: 'assets/flags/es.png'),
 ];
