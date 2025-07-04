@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/constants/language_data.dart' as Language;
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class SelectPreferedLanguageScreen extends StatefulWidget {
@@ -51,7 +53,12 @@ class _SelectPreferedLanguageScreenState
                   },
                 ),
               SizedBox(height: 30.h),
-              TextWidgetButton(text: 'Confirm', onPressed: () {}),
+              TextWidgetButton(
+                text: 'Confirm',
+                onPressed: () {
+                  Get.toNamed(AppRoutes.selectmeasurement);
+                },
+              ),
             ],
           ),
         ),
