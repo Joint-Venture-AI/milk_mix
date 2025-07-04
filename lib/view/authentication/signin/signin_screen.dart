@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/view/widget/input_field_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -60,7 +61,6 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 24.h),
 
-              ///--
               Container(
                 height: 45.h,
                 decoration: BoxDecoration(
@@ -87,82 +87,21 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
 
               SizedBox(height: 42.h),
-              //---individula user-----
               if (selectedType == 'individual') ...[
-                Text(
-                  'Email',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
+                InputFieldWidget(
+                  label: 'Email',
+                  hint: 'Enter your email',
                   controller: _emailController,
+                  iconPath: 'assets/logos/mail.svg',
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/mail.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
                 ),
                 SizedBox(height: 24.h),
-                Text(
-                  'Password',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your pasword',
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/lock.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
+                InputFieldWidget(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  controller: _passwordController,
+                  iconPath: 'assets/logos/lock.svg',
+                  obscureText: true,
                 ),
                 SizedBox(height: 6.h),
                 Align(
@@ -251,7 +190,6 @@ class _SigninScreenState extends State<SigninScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.r),
                           ),
-
                           backgroundColor: AppColors.shade,
                         ),
                         child: Row(
@@ -274,7 +212,6 @@ class _SigninScreenState extends State<SigninScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.h),
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -310,116 +247,27 @@ class _SigninScreenState extends State<SigninScreen> {
                   ],
                 ),
               ] else ...[
-                //-------farm user-----
-                Text(
-                  'Farm Username',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your username',
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/at.svg',
-                        width: 18.w,
-                        height: 18.h,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
+                InputFieldWidget(
+                  label: 'Farm Username',
+                  hint: 'Enter your username',
+                  controller: _usernameController,
+                  iconPath: 'assets/logos/at.svg',
                 ),
                 SizedBox(height: 24.h),
-                Text(
-                  'Email',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
+                InputFieldWidget(
+                  label: 'Email',
+                  hint: 'Enter your email',
                   controller: _emailController,
+                  iconPath: 'assets/logos/mail.svg',
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/mail.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
                 ),
                 SizedBox(height: 24.h),
-                Text(
-                  'Password',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/lock.svg',
-                        width: 20.w,
-                        height: 20.h,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
+                InputFieldWidget(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  controller: _passwordController,
+                  iconPath: 'assets/logos/lock.svg',
+                  obscureText: true,
                 ),
                 SizedBox(height: 44.h),
                 TextWidgetButton(

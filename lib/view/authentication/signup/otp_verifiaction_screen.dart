@@ -120,7 +120,7 @@ class OtpVerifiactionScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 302.h),
-              TextWidgetButton(text: 'Verify', onPressed: () {}),
+              TextWidgetButton(text: 'Verify OTP', onPressed: () {}),
             ],
           ),
         ),
