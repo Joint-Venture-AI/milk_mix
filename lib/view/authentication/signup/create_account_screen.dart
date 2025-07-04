@@ -5,17 +5,12 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-import 'package:milk_mix/view/widget/input_field_widget.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final nameController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -30,14 +25,14 @@ class CreateAccountScreen extends StatelessWidget {
                   children: [
                     SizedBox(width: 115.w),
                     SvgPicture.asset('assets/logos/milkmix.svg', width: 80.w),
-                    const Spacer(),
+                    Spacer(),
                   ],
                 ),
               ),
               SizedBox(height: 14.h),
               Text(
-                'Create Your Account',
                 textAlign: TextAlign.center,
+                'Create Your Account',
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -45,36 +40,99 @@ class CreateAccountScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24.h),
-
-              /// Name Field
-              InputFieldWidget(
-                label: 'Name',
-                hint: 'Enter your name',
-                controller: nameController,
-                iconPath: 'assets/logos/user.svg',
+              Text(
+                'Name',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
-              SizedBox(height: 20.h),
-
-              /// Email Field
-              InputFieldWidget(
-                label: 'Email',
-                hint: 'Enter your email',
-                controller: emailController,
-                iconPath: 'assets/logos/mail.svg',
+              SizedBox(height: 6.h),
+              TextField(
                 keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'Enter your pasword',
+                  hintStyle: TextStyle(
+                    color: AppColors.textLightGrey,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.all(12.w),
+                    child: SvgPicture.asset(
+                      'assets/logos/user.svg',
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  ),
+
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 40.w,
+                    minHeight: 40.h,
+                  ),
+                ),
+                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
               SizedBox(height: 20.h),
+              Text(
+                'Email',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 6.h),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'Enter your pasword',
+                  hintStyle: TextStyle(
+                    color: AppColors.textLightGrey,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.all(12.w),
+                    child: SvgPicture.asset(
+                      'assets/logos/mail.svg',
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  ),
 
-              /// Password Field
-              InputFieldWidget(
-                label: 'Password',
-                hint: 'Enter your password',
-                controller: passwordController,
-                iconPath: 'assets/logos/lock.svg',
-                obscureText: true,
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 40.w,
+                    minHeight: 40.h,
+                  ),
+                ),
+                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                'Password',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 6.h),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'Enter your pasword',
+                  hintStyle: TextStyle(
+                    color: AppColors.textLightGrey,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.all(12.w),
+                    child: SvgPicture.asset(
+                      'assets/logos/lock.svg',
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  ),
+
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 40.w,
+                    minHeight: 40.h,
+                  ),
+                ),
+                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
               SizedBox(height: 40.h),
-
               TextWidgetButton(
                 text: 'Create Account',
                 onPressed: () {
@@ -82,7 +140,6 @@ class CreateAccountScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 40.h),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -108,6 +165,7 @@ class CreateAccountScreen extends StatelessWidget {
                       'Login',
                       style: TextStyle(
                         fontSize: 14,
+
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
@@ -116,7 +174,6 @@ class CreateAccountScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-
               Row(
                 children: [
                   Expanded(
@@ -138,7 +195,6 @@ class CreateAccountScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-
               Row(
                 children: [
                   Expanded(
@@ -182,6 +238,7 @@ class CreateAccountScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.r),
                         ),
+
                         backgroundColor: AppColors.shade,
                       ),
                       child: Row(
@@ -204,6 +261,7 @@ class CreateAccountScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ],

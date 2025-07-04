@@ -25,18 +25,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/logos/milkmix.svg
-    - assets/backgrounds/Frame.svg
-    - assets/images/onboard_1.png
-    - assets/images/onboard_2.png
-    - assets/logos/apple.svg
-    - assets/logos/google.svg
-    - assets/logos/lock.svg
-    - assets/logos/mail.svg
-    - assets/logos/multi-user.svg
-    - assets/logos/user-line.svg
-    - assets/logos/at.svg
-    - assets/logos/user.svg
+    - assets/logos/
+    - assets/backgrounds/
+    - assets/images/
+    - assets/flags/
+
 
   fonts:
     - family: Inter

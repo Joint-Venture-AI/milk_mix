@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:milk_mix/constants/color.dart';
@@ -19,7 +21,6 @@ class OtpVerifiactionScreen extends StatelessWidget {
             children: [
               SizedBox(height: 40.h),
 
-              /// Logo
               Center(
                 child: Row(
                   children: [
@@ -32,7 +33,6 @@ class OtpVerifiactionScreen extends StatelessWidget {
 
               SizedBox(height: 14.h),
 
-              /// Title
               Text(
                 textAlign: TextAlign.center,
                 'Verify Your Email',
@@ -45,7 +45,6 @@ class OtpVerifiactionScreen extends StatelessWidget {
 
               SizedBox(height: 6.h),
 
-              /// Subtitle
               Text(
                 textAlign: TextAlign.center,
                 'We sent a 4 digit code to your email.',
@@ -58,7 +57,6 @@ class OtpVerifiactionScreen extends StatelessWidget {
 
               SizedBox(height: 40.h),
 
-              /// OTP Field
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 34.w),
                 child: PinCodeTextField(
@@ -88,7 +86,6 @@ class OtpVerifiactionScreen extends StatelessWidget {
 
               SizedBox(height: 12.h),
 
-              /// Resend text
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -120,7 +117,12 @@ class OtpVerifiactionScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 302.h),
-              TextWidgetButton(text: 'Verify OTP', onPressed: () {}),
+              TextWidgetButton(
+                text: 'Verify OTP',
+                onPressed: () {
+                  Get.toNamed(AppRoutes.selectlanguage);
+                },
+              ),
             ],
           ),
         ),
