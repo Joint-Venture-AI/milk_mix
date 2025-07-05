@@ -19,7 +19,7 @@ class TextButtonWidgetLight extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        color: AppColors.primarylight,
+        color: AppColors.primaryLight,
       ),
       child: ElevatedButton(
         onPressed: onPressed,

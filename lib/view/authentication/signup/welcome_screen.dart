@@ -32,7 +32,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.primarylight,
+                  color: AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.symmetric(
@@ -148,7 +148,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      checkColor: AppColors.primarylight,
+                      checkColor: AppColors.primaryLight,
                       activeColor: AppColors.primary,
                     ),
                   ),

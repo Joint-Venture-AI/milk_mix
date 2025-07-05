@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
-import 'package:milk_mix/view/authentication/signup/otp_verifiaction_screen.dart';
+import 'package:milk_mix/view/authentication/signup/otp_verification_screen.dart';
 import 'package:milk_mix/view/authentication/signup/select_measurement_system.dart';
-import 'package:milk_mix/view/authentication/signup/select_prefered_language_screen.dart';
+import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
 import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
 import 'package:milk_mix/view/splash_screen.dart';
@@ -15,10 +15,10 @@ class AppRoutes {
   static String splashScreen = "/splash-screen";
   static String auth = "/authentication";
   static String signin = "/signin";
-  static String createaccount = "/createaccount";
-  static String otpverification = "/otpverification";
-  static String selectlanguage = "/selectlanguage";
-  static String selectmeasurement = "/selectmeasurement";
+  static String createAccount = "/create-account";
+  static String otpVerification = "/otp-verification";
+  static String selectLanguage = "/select-language";
+  static String selectMeasurement = "/select-measurement";
   static String welcome = "/welcome";
   static String premium = "/premium";
   static String congratulation = "/congratulation";
@@ -28,10 +28,10 @@ class AppRoutes {
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: auth, page: () => const AuthenticationScreen()),
     GetPage(name: signin, page: () => SigninScreen()),
-    GetPage(name: createaccount, page: () => CreateAccountScreen()),
-    GetPage(name: otpverification, page: () => OtpVerifiactionScreen()),
-    GetPage(name: selectlanguage, page: () => SelectPreferedLanguageScreen()),
-    GetPage(name: selectmeasurement, page: () => SelectMeasurementSystem()),
+    GetPage(name: createAccount, page: () => CreateAccountScreen()),
+    GetPage(name: otpVerification, page: () => OtpVerificationScreen()),
+    GetPage(name: selectLanguage, page: () => SelectPreferredLanguageScreen()),
+    GetPage(name: selectMeasurement, page: () => SelectMeasurementSystem()),
     GetPage(name: welcome, page: () => WelcomeScreen()),
     GetPage(name: premium, page: () => UpgradePremium()),
     GetPage(name: congratulation, page: () => CongratulationScreen()),

@@ -296,7 +296,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
-                        Get.toNamed(AppRoutes.createaccount);
+                        Get.toNamed(AppRoutes.createAccount);
                       },
                       child: const Text(
                         'Sign Up',

@@ -7,8 +7,8 @@ import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:milk_mix/constants/color.dart';
 
-class OtpVerifiactionScreen extends StatelessWidget {
-  const OtpVerifiactionScreen({super.key});
+class OtpVerificationScreen extends StatelessWidget {
+  const OtpVerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class OtpVerifiactionScreen extends StatelessWidget {
               TextWidgetButton(
                 text: 'Verify OTP',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.selectlanguage);
+                  Get.toNamed(AppRoutes.selectLanguage);
                 },
               ),
             ],

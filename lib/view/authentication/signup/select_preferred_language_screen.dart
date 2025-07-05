@@ -7,16 +7,16 @@ import 'package:milk_mix/constants/data/language_data.dart' as Language;
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
-class SelectPreferedLanguageScreen extends StatefulWidget {
-  const SelectPreferedLanguageScreen({super.key});
+class SelectPreferredLanguageScreen extends StatefulWidget {
+  const SelectPreferredLanguageScreen({super.key});
 
   @override
-  State<SelectPreferedLanguageScreen> createState() =>
-      _SelectPreferedLanguageScreenState();
+  State<SelectPreferredLanguageScreen> createState() =>
+      _SelectPreferredLanguageScreenState();
 }
 
-class _SelectPreferedLanguageScreenState
-    extends State<SelectPreferedLanguageScreen> {
+class _SelectPreferredLanguageScreenState
+    extends State<SelectPreferredLanguageScreen> {
   String selectedLanguage = 'en';
 
   @override
@@ -57,7 +57,7 @@ class _SelectPreferedLanguageScreenState
               TextWidgetButton(
                 text: 'Confirm',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.selectmeasurement);
+                  Get.toNamed(AppRoutes.selectMeasurement);
                 },
               ),
             ],

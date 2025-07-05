@@ -136,7 +136,7 @@ class CreateAccountScreen extends StatelessWidget {
               TextWidgetButton(
                 text: 'Create Account',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.otpverification);
+                  Get.toNamed(AppRoutes.otpVerification);
                 },
               ),
               SizedBox(height: 40.h),
@@ -159,7 +159,7 @@ class CreateAccountScreen extends StatelessWidget {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () {
-                      Get.toNamed(AppRoutes.createaccount);
+                      Get.toNamed(AppRoutes.createAccount);
                     },
                     child: const Text(
                       'Login',
