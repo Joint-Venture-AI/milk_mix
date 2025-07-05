@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
-import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
@@ -23,6 +21,7 @@ class _SelectMeasurementSystemState extends State<SelectMeasurementSystem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20.w),

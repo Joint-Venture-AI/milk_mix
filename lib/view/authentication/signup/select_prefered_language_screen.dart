@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/constants/language_data.dart' as Language;
+import 'package:milk_mix/constants/data/language_data.dart' as Language;
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
@@ -22,6 +22,7 @@ class _SelectPreferedLanguageScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20.w),

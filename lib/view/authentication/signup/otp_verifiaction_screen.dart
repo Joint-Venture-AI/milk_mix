@@ -13,6 +13,7 @@ class OtpVerifiactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),

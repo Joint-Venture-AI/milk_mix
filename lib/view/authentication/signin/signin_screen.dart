@@ -60,7 +60,6 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 24.h),
 
-              ///--
               Container(
                 height: 45.h,
                 decoration: BoxDecoration(

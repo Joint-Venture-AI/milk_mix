@@ -7,6 +7,8 @@ import 'package:milk_mix/view/authentication/signup/select_measurement_system.da
 import 'package:milk_mix/view/authentication/signup/select_prefered_language_screen.dart';
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
 import 'package:milk_mix/view/splash_screen.dart';
+import 'package:milk_mix/view/subscription/congratulation_screen.dart';
+import 'package:milk_mix/view/subscription/upgrade_premium_screen.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash-screen";
@@ -17,6 +19,8 @@ class AppRoutes {
   static String selectlanguage = "/selectlanguage";
   static String selectmeasurement = "/selectmeasurement";
   static String welcome = "/welcome";
+  static String premium = "/premium";
+  static String congratulation = "/congratulation";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -27,5 +31,7 @@ class AppRoutes {
     GetPage(name: selectlanguage, page: () => SelectPreferedLanguageScreen()),
     GetPage(name: selectmeasurement, page: () => SelectMeasurementSystem()),
     GetPage(name: welcome, page: () => WelcomeScreen()),
+    GetPage(name: premium, page: () => UpgradePremium()),
+    GetPage(name: congratulation, page: () => CongratulationScreen()),
   ];
 }
