@@ -6,6 +6,7 @@ import 'package:milk_mix/view/authentication/signup/otp_verifiaction_screen.dart
 import 'package:milk_mix/view/authentication/signup/select_measurement_system.dart';
 import 'package:milk_mix/view/authentication/signup/select_prefered_language_screen.dart';
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
+import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/subscription/congratulation_screen.dart';
 import 'package:milk_mix/view/subscription/upgrade_premium_screen.dart';
@@ -21,6 +22,7 @@ class AppRoutes {
   static String welcome = "/welcome";
   static String premium = "/premium";
   static String congratulation = "/congratulation";
+  static String home = "/home";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -33,5 +35,6 @@ class AppRoutes {
     GetPage(name: welcome, page: () => WelcomeScreen()),
     GetPage(name: premium, page: () => UpgradePremium()),
     GetPage(name: congratulation, page: () => CongratulationScreen()),
+    GetPage(name: home, page: () => HomeBottomNavScreen()),
   ];
 }

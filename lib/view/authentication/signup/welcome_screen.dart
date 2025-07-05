@@ -165,7 +165,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ],
               ),
 
-              SizedBox(height: 28.h),
+              SizedBox(height: 40.h),
               TextWidgetButton(
                 text: 'Get Start To The App!',
                 onPressed: () {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class CongratulationScreen extends StatelessWidget {
@@ -33,7 +36,9 @@ class CongratulationScreen extends StatelessWidget {
               SizedBox(height: 224.h),
               TextWidgetButton(
                 text: 'Get started to the app ->',
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(AppRoutes.home);
+                },
               ),
             ],
           ),
