@@ -16,6 +16,7 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   String selectedType = 'individual';
+  String selectedUnit = 'english';
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();

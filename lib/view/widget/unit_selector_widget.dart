@@ -26,7 +26,7 @@ class _UnitSelectorWidgetState extends State<UnitSelectorWidget> {
         children: [
           Row(
             children: [
-              _buildSystemButton('metric', 'Metric'),
+              Row(children: [_buildSystemButton('metric', 'Metric')]),
               SizedBox(width: 10.w),
               _buildSystemButton('english', 'English'),
             ],
