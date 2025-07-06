@@ -25,7 +25,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
             children: [
               SizedBox(height: 20.h),
 
-              // Ads container
               SizedBox(
                 height: 100.h,
                 child: Container(
@@ -47,7 +46,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
               SizedBox(height: 14.h),
 
-              // Dropdown header
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -138,7 +136,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
               SizedBox(height: 20.h),
 
-              // Only selected unit column shown
               buildAllUnitColumns(),
             ],
           ),
@@ -189,7 +186,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
   }
 
-  // Sub unit selector (gallon, pounds, liter, kilo)
   Widget _subUnitToggle(String value, String label) {
     final isSelected = selectedSubUnit == value;
 
@@ -216,7 +212,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
   }
 
-  // Show only selected unit column
   Widget buildAllUnitColumns() {
     switch (selectedSubUnit) {
       case 'gallon':
@@ -268,7 +263,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
     }
   }
 
-  // Unit block builder
   Widget _unitColumn({
     required String title,
 
