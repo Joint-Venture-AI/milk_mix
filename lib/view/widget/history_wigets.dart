@@ -89,7 +89,6 @@ class HistoryTile extends StatelessWidget {
           height: 1.h,
           width: double.infinity,
           color: AppColors.lightGrey,
-          margin: EdgeInsets.only(top: 8.h),
         ),
       ],
     );
