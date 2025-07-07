@@ -98,7 +98,7 @@ class SettingScreen extends StatelessWidget {
               SettingTile(
                 iconPath: 'assets/logos/logout.svg',
                 title: 'Logout',
-                color: Colors.red,
+
                 onTap: () {},
               ),
             ],
