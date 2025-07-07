@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/view/widget/light_text_input_widget.dart';
 
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
@@ -13,6 +16,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
   String selectedUnit = 'english';
   String selectedSubUnit = 'gallon';
   bool isDropdownExpanded = false;
+  bool isSolidsExpanded = false; // New state for Solids section
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,8 @@ class _CalculateScreenState extends State<CalculateScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20.h),
 
@@ -45,67 +51,50 @@ class _CalculateScreenState extends State<CalculateScreen> {
               ),
 
               SizedBox(height: 14.h),
-
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isDropdownExpanded = !isDropdownExpanded;
-                  });
-                },
-                child: Container(
-                  height: 45.h,
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.shade,
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: AppColors.lightGrey),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Measurement Unit',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textGrey,
-                        ),
-                      ),
-                      Row(
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: AppColors.lightGrey),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isDropdownExpanded = !isDropdownExpanded;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          SizedBox(height: 48.h),
+                          SvgPicture.asset(
+                            'assets/logos/scale.svg',
+                            height: 18.h,
+                          ),
+                          SizedBox(width: 8.w),
                           Text(
-                            _getSelectedUnitLabel(),
+                            'Measurement Unit',
                             style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
                             ),
                           ),
-                          SizedBox(width: 6.w),
-                          Icon(
+                          Spacer(),
+                          SvgPicture.asset(
                             isDropdownExpanded
-                                ? Icons.arrow_drop_up
-                                : Icons.arrow_drop_down,
-                            color: AppColors.textGrey,
-                            size: 24.sp,
+                                ? 'assets/logos/down.svg'
+                                : 'assets/logos/up.svg',
+                            height: 24.h,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-
-              if (isDropdownExpanded) ...[
-                SizedBox(height: 8.h),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.shade,
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: AppColors.lightGrey),
-                  ),
-                  child: Column(
-                    children: [
+                    ),
+                    if (isDropdownExpanded) ...[
+                      SizedBox(height: 8.h),
                       Row(
                         children: [
                           _mainUnitToggle('english', 'English'),
@@ -130,9 +119,9 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       ),
                       SizedBox(height: 8.h),
                     ],
-                  ),
+                  ],
                 ),
-              ],
+              ),
 
               SizedBox(height: 20.h),
 
@@ -142,17 +131,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
         ),
       ),
     );
-  }
-
-  // Label for dropdown
-  String _getSelectedUnitLabel() {
-    if (selectedUnit == 'english') {
-      return selectedSubUnit == 'gallon'
-          ? 'English - Gallon'
-          : 'English - Pounds';
-    } else {
-      return selectedSubUnit == 'liter' ? 'Metric - Liter' : 'Metric - Kilo';
-    }
   }
 
   Widget _mainUnitToggle(String value, String label) {
@@ -217,47 +195,187 @@ class _CalculateScreenState extends State<CalculateScreen> {
       case 'gallon':
         return _unitColumn(
           title: 'Gallon',
-
           isExpanded: true,
           children: [
-            Text('Input for Gallon'),
-            SizedBox(height: 8.h),
-            TextField(
-              decoration: InputDecoration(hintText: 'Enter gallon amount'),
+            Row(
+              children: [
+                SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
+                SizedBox(width: 8.w),
+                Text(
+                  'Start Measuring',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 24.h),
+            Row(
+              children: [
+                SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
+                SizedBox(width: 8.w),
+                Text(
+                  'Number of Bottles',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 7.h),
+            LightInputField(),
+            SizedBox(height: 26.h),
+            Row(
+              children: [
+                SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
+                SizedBox(width: 8.w),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Hospital Milk',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' (GALLON)',
+                        style: TextStyle(
+                          color: Color(0xFFE53935),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 7.h),
+            LightInputField(),
+            SizedBox(height: 24.h),
+            Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
+            SizedBox(height: 14.h),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isSolidsExpanded = !isSolidsExpanded;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    'Solids',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Spacer(),
+                  SvgPicture.asset(
+                    isSolidsExpanded
+                        ? 'assets/logos/up.svg'
+                        : 'assets/logos/down.svg',
+                    height: 24.h,
+                  ),
+                ],
+              ),
+            ),
+            if (isSolidsExpanded) ...[
+              SizedBox(height: 10.h),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/logos/bottleGreen.svg',
+                        height: 18.h,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Bottle Size',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' (GALLON)',
+                              style: TextStyle(
+                                color: Color(0xFF36C275),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 7.h),
+                  LightInputField(),
+                  SizedBox(height: 24.h),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/logos/bottleMed.svg',
+                        height: 20.h,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        'Solids in Hospital Milk (%)',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 7.h),
+                  LightInputField(),
+                  SizedBox(height: 24.h),
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
+                      SizedBox(width: 8.w),
+                      Text(
+                        'Desired Solid (11-16%)',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 7.h),
+                  LightInputField(),
+                ],
+              ),
+            ],
           ],
         );
       case 'pounds':
-        return _unitColumn(
-          title: 'Pounds',
-
-          isExpanded: true,
-          children: [
-            Text('Input for Pounds'),
-            SizedBox(height: 8.h),
-            TextField(decoration: InputDecoration(hintText: 'Enter pounds')),
-          ],
-        );
+        return _unitColumn(title: 'Pounds', isExpanded: true, children: []);
       case 'liter':
-        return _unitColumn(
-          title: 'Liter',
-
-          isExpanded: true,
-          children: [Text('Input for Liter')],
-        );
+        return _unitColumn(title: 'Liter', isExpanded: true, children: []);
       case 'kilo':
-        return _unitColumn(
-          title: 'Kilo',
-
-          isExpanded: true,
-          children: [
-            Text('Input for Kilo'),
-            SizedBox(height: 8.h),
-            TextField(
-              decoration: InputDecoration(hintText: 'Enter kilo weight'),
-            ),
-          ],
-        );
+        return _unitColumn(title: 'Kilo', isExpanded: true, children: []);
       default:
         return SizedBox.shrink();
     }
@@ -265,7 +383,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Widget _unitColumn({
     required String title,
-
     required bool isExpanded,
     required List<Widget> children,
   }) {
@@ -273,9 +390,13 @@ class _CalculateScreenState extends State<CalculateScreen> {
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 14.h),
       padding: EdgeInsets.all(16.h),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        color: Colors.white,
+        border: Border.all(color: AppColors.lightGrey),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             title,
