@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
 import 'package:milk_mix/view/home/history/history_screen.dart';
+import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
 import 'package:milk_mix/view/home/mebers/members_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
 
@@ -20,8 +21,7 @@ class _MainPageState extends State<HomeBottomNavScreen> {
   final List<Widget> _screens = [
     CalculateScreen(),
     HistoryScreen(),
-    MembersScreen(),
-    SettingScreen(),
+    MembersPremiumScreen(),
     SettingScreen(),
   ];
 
