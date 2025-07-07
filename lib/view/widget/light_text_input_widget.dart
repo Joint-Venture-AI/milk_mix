@@ -25,7 +25,7 @@ class LightInputField extends StatelessWidget {
       cursorColor: AppColors.textLightGrey,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.shade,
         hintText: hintText,
         contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
         isDense: true,
