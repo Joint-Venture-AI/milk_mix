@@ -1,10 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:milk_mix/constants/color.dart';
 
 class MembersScreen extends StatelessWidget {
   const MembersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: AppColors.surface,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 240.h),
+              SvgPicture.asset('assets/logos/lock_round.svg', height: 80.h),
+              SizedBox(height: 20.h),
+              Text(
+                textAlign: TextAlign.center,
+                'Unlock and Add Members',
+                style: TextStyle(
+                  fontSize: 23.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                textAlign: TextAlign.center,
+                'Upgrade your plan to add farm members (each member costs \$10)',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.textLightGrey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
