@@ -8,7 +8,11 @@ import 'package:milk_mix/view/authentication/signup/select_preferred_language_sc
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
 import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
 import 'package:milk_mix/view/home/mebers/add_member_screen.dart';
+import 'package:milk_mix/view/home/mebers/member_details_screen.dart';
 import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
+import 'package:milk_mix/view/homeConsult/home_consult_bottom_nav_screen.dart';
+import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
+    show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/subscription/congratulation_screen.dart';
 import 'package:milk_mix/view/subscription/upgrade_premium_screen.dart';
@@ -27,6 +31,9 @@ class AppRoutes {
   static String home = "/home";
   static String memberPremium = "/member-premium";
   static String addmMember = "/add-member";
+  static String onBoarding = "/on-boarding";
+  static String memberDetails = "/member-details";
+  static String homeConsult = "/home-consult";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -42,5 +49,8 @@ class AppRoutes {
     GetPage(name: home, page: () => HomeBottomNavScreen()),
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),
     GetPage(name: addmMember, page: () => AddMemberScreen()),
+    GetPage(name: onBoarding, page: () => OnboardingScreen()),
+    GetPage(name: memberDetails, page: () => MemberDetailsScreen()),
+    GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
   ];
 }

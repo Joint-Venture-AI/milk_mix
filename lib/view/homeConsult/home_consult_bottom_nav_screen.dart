@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
-import 'package:milk_mix/view/home/history/history_screen.dart';
-import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
+import 'package:milk_mix/view/homeConsult/manageFarm/manage_farm_screen.dart';
 
-class HomeBottomNavScreen extends StatefulWidget {
-  const HomeBottomNavScreen({super.key});
+class HomeConsultBottomNavScreen extends StatefulWidget {
+  const HomeConsultBottomNavScreen({super.key});
 
   @override
-  State<HomeBottomNavScreen> createState() => _MainPageState();
+  State<HomeConsultBottomNavScreen> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<HomeBottomNavScreen> {
+class _MainPageState extends State<HomeConsultBottomNavScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
     CalculateScreen(),
-    HistoryScreen(),
-    MembersPremiumScreen(),
+    ManageFarmScreen(),
     SettingScreen(),
   ];
 
@@ -76,20 +74,16 @@ class _MainPageState extends State<HomeBottomNavScreen> {
               icon: 'assets/logos/calculate.svg',
               index: 0,
             ),
+
             _navIcon(
-              title: 'History',
-              icon: 'assets/logos/history_h.svg',
-              index: 1,
-            ),
-            _navIcon(
-              title: 'Members',
+              title: 'Manage Farm',
               icon: 'assets/logos/members.svg',
-              index: 2,
+              index: 1,
             ),
             _navIcon(
               title: 'Settings',
               icon: 'assets/logos/settings.svg',
-              index: 3,
+              index: 2,
             ),
           ],
           backgroundColor: AppColors.surface,

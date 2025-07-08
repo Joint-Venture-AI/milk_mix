@@ -5,16 +5,15 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
-class MembersPremiumScreen extends StatefulWidget {
-  const MembersPremiumScreen({super.key});
+class ManageFarmScreen extends StatefulWidget {
+  const ManageFarmScreen({super.key});
 
   @override
-  State<MembersPremiumScreen> createState() => _MembersPremiumScreenState();
+  State<ManageFarmScreen> createState() => _MembersPremiumScreenState();
 }
 
-class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
+class _MembersPremiumScreenState extends State<ManageFarmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +31,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Manage User',
+                        'Join Farm',
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w500,
@@ -41,7 +40,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'Create and manage your team',
+                        'Manage member and histories',
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
@@ -53,119 +52,40 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   SvgPicture.asset('assets/logos/i.svg', width: 20.w),
                 ],
               ),
-              SizedBox(height: 24.h),
-              Container(
-                height: 86.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.lightGrey, width: 1.w),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(14.r),
-                  child: Container(
-                    color: AppColors.shade,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 12.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Core User',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textGrey,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                '@abcdeef',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
-                        SizedBox(width: 12.w),
-                      ],
+              SizedBox(height: 30.h),
+              Text(
+                'Add Farm',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 6.h),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'Farm User Name',
+                  hintStyle: TextStyle(
+                    color: AppColors.textLightGrey,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.all(12.w),
+                    child: SvgPicture.asset(
+                      'assets/logos/at.svg',
+                      width: 18.w,
+                      height: 18.h,
+                      color: AppColors.textPrimary,
                     ),
                   ),
+
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 40.w,
+                    minHeight: 40.h,
+                  ),
                 ),
+                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
-              SizedBox(height: 28.h),
-              Container(
-                height: 150.h,
-                padding: EdgeInsets.all(16.r),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.lightGrey),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/logos/avater.svg',
-                          width: 40.w,
-                          height: 40.w,
-                        ),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "John Doe",
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.textPrimary,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                "Wants to join as consultant",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: AppColors.textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButtonWidgetLight(
-                            text: 'Dismiss',
-                            onPressed: () {},
-                          ),
-                        ),
-                        SizedBox(width: 15.w),
-                        Expanded(
-                          child: TextWidgetButton(
-                            text: 'Accept',
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24.h),
+
+              SizedBox(height: 120.h),
               Text(
                 'Farm Members (3)',
                 style: TextStyle(
@@ -334,7 +254,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                 ),
               ),
 
-              SizedBox(height: 128.h),
+              SizedBox(height: 28.h),
               TextWidgetButton(
                 text: '+  Add Member',
                 onPressed: () {

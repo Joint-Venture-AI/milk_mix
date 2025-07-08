@@ -184,7 +184,12 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                 ),
                 SizedBox(height: 44.h),
-                TextWidgetButton(text: 'Login as Individual', onPressed: () {}),
+                TextWidgetButton(
+                  text: 'Login as Individual',
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.homeConsult);
+                  },
+                ),
                 SizedBox(height: 56.h),
                 Row(
                   children: [

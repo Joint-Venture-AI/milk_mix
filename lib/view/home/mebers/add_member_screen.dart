@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
@@ -180,7 +180,7 @@ class AddMemberScreen extends StatelessWidget {
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: 'Add User -/\$10',
+                      text: 'Add User -\$10',
                       onPressed: () {
                         Get.toNamed(AppRoutes.home);
                       },
