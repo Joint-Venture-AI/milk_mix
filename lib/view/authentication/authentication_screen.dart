@@ -79,7 +79,9 @@ class AuthenticationScreen extends StatelessWidget {
                   children: [
                     TextWidgetButton(
                       text: 'Create New Account',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.createAccount);
+                      },
                     ),
                     SizedBox(height: 12.h),
                     TextWidgetButtonWhite(

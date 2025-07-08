@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:milk_mix/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
@@ -11,6 +12,7 @@ import 'package:milk_mix/view/home/mebers/add_member_screen.dart';
 import 'package:milk_mix/view/home/mebers/member_details_screen.dart';
 import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
 import 'package:milk_mix/view/homeConsult/home_consult_bottom_nav_screen.dart';
+import 'package:milk_mix/view/homeConsult/manageFarm/add_farm_screen.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
@@ -30,10 +32,12 @@ class AppRoutes {
   static String congratulation = "/congratulation";
   static String home = "/home";
   static String memberPremium = "/member-premium";
-  static String addmMember = "/add-member";
+  static String addMember = "/add-member";
   static String onBoarding = "/on-boarding";
   static String memberDetails = "/member-details";
   static String homeConsult = "/home-consult";
+  static String homeFarm = "/home-farm";
+  static String addFarm = "/add-farm";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -48,9 +52,11 @@ class AppRoutes {
     GetPage(name: congratulation, page: () => CongratulationScreen()),
     GetPage(name: home, page: () => HomeBottomNavScreen()),
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),
-    GetPage(name: addmMember, page: () => AddMemberScreen()),
+    GetPage(name: addMember, page: () => AddMemberScreen()),
     GetPage(name: onBoarding, page: () => OnboardingScreen()),
     GetPage(name: memberDetails, page: () => MemberDetailsScreen()),
     GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
+    GetPage(name: homeFarm, page: () => FarmHomeBottomNavBar()),
+    GetPage(name: addFarm, page: () => AddFarmScreen()),
   ];
 }

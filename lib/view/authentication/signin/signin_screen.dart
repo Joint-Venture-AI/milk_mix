@@ -187,7 +187,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 TextWidgetButton(
                   text: 'Login as Individual',
                   onPressed: () {
-                    Get.toNamed(AppRoutes.homeConsult);
+                    Get.toNamed(AppRoutes.home);
                   },
                 ),
                 SizedBox(height: 56.h),
@@ -429,7 +429,9 @@ class _SigninScreenState extends State<SigninScreen> {
                 SizedBox(height: 44.h),
                 TextWidgetButton(
                   text: 'Login as Farm Member',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.homeFarm);
+                  },
                 ),
               ],
             ],

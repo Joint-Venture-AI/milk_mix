@@ -338,7 +338,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               TextWidgetButton(
                 text: '+  Add Member',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.addmMember);
+                  Get.toNamed(AppRoutes.addMember);
                 },
               ),
             ],

@@ -169,7 +169,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               TextWidgetButton(
                 text: 'Get Start To The App!',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.premium);
+                  Get.toNamed(AppRoutes.homeConsult);
                 },
               ),
             ],
