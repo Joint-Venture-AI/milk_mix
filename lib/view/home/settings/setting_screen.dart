@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/settings_tile.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -72,7 +75,9 @@ class SettingScreen extends StatelessWidget {
               SettingTile(
                 iconPath: 'assets/logos/group.svg',
                 title: 'Edit Profile',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.editProfile);
+                },
               ),
               SettingTile(
                 iconPath: 'assets/logos/language copy.svg',

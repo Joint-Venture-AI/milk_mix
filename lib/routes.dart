@@ -11,8 +11,11 @@ import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
 import 'package:milk_mix/view/home/mebers/add_member_screen.dart';
 import 'package:milk_mix/view/home/mebers/member_details_screen.dart';
 import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
+import 'package:milk_mix/view/home/settings/edit_profile_screen.dart';
 import 'package:milk_mix/view/homeConsult/home_consult_bottom_nav_screen.dart';
 import 'package:milk_mix/view/homeConsult/manageFarm/add_farm_screen.dart';
+import 'package:milk_mix/view/homeConsult/manageFarm/consult_farm_list.dart';
+import 'package:milk_mix/view/homeConsult/manageFarm/consult_farm_screen.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
@@ -38,6 +41,9 @@ class AppRoutes {
   static String homeConsult = "/home-consult";
   static String homeFarm = "/home-farm";
   static String addFarm = "/add-farm";
+  static String consultFarm = "/consult-farm";
+  static String consultFarmList = "/consult-farm-list";
+  static String editProfile = "/edit-profile";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -58,5 +64,8 @@ class AppRoutes {
     GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
     GetPage(name: homeFarm, page: () => FarmHomeBottomNavBar()),
     GetPage(name: addFarm, page: () => AddFarmScreen()),
+    GetPage(name: consultFarm, page: () => ConsultFarmScreen()),
+    GetPage(name: consultFarmList, page: () => ConsultFarmList()),
+    GetPage(name: editProfile, page: () => EditProfileScreen()),
   ];
 }
