@@ -72,7 +72,7 @@ class AddMemberScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      '/\$10 USD',
+                      '\$10 USD',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.primary,
@@ -180,7 +180,7 @@ class AddMemberScreen extends StatelessWidget {
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: 'Add User -\$10',
+                      text: 'Add User \$10',
                       onPressed: () {
                         Get.toNamed(AppRoutes.home);
                       },

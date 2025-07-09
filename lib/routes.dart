@@ -8,9 +8,9 @@ import 'package:milk_mix/view/authentication/signup/select_measurement_system.da
 import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
 import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
-import 'package:milk_mix/view/home/mebers/add_member_screen.dart';
-import 'package:milk_mix/view/home/mebers/member_details_screen.dart';
-import 'package:milk_mix/view/home/mebers/members_premium_screen.dart';
+import 'package:milk_mix/view/home/members/add_member_screen.dart';
+import 'package:milk_mix/view/home/members/member_details_screen.dart';
+import 'package:milk_mix/view/home/members/members_premium_screen.dart';
 import 'package:milk_mix/view/home/settings/change_password_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_language_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_measurement_screen.dart';
@@ -26,6 +26,7 @@ import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/subscription/congratulation_screen.dart';
 import 'package:milk_mix/view/subscription/upgrade_premium_screen.dart';
+import 'package:milk_mix/view/widget/recipe_summary_dialog.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash-screen";
@@ -54,6 +55,7 @@ class AppRoutes {
   static String changePassword = "/change-password";
   static String helpAndSupport = "/help-and-support";
   static String subscription = "/subscription";
+  static String recipeSummary = "/recipe-summary";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -82,5 +84,6 @@ class AppRoutes {
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
     GetPage(name: helpAndSupport, page: () => HelpAndSupportScreen()),
     GetPage(name: subscription, page: () => SubscriptionScreen()),
+    GetPage(name: recipeSummary, page: () => const RecipeSummaryDialog()),
   ];
 }

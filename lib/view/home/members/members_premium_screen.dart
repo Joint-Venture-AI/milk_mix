@@ -280,61 +280,8 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.memberDetails);
-                },
-                child: Container(
-                  height: 65.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: AppColors.lightGrey, width: 1.w),
-                    color: AppColors.surface,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/outlinePerson.svg',
-                        width: 40.w,
-                      ),
-                      SizedBox(width: 12.w),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Danial Smith',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            'Created on: May 23, 2025',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textLightGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      SvgPicture.asset(
-                        'assets/logos/trash.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
 
-              SizedBox(height: 128.h),
+              SizedBox(height: 40.h),
               TextWidgetButton(
                 text: '+  Add Member',
                 onPressed: () {

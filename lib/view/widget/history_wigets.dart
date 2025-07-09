@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/view/widget/recipe_summary_dialog.dart';
 
 class HistoryTile extends StatelessWidget {
   final String number;
@@ -22,6 +23,12 @@ class HistoryTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) => const RecipeSummaryDialog(),
+            );
+          },
           contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h),
           leading: Container(
             height: 44.h,
