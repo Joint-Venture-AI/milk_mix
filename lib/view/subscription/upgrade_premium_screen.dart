@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
+import 'package:milk_mix/view/widget/subscription_plan_card.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class UpgradePremium extends StatelessWidget {
@@ -29,7 +30,7 @@ class UpgradePremium extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'MilkMix Mix Smater with ',
+                        text: 'MilkMix Mix Smarter with ',
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -134,17 +135,47 @@ class UpgradePremium extends StatelessWidget {
               ),
               SizedBox(height: 26.h),
 
-              /*    Text(
+              Text(
                 'Select your plan',
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.w600,
                 ),
-              ),*/
-              SizedBox(height: 280.h),
+              ),
+              SizedBox(height: 12.h),
+              SubscriptionPlanCard(
+                title: 'Personal Plan -',
+                subtitle: 'Start 30 Days Free',
+                price: '\$25',
+                duration: '/year',
+                onTap: () {
+                  Get.toNamed(AppRoutes.home);
+                },
+              ),
+              SizedBox(height: 12.h),
+              SubscriptionPlanCard(
+                title: 'Be A Consultant',
+                subtitle: '',
+                price: '\$25',
+                duration: '/year',
+                onTap: () {
+                  Get.toNamed(AppRoutes.homeConsult);
+                },
+              ),
+              SizedBox(height: 12.h),
+              SubscriptionPlanCard(
+                title: 'Enterprise Plan',
+                subtitle: '',
+                price: '\$25',
+                duration: '/year',
+                onTap: () {
+                  Get.toNamed(AppRoutes.home);
+                },
+              ),
+              SizedBox(height: 24.h),
               TextWidgetButton(
-                text: 'Continue',
+                text: 'Start 30 Days Free Trail',
                 onPressed: () {
                   Get.toNamed(AppRoutes.congratulation);
                 },

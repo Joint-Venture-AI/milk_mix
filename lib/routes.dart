@@ -16,6 +16,7 @@ import 'package:milk_mix/view/home/settings/edit_language_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_measurement_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_profile_screen.dart';
 import 'package:milk_mix/view/home/settings/help_and_support_screen.dart';
+import 'package:milk_mix/view/home/settings/subscription_screen.dart';
 import 'package:milk_mix/view/homeConsult/home_consult_bottom_nav_screen.dart';
 import 'package:milk_mix/view/homeConsult/manageFarm/add_farm_screen.dart';
 import 'package:milk_mix/view/homeConsult/manageFarm/consult_farm_list.dart';
@@ -52,6 +53,7 @@ class AppRoutes {
   static String editMeasurement = "/edit-measurement";
   static String changePassword = "/change-password";
   static String helpAndSupport = "/help-and-support";
+  static String subscription = "/subscription";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -79,5 +81,6 @@ class AppRoutes {
     GetPage(name: editMeasurement, page: () => EditMeasurementScreen()),
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
     GetPage(name: helpAndSupport, page: () => HelpAndSupportScreen()),
+    GetPage(name: subscription, page: () => SubscriptionScreen()),
   ];
 }

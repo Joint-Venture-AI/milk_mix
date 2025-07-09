@@ -80,6 +80,14 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
               SettingTile(
+                iconPath: 'assets/logos/subs.svg',
+                title: 'Subscription & Plan',
+
+                onTap: () {
+                  Get.toNamed(AppRoutes.subscription);
+                },
+              ),
+              SettingTile(
                 iconPath: 'assets/logos/language copy.svg',
                 title: 'Language',
                 onTap: () {
