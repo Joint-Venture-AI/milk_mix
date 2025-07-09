@@ -48,7 +48,7 @@ class CreateAccountScreen extends StatelessWidget {
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter your password',
+                  hintText: 'Enter your name',
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,

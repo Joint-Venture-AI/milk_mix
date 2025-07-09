@@ -82,22 +82,30 @@ class SettingScreen extends StatelessWidget {
               SettingTile(
                 iconPath: 'assets/logos/language copy.svg',
                 title: 'Language',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.editLanguage);
+                },
               ),
               SettingTile(
                 iconPath: 'assets/logos/scale copy.svg',
                 title: 'Change Measurements',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.editMeasurement);
+                },
               ),
               SettingTile(
                 iconPath: 'assets/logos/lock copy.svg',
                 title: 'Change Password',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.changePassword);
+                },
               ),
               SettingTile(
                 iconPath: 'assets/logos/question.svg',
                 title: 'Help & Support',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.helpAndSupport);
+                },
               ),
               SettingTile(
                 iconPath: 'assets/logos/logout.svg',
