@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/widget/text_button_widget.dart';
-import 'package:milk_mix/view/widget/text_widget_button_white.dart';
 
 class RecipeSummaryDialog extends StatelessWidget {
   const RecipeSummaryDialog({super.key});
@@ -62,14 +60,13 @@ class RecipeSummaryDialog extends StatelessWidget {
             SizedBox(height: 15.h),
             Row(
               children: [
-                // Close Button with icon and custom background
                 Expanded(
                   child: GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFAEFE4), // Background color
+                        color: const Color(0xFFFAEFE4),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       alignment: Alignment.center,
@@ -97,12 +94,10 @@ class RecipeSummaryDialog extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 15.w),
-                // Copy Button with icon and custom background
+
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
-                      // Copy logic here
-                    },
+                    onTap: () {},
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       decoration: BoxDecoration(
