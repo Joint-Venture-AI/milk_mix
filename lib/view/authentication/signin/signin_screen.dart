@@ -294,7 +294,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         color: AppColors.textPrimary,
                       ),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 8.w),
                     TextButton(
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -308,7 +308,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         'Sign Up',
                         style: TextStyle(
                           color: AppColors.primary,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
