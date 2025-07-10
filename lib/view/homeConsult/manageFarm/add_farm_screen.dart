@@ -148,7 +148,7 @@ class AddFarmScreen extends StatelessWidget {
               TextWidgetButton(
                 text: '+  Add Farm (\$25/farm)',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.consultFarmList);
+                  Get.toNamed(AppRoutes.homeConsult);
                 },
               ),
             ],

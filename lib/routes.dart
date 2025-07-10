@@ -84,6 +84,6 @@ class AppRoutes {
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
     GetPage(name: helpAndSupport, page: () => HelpAndSupportScreen()),
     GetPage(name: subscription, page: () => SubscriptionScreen()),
-    GetPage(name: recipeSummary, page: () => const RecipeSummaryDialog()),
+    GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
   ];
 }
