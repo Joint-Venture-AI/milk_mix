@@ -141,7 +141,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
               SizedBox(height: 20.h),
 
               buildAllUnitColumns(),
-
+              //--------------summary section----------------
               Container(
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
@@ -323,6 +323,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: 12.h),
             ],
           ),
         ),
@@ -391,7 +392,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
     switch (selectedSubUnit) {
       case 'gallon':
         return _unitColumn(
-          title: 'Gallon',
           isExpanded: true,
           children: [
             Row(
@@ -399,7 +399,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Measuring',
+                  'Start Mixing',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -569,7 +569,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
         );
       case 'pounds':
         return _unitColumn(
-          title: 'Pounds',
           isExpanded: true,
           children: [
             Row(
@@ -577,7 +576,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Measuring',
+                  'Start Mixing',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -747,7 +746,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
         );
       case 'liter':
         return _unitColumn(
-          title: 'Liter',
           isExpanded: true,
           children: [
             Row(
@@ -755,7 +753,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Measuring',
+                  'Start Mixing',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -925,7 +923,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
         );
       case 'kilo':
         return _unitColumn(
-          title: 'Kilo',
           isExpanded: true,
           children: [
             Row(
@@ -933,7 +930,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Measuring',
+                  'Start Mixing',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -1107,7 +1104,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Widget _unitColumn({
-    required String title,
     required bool isExpanded,
     required List<Widget> children,
   }) {
@@ -1123,10 +1119,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-          ),
           if (isExpanded) ...[SizedBox(height: 10.h), ...children],
         ],
       ),

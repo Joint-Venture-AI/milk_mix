@@ -9,12 +9,12 @@ class LightInputField extends StatelessWidget {
   final TextInputType keyboardType;
 
   const LightInputField({
-    Key? key,
+    super.key,
     this.controller,
     this.hintText,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
