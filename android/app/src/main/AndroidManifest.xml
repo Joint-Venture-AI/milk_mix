@@ -2,7 +2,7 @@
     <application
         android:label="Milk Mix"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
+    android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
         <activity
