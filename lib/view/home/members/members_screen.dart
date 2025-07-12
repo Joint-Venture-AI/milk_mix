@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class MembersScreen extends StatelessWidget {
   const MembersScreen({super.key});
@@ -32,13 +33,15 @@ class MembersScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Upgrade your plan to add farm members (each member costs \$10)',
+                'Upgrade plan and get the option to add your farms member ( Each member cost \$10 )',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.textLightGrey,
                 ),
               ),
+              SizedBox(height: 160.h),
+              TextWidgetButton(text: 'Upgrade Now!', onPressed: () {}),
             ],
           ),
         ),

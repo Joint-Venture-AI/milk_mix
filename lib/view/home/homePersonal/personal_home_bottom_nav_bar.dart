@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
+import 'package:milk_mix/view/home/history/history_screen.dart';
+import 'package:milk_mix/view/home/members/members_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
-import 'package:milk_mix/view/homeConsult/manageFarm/manage_farm_screen.dart';
 
-class HomeConsultBottomNavScreen extends StatefulWidget {
-  const HomeConsultBottomNavScreen({super.key});
+class PersonalHomeBottomNavBar extends StatefulWidget {
+  const PersonalHomeBottomNavBar({super.key});
 
   @override
-  State<HomeConsultBottomNavScreen> createState() => _MainPageState();
+  State<PersonalHomeBottomNavBar> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<HomeConsultBottomNavScreen> {
+class _MainPageState extends State<PersonalHomeBottomNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
     CalculateScreen(),
-    ManageFarmScreen(),
+    HistoryScreen(),
+    MembersScreen(),
     SettingScreen(),
   ];
 
@@ -74,16 +76,20 @@ class _MainPageState extends State<HomeConsultBottomNavScreen> {
               icon: 'assets/logos/calculate.svg',
               index: 0,
             ),
-
             _navIcon(
-              title: 'Manage Farm',
-              icon: 'assets/logos/members.svg',
+              title: 'History',
+              icon: 'assets/logos/history_h.svg',
               index: 1,
+            ),
+            _navIcon(
+              title: 'Members',
+              icon: 'assets/logos/members.svg',
+              index: 2,
             ),
             _navIcon(
               title: 'Settings',
               icon: 'assets/logos/settings.svg',
-              index: 2,
+              index: 3,
             ),
           ],
           backgroundColor: AppColors.surface,

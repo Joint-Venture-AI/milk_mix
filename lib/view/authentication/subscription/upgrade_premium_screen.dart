@@ -150,7 +150,7 @@ class UpgradePremium extends StatelessWidget {
                 price: '\$25',
                 duration: '/year',
                 onTap: () {
-                  Get.toNamed(AppRoutes.home);
+                  Get.toNamed(AppRoutes.homePersonal);
                 },
               ),
               SizedBox(height: 12.h),

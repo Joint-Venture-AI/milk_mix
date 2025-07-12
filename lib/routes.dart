@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:milk_mix/homeFarm/farm_home_bottom_nav_bar.dart';
+import 'package:milk_mix/view/home/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
@@ -7,25 +7,27 @@ import 'package:milk_mix/view/authentication/signup/otp_verification_screen.dart
 import 'package:milk_mix/view/authentication/signup/select_measurement_system.dart';
 import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
 import 'package:milk_mix/view/authentication/signup/welcome_screen.dart';
+import 'package:milk_mix/view/home/homePersonal/personal_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/home/home_bottom_nav_screen.dart';
 import 'package:milk_mix/view/home/members/add_member_screen.dart';
 import 'package:milk_mix/view/home/members/member_details_screen.dart';
 import 'package:milk_mix/view/home/members/members_premium_screen.dart';
+import 'package:milk_mix/view/home/members/members_screen.dart';
 import 'package:milk_mix/view/home/settings/change_password_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_language_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_measurement_screen.dart';
 import 'package:milk_mix/view/home/settings/edit_profile_screen.dart';
 import 'package:milk_mix/view/home/settings/help_and_support_screen.dart';
 import 'package:milk_mix/view/home/settings/subscription_screen.dart';
-import 'package:milk_mix/view/homeConsult/home_consult_bottom_nav_screen.dart';
-import 'package:milk_mix/view/homeConsult/manageFarm/add_farm_screen.dart';
-import 'package:milk_mix/view/homeConsult/manageFarm/consult_farm_list.dart';
-import 'package:milk_mix/view/homeConsult/manageFarm/consult_farm_screen.dart';
+import 'package:milk_mix/view/home/homeConsult/home_consult_bottom_nav_screen.dart';
+import 'package:milk_mix/view/home/homeConsult/manageFarm/add_farm_screen.dart';
+import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_list.dart';
+import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_screen.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
-import 'package:milk_mix/view/subscription/congratulation_screen.dart';
-import 'package:milk_mix/view/subscription/upgrade_premium_screen.dart';
+import 'package:milk_mix/view/authentication/subscription/congratulation_screen.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_premium_screen.dart';
 import 'package:milk_mix/view/widget/recipe_summary_dialog.dart';
 
 class AppRoutes {
@@ -56,6 +58,8 @@ class AppRoutes {
   static String helpAndSupport = "/help-and-support";
   static String subscription = "/subscription";
   static String recipeSummary = "/recipe-summary";
+  static String homePersonal = "/personal-home";
+  static String member = "/member";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -75,6 +79,7 @@ class AppRoutes {
     GetPage(name: memberDetails, page: () => MemberDetailsScreen()),
     GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
     GetPage(name: homeFarm, page: () => FarmHomeBottomNavBar()),
+    GetPage(name: homePersonal, page: () => PersonalHomeBottomNavBar()),
     GetPage(name: addFarm, page: () => AddFarmScreen()),
     GetPage(name: consultFarm, page: () => ConsultFarmScreen()),
     GetPage(name: consultFarmList, page: () => ConsultFarmList()),
@@ -85,5 +90,6 @@ class AppRoutes {
     GetPage(name: helpAndSupport, page: () => HelpAndSupportScreen()),
     GetPage(name: subscription, page: () => SubscriptionScreen()),
     GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
+    GetPage(name: member, page: () => MembersScreen()),
   ];
 }

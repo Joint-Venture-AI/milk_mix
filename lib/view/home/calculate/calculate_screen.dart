@@ -85,8 +85,8 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           Spacer(),
                           SvgPicture.asset(
                             isDropdownExpanded
-                                ? 'assets/logos/down.svg'
-                                : 'assets/logos/up.svg',
+                                ? 'assets/logos/up.svg'
+                                : 'assets/logos/down.svg',
                             height: 24.h,
                           ),
                         ],
@@ -619,7 +619,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         ),
                       ),
                       TextSpan(
-                        text: ' (Pounds)',
+                        text: ' (Quarts)',
                         style: TextStyle(
                           color: Color(0xFFE53935),
                           fontSize: 14.sp,
@@ -688,7 +688,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: ' (Pounds)',
+                              text: ' (Quarts)',
                               style: TextStyle(
                                 color: Color(0xFF36C275),
                                 fontSize: 14.sp,
@@ -973,7 +973,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         ),
                       ),
                       TextSpan(
-                        text: ' (Kilo)',
+                        text: ' (Liters)',
                         style: TextStyle(
                           color: Color(0xFFE53935),
                           fontSize: 14.sp,
@@ -1042,7 +1042,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: ' (Kilo)',
+                              text: ' (Liters)',
                               style: TextStyle(
                                 color: Color(0xFF36C275),
                                 fontSize: 14.sp,
