@@ -33,7 +33,7 @@ class MembersScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Upgrade plan and get the option to add your farms member ( Each member cost \$10 )',
+                'Upgrade plan and get the option to add your farms member (Each member cost \$10 )',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,

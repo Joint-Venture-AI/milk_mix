@@ -1,4 +1,4 @@
-import 'package:milk_mix/model/language_model.dart';
+import 'package:milk_mix/model/auth/language_model.dart';
 
 List<LanguageModel> languages = [
   LanguageModel(

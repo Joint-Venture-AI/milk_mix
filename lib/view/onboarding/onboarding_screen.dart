@@ -20,18 +20,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, String>> onboardingData = [
     {
       'image': 'assets/images/1.png',
-      'title': 'Smart mixing for Baby Calves',
-      'subtitle': 'Quickly calculate milk mix for desired solids content',
+      'title': 'onboardTitle1'.tr,
+      'subtitle': 'onboardSubTitle1'.tr,
     },
     {
       'image': 'assets/images/2.png',
-      'title': 'Designed for Real Farm Environments',
-      'subtitle': 'Fast, easy and accurate',
+      'title': 'onboardTitle2'.tr,
+      'subtitle': 'onboardSubTitle2'.tr,
     },
     {
       'image': 'assets/images/3.png',
-      'title': 'User friendly and easy to use',
-      'subtitle': 'Mix solids quickly, without logging in or needing Wi-Fi',
+      'title': 'onboardTitle3'.tr,
+      'subtitle': 'onboardSubTitle3'.tr,
     },
   ];
 

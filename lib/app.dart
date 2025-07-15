@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/model/language/language.dart';
 import 'package:milk_mix/routes.dart';
 
 class MilkMix extends StatelessWidget {
@@ -17,10 +18,13 @@ class MilkMix extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Milk Mix',
+          translations: Language(),
+          locale: const Locale('bn', 'US'),
+          fallbackLocale: const Locale('en', 'US'),
           theme: ThemeData(
             useMaterial3: true,
             scaffoldBackgroundColor: Colors.white,
-            fontFamily: 'inter',
+            fontFamily: 'Inter',
             inputDecorationTheme: InputDecorationTheme(
               filled: true,
               fillColor: Color(0xFFFFFFFF),
