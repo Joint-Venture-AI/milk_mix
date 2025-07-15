@@ -132,7 +132,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
                               item['title']!,

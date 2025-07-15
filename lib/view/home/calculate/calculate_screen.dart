@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/light_text_input_widget.dart';
 
@@ -75,7 +76,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ),
                           SizedBox(width: 8.w),
                           Text(
-                            'Measurement Unit',
+                            'measurementUnits'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
@@ -156,7 +157,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         SvgPicture.asset('assets/logos/clip.svg', height: 20.h),
                         SizedBox(width: 8.w),
                         Text(
-                          'Recipe Summary',
+                          'recipeSummary'.tr,
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -179,7 +180,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           SvgPicture.asset('assets/logos/water.svg'),
                           SizedBox(width: 8.w),
                           Text(
-                            'Water',
+                            'water'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
@@ -210,7 +211,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           SvgPicture.asset('assets/logos/bag.svg'),
                           SizedBox(width: 8.w),
                           Text(
-                            'Milk Powder',
+                            'milkPowder'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
@@ -242,7 +243,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           SvgPicture.asset('assets/logos/bag.svg'),
                           SizedBox(width: 8.w),
                           Text(
-                            'Water + Milk Powder',
+                            'waterMilk'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
@@ -273,7 +274,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           SvgPicture.asset('assets/logos/aid.svg'),
                           SizedBox(width: 8.w),
                           Text(
-                            'Hospital Milk Used',
+                            'hospitalMilkUsed'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
@@ -302,7 +303,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     Row(
                       children: [
                         Text(
-                          'Total Volume',
+                          'totalVolume'.tr,
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -399,7 +400,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Mixing',
+                  'startMixing'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -414,7 +415,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Number of Bottles',
+                  'numberOfBottles'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -434,7 +435,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Hospital Milk',
+                        text: 'hospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -468,7 +469,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
               child: Row(
                 children: [
                   Text(
-                    'Solids',
+                    'solids'.tr,
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 14.sp,
@@ -503,7 +504,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Bottle Size',
+                              text: 'bottleSize'.tr,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -534,7 +535,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        'Solids in Hospital Milk (%)',
+                        'solidsInHospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -551,7 +552,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
                       SizedBox(width: 8.w),
                       Text(
-                        'Desired Solid (11-16%)',
+                        'desiredSolid'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -576,7 +577,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Mixing',
+                  'startMixing'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -591,7 +592,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Number of Bottles',
+                  'numberOfBottles'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -611,7 +612,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Hospital Milk',
+                        text: 'hospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -645,7 +646,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
               child: Row(
                 children: [
                   Text(
-                    'Solids',
+                    'solids'.tr,
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 14.sp,
@@ -680,7 +681,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Bottle Size',
+                              text: 'bottleSize'.tr,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -728,7 +729,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
                       SizedBox(width: 8.w),
                       Text(
-                        'Desired Solid (11-16%)',
+                        'desiredSolid'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -753,7 +754,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Mixing',
+                  'startMixing'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -768,7 +769,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Number of Bottles',
+                  'numberOfBottles'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -788,7 +789,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Hospital Milk',
+                        text: 'hospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -822,7 +823,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
               child: Row(
                 children: [
                   Text(
-                    'Solids',
+                    'solids'.tr,
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 14.sp,
@@ -857,7 +858,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Bottle Size',
+                              text: 'bottleSize'.tr,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -888,7 +889,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        'Solids in Hospital Milk (%)',
+                        'solidsInHospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -905,7 +906,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
                       SizedBox(width: 8.w),
                       Text(
-                        'Desired Solid (11-16%)',
+                        'desiredSolid'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -930,7 +931,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Start Mixing',
+                  'startMixing'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -945,7 +946,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
                 SizedBox(width: 8.w),
                 Text(
-                  'Number of Bottles',
+                  'numberOfBottles'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -965,7 +966,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Hospital Milk',
+                        text: 'hospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -999,7 +1000,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
               child: Row(
                 children: [
                   Text(
-                    'Solids',
+                    'solids'.tr,
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 14.sp,
@@ -1034,7 +1035,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Bottle Size',
+                              text: 'bottleSize'.tr,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -1065,7 +1066,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        'Solids in Hospital Milk (%)',
+                        'solidsInHospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -1082,7 +1083,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
                       SizedBox(width: 8.w),
                       Text(
-                        'Desired Solid (11-16%)',
+                        'desiredSolid'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,

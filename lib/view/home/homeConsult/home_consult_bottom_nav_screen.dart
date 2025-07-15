@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
@@ -70,18 +71,18 @@ class _MainPageState extends State<HomeConsultBottomNavScreen> {
           iconSize: 25.sp,
           items: [
             _navIcon(
-              title: 'Calculate',
+              title: 'calculate'.tr,
               icon: 'assets/logos/calculate.svg',
               index: 0,
             ),
 
             _navIcon(
-              title: 'Manage Farm',
+              title: 'manageFarm'.tr,
               icon: 'assets/logos/members.svg',
               index: 1,
             ),
             _navIcon(
-              title: 'Settings',
+              title: 'settings'.tr,
               icon: 'assets/logos/settings.svg',
               index: 2,
             ),

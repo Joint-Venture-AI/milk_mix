@@ -25,7 +25,7 @@ class CongratulationScreen extends StatelessWidget {
               SizedBox(height: 12.h),
               Text(
                 textAlign: TextAlign.center,
-                'Payment Successful!',
+                'paymentSuccessful'.tr,
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w600,
@@ -34,7 +34,7 @@ class CongratulationScreen extends StatelessWidget {
               ),
               SizedBox(height: 224.h),
               TextWidgetButton(
-                text: 'Get started to the app ->',
+                text: 'getStartTheApp'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.home);
                 },

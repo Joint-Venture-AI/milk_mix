@@ -30,15 +30,16 @@ class UpgradePremium extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'MilkMix Mix Smarter with ',
+                        text: 'subscriptionAndPlan'.tr,
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
                         ),
                       ),
+                      TextSpan(text: ' '),
                       TextSpan(
-                        text: 'Go Premium',
+                        text: 'goPremium'.tr,
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
@@ -58,7 +59,7 @@ class UpgradePremium extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Advanced Mixing Options',
+                        'premiumFeatureTitle1'.tr,
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textPrimary,
@@ -66,7 +67,7 @@ class UpgradePremium extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Allow more input flexiblity',
+                        'premiumFeatureDetail1'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textLightGrey,
@@ -86,7 +87,7 @@ class UpgradePremium extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Add Farm Members',
+                        'premiumFeatureTitle2'.tr,
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textPrimary,
@@ -94,7 +95,7 @@ class UpgradePremium extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Add your farm members calculations',
+                        'premiumFeatureDetail2'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textLightGrey,
@@ -114,7 +115,7 @@ class UpgradePremium extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Member History',
+                        'premiumFeatureTitle3'.tr,
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textPrimary,
@@ -122,7 +123,7 @@ class UpgradePremium extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Access your farm members calculations',
+                        'premiumFeatureDetail3'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textLightGrey,
@@ -136,7 +137,7 @@ class UpgradePremium extends StatelessWidget {
               SizedBox(height: 26.h),
 
               Text(
-                'Select your plan',
+                'selectPlan'.tr,
                 style: TextStyle(
                   fontSize: 18.sp,
                   color: AppColors.textPrimary,
@@ -175,7 +176,7 @@ class UpgradePremium extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               TextWidgetButton(
-                text: 'Start 30 Days Free Trail',
+                text: '30days'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.congratulation);
                 },
