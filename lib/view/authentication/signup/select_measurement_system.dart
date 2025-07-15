@@ -33,7 +33,7 @@ class _SelectMeasurementSystemState extends State<SelectMeasurementSystem> {
               SizedBox(height: 12.h),
               Text(
                 textAlign: TextAlign.center,
-                'Select Your Measurement System',
+                'selectMeasurement'.tr,
                 style: TextStyle(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w700,
@@ -344,14 +344,14 @@ class _SelectMeasurementSystemState extends State<SelectMeasurementSystem> {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Skip',
+                      text: 'skip'.tr,
                       onPressed: () {},
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: 'Confirm',
+                      text: 'confirm'.tr,
                       onPressed: () {
                         Get.toNamed(AppRoutes.welcome);
                       },

@@ -36,7 +36,7 @@ class OtpVerificationScreen extends StatelessWidget {
 
               Text(
                 textAlign: TextAlign.center,
-                'Verify Your Email',
+                'verifyEmailTitle'.tr,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -48,7 +48,7 @@ class OtpVerificationScreen extends StatelessWidget {
 
               Text(
                 textAlign: TextAlign.center,
-                'We sent a 4 digit code to your email.',
+                'verifyEmailSubTitle'.tr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -91,7 +91,7 @@ class OtpVerificationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Didn't get the verification code?",
+                    'dontGetVerificationCode'.tr,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -107,7 +107,7 @@ class OtpVerificationScreen extends StatelessWidget {
                     ),
                     onPressed: () {},
                     child: Text(
-                      'Send Again',
+                      'sendAgain'.tr,
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.primary,
@@ -117,9 +117,9 @@ class OtpVerificationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 302.h),
+              SizedBox(height: 290.h),
               TextWidgetButton(
-                text: 'Verify OTP',
+                text: 'verifyOtp'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.selectLanguage);
                 },

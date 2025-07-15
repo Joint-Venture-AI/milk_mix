@@ -32,7 +32,7 @@ class CreateAccountScreen extends StatelessWidget {
               SizedBox(height: 14.h),
               Text(
                 textAlign: TextAlign.center,
-                'Create Your Account',
+                'createAccountTitle'.tr,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -41,14 +41,14 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Name',
+                'name'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter your name',
+                  hintText: 'enterYourName'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -72,14 +72,14 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               Text(
-                'Email',
+                'email'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter your email',
+                  hintText: 'enterYourEmail'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -103,14 +103,14 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               Text(
-                'Password',
+                'password'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter your password',
+                  hintText: 'enterPassword'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -134,7 +134,7 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               SizedBox(height: 40.h),
               TextWidgetButton(
-                text: 'Create Account',
+                text: 'createAccount'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.otpVerification);
                 },
@@ -144,7 +144,7 @@ class CreateAccountScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Already have an account?",
+                    "alreadyHaveAnAccount".tr,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -161,8 +161,8 @@ class CreateAccountScreen extends StatelessWidget {
                     onPressed: () {
                       Get.toNamed(AppRoutes.signin);
                     },
-                    child: const Text(
-                      'Login',
+                    child: Text(
+                      'login'.tr,
                       style: TextStyle(
                         fontSize: 14,
 

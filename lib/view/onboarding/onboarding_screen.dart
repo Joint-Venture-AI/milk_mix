@@ -191,7 +191,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   if (currentPage != onboardingData.length - 1)
                     Expanded(
                       child: TextButtonWidgetLight(
-                        text: 'Skip',
+                        text: 'skip'.tr,
                         onPressed: _skipToLast,
                       ),
                     ),
@@ -201,8 +201,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: TextWidgetButton(
                       text:
                           currentPage == onboardingData.length - 1
-                              ? 'Get Started'
-                              : 'Next',
+                              ? 'getStarted'.tr
+                              : 'next'.tr,
                       onPressed: _nextPage,
                     ),
                   ),

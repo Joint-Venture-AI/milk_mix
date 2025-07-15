@@ -47,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(width: 6.w),
                         Expanded(
                           child: Text(
-                            'Always consult professional',
+                            'caution1'.tr,
                             style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.w600,
@@ -59,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      'Work with your veterinarian and animal nutritionist to ensure proper calf feeding protocols.',
+                      'subCaution1'.tr,
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -90,7 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(width: 6.w),
                         Expanded(
                           child: Text(
-                            'Important Note',
+                            'caution2'.tr,
                             style: TextStyle(
                               color: AppColors.textPrimary,
                               fontWeight: FontWeight.w600,
@@ -105,8 +105,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text:
-                                'All values should be double checked by the nutritionist and veterinarian before feeding any calves. ',
+                            text: 'subCaution2'.tr,
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -114,7 +113,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: 'MilkMix is not liable for any reason.',
+                            text: 'spanMilk'.tr,
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -154,7 +153,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
-                      'I understand and acknowledge that it’s my responsibility to verify all values with a vet or nutritionist.',
+                      'acceptationCheckbox'.tr,
                       style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 14.sp,
@@ -166,7 +165,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
               SizedBox(height: 40.h),
               TextWidgetButton(
-                text: 'Get Start To The App!',
+                text: 'getStartTheApp'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.premium);
                 },

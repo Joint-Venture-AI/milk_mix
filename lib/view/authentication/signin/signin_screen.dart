@@ -41,7 +41,7 @@ class _SigninScreenState extends State<SigninScreen> {
             children: [
               SizedBox(height: 54.h),
               Text(
-                'Select Login Type',
+                'loginType'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -51,7 +51,7 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 16.h),
               Text(
-                'Select how you want to sign in to your account',
+                'loginTypeSubTitle'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,
@@ -74,12 +74,12 @@ class _SigninScreenState extends State<SigninScreen> {
                       ToggleButton(
                         'individual',
                         'assets/logos/user-line.svg',
-                        'Individual User',
+                        'individualUser'.tr,
                       ),
                       ToggleButton(
                         'farm',
                         'assets/logos/multi-user.svg',
-                        'Farm User',
+                        'farmUser'.tr,
                       ),
                     ],
                   ),
@@ -90,7 +90,7 @@ class _SigninScreenState extends State<SigninScreen> {
               //---individula user-----
               if (selectedType == 'individual') ...[
                 Text(
-                  'Email',
+                  'email'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your email',
+                    hintText: 'enterYourEmail'.tr,
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -128,7 +128,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  'Password',
+                  'password'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -139,7 +139,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your pasword',
+                    hintText: 'enterPassword'.tr,
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -174,8 +174,8 @@ class _SigninScreenState extends State<SigninScreen> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () {},
-                    child: const Text(
-                      'Forgot password',
+                    child: Text(
+                      'forgotPassword'.tr,
                       style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
@@ -185,7 +185,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 44.h),
                 TextWidgetButton(
-                  text: 'Login as Individual',
+                  text: 'loginIndividual'.tr,
                   onPressed: () {
                     Get.toNamed(AppRoutes.home);
                   },
@@ -199,7 +199,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       child: Text(
-                        'or continue with',
+                        'orContinue'.tr,
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: Colors.grey.shade600,
@@ -287,7 +287,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      'dontHaveAnAccount'.tr,
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -304,8 +304,8 @@ class _SigninScreenState extends State<SigninScreen> {
                       onPressed: () {
                         Get.toNamed(AppRoutes.createAccount);
                       },
-                      child: const Text(
-                        'Sign Up',
+                      child: Text(
+                        'signUp'.tr,
                         style: TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w700,
@@ -317,7 +317,7 @@ class _SigninScreenState extends State<SigninScreen> {
               ] else ...[
                 //-------farm user-----
                 Text(
-                  'Farm Username',
+                  'farmUsername'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -328,7 +328,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your username',
+                    hintText: 'farmUsername'.tr,
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -356,7 +356,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  'Email',
+                  'email'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -367,7 +367,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your email',
+                    hintText: 'enterYourEmail'.tr,
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -389,7 +389,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  'Password',
+                  'password'.tr,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -400,7 +400,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Enter your email',
+                    hintText: 'enterPassword'.tr,
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -428,7 +428,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 SizedBox(height: 44.h),
                 TextWidgetButton(
-                  text: 'Login as Farm Member',
+                  text: 'loginFarmMember'.tr,
                   onPressed: () {
                     Get.toNamed(AppRoutes.homeFarm);
                   },

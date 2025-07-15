@@ -12,6 +12,8 @@ Map<String, String> languageEnglishData = {
   'onboardDescription3':
       'Track your calf growth and get insights on how to improve their health.',
   'welcomeTitle': 'Welcome to MilkMix',
+  'orContinue': 'or continue with',
+  'enterYourEmail': 'Enter your email',
   'welcomeSubTitle':
       'Sign in to continue mixing with your saved values and settings.',
   'loginType': 'Select login type',
@@ -21,7 +23,7 @@ Map<String, String> languageEnglishData = {
   'verifyEmailSubTitle':
       'We sent a 4 digit code to your email domain@gmail.com',
   'selectLanguage': 'Select your preferred language',
-  'selectMeasurement': 'Select your Measurement System',
+  'selectMeasurement': 'Select Your Measurement System',
   'englishStandard': 'English Standard',
   'imperial': 'Imperial',
   'selectMeasurementSub': 'Common in: USA, UK (partial)',
@@ -131,4 +133,16 @@ Map<String, String> languageEnglishData = {
   'currentPlan': 'Current Plan',
   'submitNow': 'Submit Now',
   'backToSettings': 'Back To Settings',
+  'enterPassword': 'Enter your password',
+  'forgotPassword': 'Forgot Password?',
+  'farmUsername': 'Farm Username',
+  'name': 'Name',
+  'enterYourName': 'Enter your name',
+  'createAccount': 'Create Account',
+  'alreadyHaveAnAccount': 'Already have an account?',
+  'login': 'Login',
+  'sendAgain': 'Send Again',
+  'verifyOtp': 'Verify OTP',
+  'confirm': 'Confirm',
+  'spanMilk': 'MilkMix is not liable for any reason.',
 };

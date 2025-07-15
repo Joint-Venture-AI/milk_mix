@@ -46,7 +46,8 @@ class AuthenticationScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 28.h),
                           Text(
-                            'Welcome to MilkMix',
+                            'welcomeTitle'.tr,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 24.sp,
@@ -57,7 +58,7 @@ class AuthenticationScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.w),
                             child: Text(
-                              'Sign in to continue mixing with your saved values and settings.',
+                              'welcomeSubTitle'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -78,14 +79,14 @@ class AuthenticationScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextWidgetButton(
-                      text: 'Create New Account',
+                      text: 'createAccountTitle'.tr,
                       onPressed: () {
                         Get.toNamed(AppRoutes.createAccount);
                       },
                     ),
                     SizedBox(height: 12.h),
                     TextWidgetButtonWhite(
-                      text: 'Sign in to Existing Account',
+                      text: 'signInToExistingAccount'.tr,
                       onPressed: () {
                         Get.toNamed(AppRoutes.signin);
                       },
@@ -103,7 +104,7 @@ class AuthenticationScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
                           child: Text(
-                            'or continue with',
+                            'orContinue'.tr,
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: Colors.grey.shade600,

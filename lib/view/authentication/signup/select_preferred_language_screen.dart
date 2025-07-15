@@ -34,7 +34,7 @@ class _SelectPreferredLanguageScreenState
               SizedBox(height: 12.h),
               Text(
                 textAlign: TextAlign.center,
-                'Select your preferred language',
+                'selectLanguage'.tr,
                 style: TextStyle(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w700,
@@ -53,9 +53,9 @@ class _SelectPreferredLanguageScreenState
                     });
                   },
                 ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 160.h),
               TextWidgetButton(
-                text: 'Confirm',
+                text: 'confirm'.tr,
                 onPressed: () {
                   Get.toNamed(AppRoutes.selectMeasurement);
                 },

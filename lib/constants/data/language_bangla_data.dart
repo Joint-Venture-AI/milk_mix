@@ -6,6 +6,7 @@ Map<String, String> languageBanglaData = {
   'onboardSubTitle2': 'দ্রুত, সহজ এবং সঠিক',
   'onboardTitle3': 'আপনার বাছুরের বৃদ্ধির ট্র্যাক রাখুন',
   'onboardSubTitle3': 'দ্রুত সলিড মিক্স করুন, লগইন বা ওয়াই-ফাই প্রয়োজন নেই',
+  'enterYourEmail': 'আপনার ইমেইল লিখুন',
   'onboardDescription1':
       'মিল্কমিক্স একটি স্মার্ট মিক্সিং অ্যাপ যা বাচ্চা বাছুরদের জন্য সহজেই দুধ মেশাতে সাহায্য করে।',
   'onboardDescription2':
@@ -16,6 +17,7 @@ Map<String, String> languageBanglaData = {
   'welcomeSubTitle':
       'সংরক্ষিত মান ও সেটিংসের সাথে মিক্সিং চালিয়ে যেতে সাইন ইন করুন।',
   'loginType': 'লগইন টাইপ নির্বাচন করুন',
+  'orContinue': 'অথবা চালিয়ে যান',
   'loginTypeSubTitle':
       'আপনি কীভাবে আপনার একাউন্টে সাইন ইন করতে চান তা নির্বাচন করুন',
   'createAccountTitle': 'আপনার একাউন্ট তৈরি করুন',
@@ -132,4 +134,16 @@ Map<String, String> languageBanglaData = {
   'currentPlan': 'বর্তমান প্ল্যান',
   'submitNow': 'এখনই জমা দিন',
   'backToSettings': 'সেটিংসে ফিরে যান',
+  'enterPassword': 'আপনার পাসওয়ার্ড লিখুন',
+  'forgotPassword': 'পাসওয়ার্ড ভুলে গেছেন?',
+  'farmUsername': 'ফার্ম ইউজারনেম',
+  'name': 'নাম',
+  'enterYourName': 'আপনার নাম লিখুন',
+  'createAccount': 'একাউন্ট তৈরি করুন',
+  'alreadyHaveAnAccount': 'আপনার কি ইতিমধ্যে একটি একাউন্ট আছে?',
+  'login': 'লগইন',
+  'sendAgain': 'পুনরায় পাঠান',
+  'verifyOtp': 'ওটিপি যাচাই করুন',
+  'confirm': 'নিশ্চিত করুন',
+  'spanMilk': 'MilkMix কোনোরূপ দায় স্বীকার করে না।',
 };
