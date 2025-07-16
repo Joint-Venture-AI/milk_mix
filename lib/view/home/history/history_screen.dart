@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/history_wigets.dart';
 
@@ -22,7 +23,7 @@ class HistoryScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'History',
+                        'history'.tr,
                         style: TextStyle(
                           fontSize: 26.sp,
                           fontWeight: FontWeight.w600,

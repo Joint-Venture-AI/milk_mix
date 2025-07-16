@@ -158,4 +158,5 @@ Map<String, String> languageEnglishData = {
   'language': 'Language',
   'settings': 'Settings',
   'members': 'Members',
+  'calculation': 'Calculation',
 };

@@ -712,7 +712,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        'Solids in Hospital Milk (%)',
+                        'solidsInHospitalMilk'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
