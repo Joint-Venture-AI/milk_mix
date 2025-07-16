@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -29,7 +30,7 @@ class _EditLanguageScreenState extends State<ChangePasswordScreen> {
 
               SizedBox(height: 16.h),
               Text(
-                'Change Password',
+                'changePassword'.tr,
                 style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 28.sp,
@@ -39,14 +40,14 @@ class _EditLanguageScreenState extends State<ChangePasswordScreen> {
 
               SizedBox(height: 32.h),
               Text(
-                'Password',
+                'password'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter password',
+                  hintText: 'enterPassword'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -65,14 +66,14 @@ class _EditLanguageScreenState extends State<ChangePasswordScreen> {
               ),
               SizedBox(height: 20.h),
               Text(
-                'Confirm Password',
+                'confirmPassword'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Confirm password',
+                  hintText: 'confirmPassword'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -99,13 +100,16 @@ class _EditLanguageScreenState extends State<ChangePasswordScreen> {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Cancel',
+                      text: 'cancel'.tr,
                       onPressed: () {},
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
-                    child: TextWidgetButton(text: 'Update', onPressed: () {}),
+                    child: TextWidgetButton(
+                      text: 'update'.tr,
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),

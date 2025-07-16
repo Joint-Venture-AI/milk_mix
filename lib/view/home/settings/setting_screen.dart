@@ -20,7 +20,7 @@ class SettingScreen extends StatelessWidget {
             children: [
               SizedBox(height: 16.h),
               Text(
-                'Settings',
+                'settings'.tr,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w600,
@@ -73,14 +73,14 @@ class SettingScreen extends StatelessWidget {
               SizedBox(height: 24.h),
               SettingTile(
                 iconPath: 'assets/logos/group.svg',
-                title: 'Edit Profile',
+                title: 'editProfile'.tr,
                 onTap: () {
                   Get.toNamed(AppRoutes.editProfile);
                 },
               ),
               SettingTile(
                 iconPath: 'assets/logos/subs.svg',
-                title: 'Subscription & Plan',
+                title: 'subscriptionAndPlan'.tr,
 
                 onTap: () {
                   Get.toNamed(AppRoutes.subscription);
@@ -88,35 +88,35 @@ class SettingScreen extends StatelessWidget {
               ),
               SettingTile(
                 iconPath: 'assets/logos/language copy.svg',
-                title: 'Language',
+                title: 'language'.tr,
                 onTap: () {
                   Get.toNamed(AppRoutes.editLanguage);
                 },
               ),
               SettingTile(
                 iconPath: 'assets/logos/scale copy.svg',
-                title: 'Change Measurements',
+                title: 'changeMeasurements'.tr,
                 onTap: () {
                   Get.toNamed(AppRoutes.editMeasurement);
                 },
               ),
               SettingTile(
                 iconPath: 'assets/logos/lock copy.svg',
-                title: 'Change Password',
+                title: 'changePassword'.tr,
                 onTap: () {
                   Get.toNamed(AppRoutes.changePassword);
                 },
               ),
               SettingTile(
                 iconPath: 'assets/logos/question.svg',
-                title: 'Help & Support',
+                title: 'helpAndSupport'.tr,
                 onTap: () {
                   Get.toNamed(AppRoutes.helpAndSupport);
                 },
               ),
               SettingTile(
                 iconPath: 'assets/logos/logout.svg',
-                title: 'Logout',
+                title: 'logout'.tr,
 
                 onTap: () {},
               ),

@@ -28,7 +28,7 @@ class AddMemberScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Add New Member',
+                'addNewMember'.tr,
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
@@ -38,7 +38,7 @@ class AddMemberScreen extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 textAlign: TextAlign.center,
-                'Your user will use this credentials and login to his account',
+                'addNewMemberSub'.tr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -62,7 +62,7 @@ class AddMemberScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 8.w),
                     Text(
-                      'Start Measuring',
+                      'memberCost'.tr,
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.textPrimary,
@@ -83,14 +83,14 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Member Name',
+                'memberName'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter member name',
+                  hintText: 'memberNameField'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -115,14 +115,14 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Add Email',
+                'addEmail'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Add email',
+                  hintText: 'enterEmail'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -141,14 +141,14 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Create Password',
+                'createPassword'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Create password for member',
+                  hintText: 'enterPasswordMember'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -170,7 +170,7 @@ class AddMemberScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Cancel',
+                      text: 'cancel'.tr,
                       onPressed: () {
                         Get.back();
                       },
@@ -179,7 +179,7 @@ class AddMemberScreen extends StatelessWidget {
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: 'Add User \$10',
+                      text: 'addUser10'.tr,
                       onPressed: () {
                         Get.toNamed(AppRoutes.home);
                       },

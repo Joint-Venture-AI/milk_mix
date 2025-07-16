@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
@@ -18,12 +19,12 @@ class MembersScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 240.h),
+              SizedBox(height: 210.h),
               SvgPicture.asset('assets/logos/lock_round.svg', height: 80.h),
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Unlock and Add Members',
+                'unlockAndAddMembers'.tr,
                 style: TextStyle(
                   fontSize: 23.sp,
                   fontWeight: FontWeight.w600,
@@ -33,7 +34,7 @@ class MembersScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Upgrade plan and get the option to add your farms member (Each member cost \$10 )',
+                'unlockAndAddMembersSubtitle'.tr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,

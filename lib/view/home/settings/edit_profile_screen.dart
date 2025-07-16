@@ -37,7 +37,7 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 76.w),
                     Text(
-                      'Update Profile',
+                      'updateProfile'.tr,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,

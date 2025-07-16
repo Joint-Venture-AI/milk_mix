@@ -32,7 +32,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Manage User',
+                        'manageUser'.tr,
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w500,
@@ -41,7 +41,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'Create and manage your team',
+                        'createAndManageYourTeam'.tr,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
@@ -73,7 +73,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Core User',
+                                'coreUser'.tr,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -133,7 +133,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                               ),
                               SizedBox(height: 4.h),
                               Text(
-                                "Wants to join as consultant",
+                                "wantsToJoinAsConsultant".tr,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   color: AppColors.textGrey,
@@ -149,14 +149,14 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                       children: [
                         Expanded(
                           child: TextButtonWidgetLight(
-                            text: 'Dismiss',
+                            text: 'dismiss'.tr,
                             onPressed: () {},
                           ),
                         ),
                         SizedBox(width: 15.w),
                         Expanded(
                           child: TextWidgetButton(
-                            text: 'Accept',
+                            text: 'accept'.tr,
                             onPressed: () {},
                           ),
                         ),
@@ -167,7 +167,8 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Farm Members (3)',
+                '${'farmMembers'.tr}'
+                ' (3)',
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
@@ -208,7 +209,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            'Created on: May 23, 2025',
+                            '${'createdOn'.tr} May 23, 2025',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -261,7 +262,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            'Created on: May 23, 2025',
+                            '${'createdOn'.tr} May 23, 2025',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -283,7 +284,9 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
 
               SizedBox(height: 40.h),
               TextWidgetButton(
-                text: '+  Add Member',
+                text:
+                    '+  '
+                    '${'addMember'.tr}',
                 onPressed: () {
                   Get.toNamed(AppRoutes.addMember);
                 },
