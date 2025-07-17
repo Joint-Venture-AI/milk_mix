@@ -1,9 +1,10 @@
+// lib/view/authentication/signup/select_preferred_language_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/languages/language_data.dart' as Language;
+import 'package:milk_mix/languages/language_selection_data.dart' as Language;
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
@@ -53,10 +54,11 @@ class _SelectPreferredLanguageScreenState
                     });
                   },
                 ),
-              SizedBox(height: 160.h),
+              SizedBox(height: 24.h),
               TextWidgetButton(
                 text: 'confirm'.tr,
                 onPressed: () {
+                  Get.updateLocale(Locale(selectedLanguage));
                   Get.toNamed(AppRoutes.selectMeasurement);
                 },
               ),
