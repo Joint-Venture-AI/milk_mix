@@ -22,31 +22,41 @@ class EditProfileScreen extends StatelessWidget {
             children: [
               SizedBox(
                 height: 50.h,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: SvgPicture.asset(
-                        'assets/logos/back.svg',
-                        height: 24.h,
-                        width: 24.w,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: SvgPicture.asset(
+                              'assets/logos/back.svg',
+                              height: 24.h,
+                              width: 24.w,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 76.w),
-                    Text(
-                      'updateProfile'.tr,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                    Center(
+                      child: Text(
+                        'updateProfile'.tr,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+
               SizedBox(height: 28.h),
               Container(
                 width: 100.w,
@@ -86,7 +96,7 @@ class EditProfileScreen extends StatelessWidget {
                       SvgPicture.asset('assets/logos/upload.svg', height: 16.h),
                       SizedBox(width: 8.w),
                       Text(
-                        'Upload Photo',
+                        'uploadPhoto'.tr,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
@@ -100,7 +110,7 @@ class EditProfileScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Keep the photo within 2000 x 2000 pixels',
+                'photoPixels'.tr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
@@ -109,14 +119,14 @@ class EditProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 32.h),
               Text(
-                'Change Name',
+                'changeName'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Change your name',
+                  hintText: 'changeName'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -135,14 +145,14 @@ class EditProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Change Email',
+                'changeEmail'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Change your email',
+                  hintText: 'changeEmail'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -164,7 +174,7 @@ class EditProfileScreen extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Change ',
+                      text: 'change'.tr + ' ',
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
@@ -186,7 +196,7 @@ class EditProfileScreen extends StatelessWidget {
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Change master user name',
+                  hintText: 'changeMasterUsername'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -208,13 +218,16 @@ class EditProfileScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Reset',
+                      text: 'reset'.tr,
                       onPressed: () {},
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
-                    child: TextWidgetButton(text: 'Update', onPressed: () {}),
+                    child: TextWidgetButton(
+                      text: 'update'.tr,
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),

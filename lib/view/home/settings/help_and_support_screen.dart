@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -24,7 +25,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               Text(
                 textAlign: TextAlign.start,
-                'Help and Support',
+                'helpAndSupport'.tr,
                 style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 28.sp,
@@ -33,14 +34,14 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Text(
-                'Contact Email',
+                'email'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'Enter your email',
+                  hintText: 'enterYourEmail'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -59,14 +60,14 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               Text(
-                'Problem',
+                'problem'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: ' Write your Problem',
+                  hintText: 'writrProblem'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -78,7 +79,7 @@ class HelpAndSupportScreen extends StatelessWidget {
 
               SizedBox(height: 6.h),
               Text(
-                'Describe Problem',
+                'writrProblem'.tr,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 6.h),
@@ -87,7 +88,7 @@ class HelpAndSupportScreen extends StatelessWidget {
                 minLines: 12,
                 maxLines: 12,
                 decoration: InputDecoration(
-                  hintText: ' Describe your problem',
+                  hintText: 'problemDescription'.tr,
                   hintStyle: TextStyle(
                     color: AppColors.textLightGrey,
                     fontSize: 14.sp,
@@ -103,13 +104,16 @@ class HelpAndSupportScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Cancel',
+                      text: 'cancel'.tr,
                       onPressed: () {},
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
-                    child: TextWidgetButton(text: 'Update', onPressed: () {}),
+                    child: TextWidgetButton(
+                      text: 'update'.tr,
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),

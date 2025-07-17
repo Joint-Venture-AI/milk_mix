@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/payment_history_tile.dart';
@@ -26,7 +27,7 @@ class SubscriptionScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               Text(
                 textAlign: TextAlign.start,
-                'Subscription and Plan',
+                'subscriptionAndPlan'.tr,
                 style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 28.sp,
@@ -56,7 +57,7 @@ class SubscriptionScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 8.w),
                         Text(
-                          'Current plan',
+                          'currentPlan'.tr,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
@@ -125,7 +126,7 @@ class SubscriptionScreen extends StatelessWidget {
                       children: [
                         SizedBox(width: 4.w),
                         Text(
-                          'Change Plan',
+                          'changePlan'.tr,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
@@ -179,7 +180,7 @@ class SubscriptionScreen extends StatelessWidget {
                       children: [
                         SizedBox(width: 4.w),
                         Text(
-                          'Payment History',
+                          'paymentHistory'.tr,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
@@ -198,7 +199,7 @@ class SubscriptionScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 12.h),
-              TextWidgetButton(text: 'Back To Settings', onPressed: () {}),
+              TextWidgetButton(text: 'backToSettings'.tr, onPressed: () {}),
             ],
           ),
         ),

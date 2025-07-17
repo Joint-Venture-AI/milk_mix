@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/languages/language_data.dart' as Language;
 import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
@@ -30,7 +31,7 @@ class _EditLanguageScreenState extends State<EditLanguageScreen> {
               const AppBarWidget(),
               SizedBox(height: 16.h),
               Text(
-                'Change Language',
+                'changeLanguage'.tr,
                 style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 28.sp,
@@ -54,13 +55,16 @@ class _EditLanguageScreenState extends State<EditLanguageScreen> {
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
-                      text: 'Cancel',
+                      text: 'cancel'.tr,
                       onPressed: () {},
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
-                    child: TextWidgetButton(text: 'Update', onPressed: () {}),
+                    child: TextWidgetButton(
+                      text: 'update'.tr,
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),
