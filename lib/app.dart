@@ -19,7 +19,7 @@ class MilkMix extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Milk Mix',
           translations: Language(),
-          locale: const Locale('bn', 'US'),
+          locale: const Locale('en', 'US'),
           fallbackLocale: const Locale('en', 'US'),
           theme: ThemeData(
             useMaterial3: true,
