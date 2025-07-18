@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/languages/language_selection_data.dart' as Language;
-import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
+import 'package:milk_mix/constants/data/languages/language_selection_data.dart'
+    as Language;
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/language_tile.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';

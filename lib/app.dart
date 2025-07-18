@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/model/language/language.dart';
+import 'package:milk_mix/constants/data/languages/translation/language.dart';
 import 'package:milk_mix/routes.dart';
 
 class MilkMix extends StatelessWidget {

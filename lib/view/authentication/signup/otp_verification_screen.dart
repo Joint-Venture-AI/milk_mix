@@ -59,11 +59,10 @@ class OtpVerificationScreen extends StatelessWidget {
               SizedBox(height: 40.h),
 
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 34.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: PinCodeTextField(
-                  length: 4,
-                  obscureText: true,
-                  obscuringCharacter: '•',
+                  length: 6,
+                  obscureText: false,
                   animationType: AnimationType.fade,
                   pinTheme: PinTheme(
                     shape: PinCodeFieldShape.box,
@@ -105,7 +104,9 @@ class OtpVerificationScreen extends StatelessWidget {
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Trigger resend OTP logic here
+                    },
                     child: Text(
                       'sendAgain'.tr,
                       style: TextStyle(
@@ -117,7 +118,9 @@ class OtpVerificationScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(height: 290.h),
+
               TextWidgetButton(
                 text: 'verifyOtp'.tr,
                 onPressed: () {
