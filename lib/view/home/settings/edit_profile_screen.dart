@@ -174,7 +174,7 @@ class EditProfileScreen extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'change'.tr + ' ',
+                      text: '${'change'.tr} ',
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
