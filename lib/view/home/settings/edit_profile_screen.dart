@@ -26,19 +26,14 @@ class EditProfileScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         GestureDetector(
                           onTap: () {
                             Get.back();
                           },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: SvgPicture.asset(
-                              'assets/logos/back.svg',
-                              height: 24.h,
-                              width: 24.w,
-                            ),
+                          child: SvgPicture.asset(
+                            'assets/logos/back.svg',
+                            height: 30.w,
                           ),
                         ),
                       ],
@@ -56,7 +51,6 @@ class EditProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(height: 28.h),
               Container(
                 width: 100.w,

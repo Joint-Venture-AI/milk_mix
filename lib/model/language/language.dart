@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/data/language_arabic_data.dart';
 import 'package:milk_mix/constants/data/language_bangla_data.dart';
+import 'package:milk_mix/constants/data/language_dutch_data.dart';
 import 'package:milk_mix/constants/data/language_english_data.dart';
 import 'package:milk_mix/constants/data/language_french_data.dart';
 import 'package:milk_mix/constants/data/language_hindi_data.dart';
@@ -21,5 +22,6 @@ class Language extends Translations {
     'ja_JP': languageJapaneseData,
     'pt_PT': languagePortugueseData,
     'es_ES': languageSpanishData,
+    'nl_NL': languageDutchData,
   };
 }
