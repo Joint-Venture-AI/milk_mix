@@ -59,14 +59,13 @@ class _SelectPreferredLanguageScreenState
                           });
                         },
                       ),
-                    SizedBox(height: 24.h),
                   ],
                 ),
               ),
             ),
 
             Padding(
-              padding: EdgeInsets.all(20.w),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.w),
               child: TextWidgetButton(
                 text: 'confirm'.tr,
                 onPressed: () {

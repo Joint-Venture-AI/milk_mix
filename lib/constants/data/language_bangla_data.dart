@@ -78,7 +78,7 @@ Map<String, String> languageBanglaData = {
   'recipeSummary': 'রেসিপি সারসংক্ষেপ',
   'water': 'পানি',
   'milkPowder': 'দুধের গুঁড়া',
-  'waterMilk': 'পানি + দুধের গুঁড়া',
+  'waterMilk': 'পানি+দুধের গুঁড়া',
   'hospitalMilkUsed': 'হাসপাতালের দুধ ব্যবহৃত',
   'totalVolume': 'মোট ভলিউম',
   'calculate': 'হিসাব করুন',

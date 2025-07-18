@@ -77,7 +77,7 @@ Map<String, String> languageHindiData = {
   'recipeSummary': 'रेसिपी सारांश',
   'water': 'पानी',
   'milkPowder': 'मिल्क पाउडर',
-  'waterMilk': 'पानी + मिल्क पाउडर',
+  'waterMilk': 'पानी+मिल्क पाउडर',
   'hospitalMilkUsed': 'हॉस्पिटल मिल्क का उपयोग किया गया',
   'totalVolume': 'कुल मात्रा',
   'calculate': 'गणना करें',

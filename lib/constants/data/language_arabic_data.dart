@@ -75,7 +75,7 @@ Map<String, String> languageArabicData = {
   'recipeSummary': 'ملخص الوصفة',
   'water': 'ماء',
   'milkPowder': 'مسحوق الحليب',
-  'waterMilk': 'الماء + مسحوق الحليب',
+  'waterMilk': 'الماء+مسحوق الحليب',
   'hospitalMilkUsed': 'تم استخدام حليب المستشفى',
   'totalVolume': 'الحجم الإجمالي',
   'calculate': 'احسب',

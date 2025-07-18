@@ -76,7 +76,7 @@ Map<String, String> languageDutchData = {
   'recipeSummary': 'Receptoverzicht',
   'water': 'Water',
   'milkPowder': 'Melkpoeder',
-  'waterMilk': 'Water + melkpoeder',
+  'waterMilk': 'Water+melkpoeder',
   'hospitalMilkUsed': 'Gebruikte ziekenhuismelk',
   'totalVolume': 'Totaal volume',
   'calculate': 'Bereken',

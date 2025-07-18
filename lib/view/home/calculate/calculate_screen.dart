@@ -18,6 +18,141 @@ class _CalculateScreenState extends State<CalculateScreen> {
   bool isDropdownExpanded = false;
   bool isSolidsExpanded = false;
 
+  // Controllers for input fields
+  final TextEditingController _numBottlesController = TextEditingController();
+  final TextEditingController _hospitalMilkController = TextEditingController();
+  final TextEditingController _bottleSizeController = TextEditingController();
+  final TextEditingController _hospitalMilkSolidsController =
+      TextEditingController();
+  final TextEditingController _desiredSolidsController =
+      TextEditingController();
+
+  // Recipe summary variables
+  double waterAmount = 0;
+  double milkReplacerAmount = 0;
+  double hospitalMilkAmount = 0;
+  double totalVolume = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers with 0
+    _numBottlesController.text = '0';
+    _hospitalMilkController.text = '0';
+    _bottleSizeController.text = '0';
+    _hospitalMilkSolidsController.text = '0';
+    _desiredSolidsController.text = '0';
+
+    // Add listeners to recalculate on input changes
+    _numBottlesController.addListener(_calculateRecipe);
+    _hospitalMilkController.addListener(_calculateRecipe);
+    _bottleSizeController.addListener(_calculateRecipe);
+    _hospitalMilkSolidsController.addListener(_calculateRecipe);
+    _desiredSolidsController.addListener(_calculateRecipe);
+
+    // Perform initial calculation
+    _calculateRecipe();
+  }
+
+  @override
+  void dispose() {
+    _numBottlesController.dispose();
+    _hospitalMilkController.dispose();
+    _bottleSizeController.dispose();
+    _hospitalMilkSolidsController.dispose();
+    _desiredSolidsController.dispose();
+    super.dispose();
+  }
+
+  void _calculateRecipe() {
+    setState(() {
+      // Parse input values with fallback to 0
+      double numBottles = double.tryParse(_numBottlesController.text) ?? 0;
+      double hospitalMilk = double.tryParse(_hospitalMilkController.text) ?? 0;
+      double bottleSize = double.tryParse(_bottleSizeController.text) ?? 0;
+      double hospitalMilkSolids =
+          double.tryParse(_hospitalMilkSolidsController.text) ?? 0;
+      double desiredSolids =
+          double.tryParse(_desiredSolidsController.text) ?? 0;
+
+      // Convert percentages to decimals
+      hospitalMilkSolids /= 100;
+      desiredSolids /= 100;
+
+      // Ensure non-negative inputs
+      numBottles = numBottles < 0 ? 0 : numBottles;
+      hospitalMilk = hospitalMilk < 0 ? 0 : hospitalMilk;
+      bottleSize = bottleSize < 0 ? 0 : bottleSize;
+      hospitalMilkSolids = hospitalMilkSolids < 0 ? 0 : hospitalMilkSolids;
+      desiredSolids = desiredSolids < 0 ? 0 : desiredSolids;
+
+      if (selectedUnit == 'english') {
+        // Imperial calculations (based on CSV Option 2, Gallons/Pounds)
+        if (selectedSubUnit == 'gallon') {
+          // Total volume = number of bottles * bottle size (gallons)
+          totalVolume = numBottles * bottleSize;
+          hospitalMilkAmount = hospitalMilk; // Gallons
+          // Total desired solids (lbs) = total volume * desired solids % * density (8.6 lbs/gallon)
+          double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
+          // Solids from hospital milk (lbs) = hospital milk * hospital milk solids % * density
+          double hospitalMilkSolidsLbs =
+              hospitalMilk * hospitalMilkSolids * 8.6;
+          // Milk replacer solids needed (lbs) = total desired solids - hospital milk solids
+          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
+          // Water (lbs) = total volume * density - hospital milk solids - milk replacer solids
+          waterAmount =
+              totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
+        } else {
+          // Pounds (using quarts for bottle size, hospital milk)
+          totalVolume =
+              numBottles * bottleSize / 4; // Convert quarts to gallons
+          hospitalMilkAmount = hospitalMilk / 4; // Convert quarts to gallons
+          double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
+          double hospitalMilkSolidsLbs =
+              hospitalMilkAmount * hospitalMilkSolids * 8.6;
+          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
+          waterAmount =
+              totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
+          // Convert outputs to pounds
+          totalVolume *= 8.6;
+          hospitalMilkAmount *= 8.6;
+        }
+      } else {
+        // Metric calculations (based on CSV Option 2, Liters/Kg)
+        if (selectedSubUnit == 'liter') {
+          totalVolume = numBottles * bottleSize; // Liters
+          hospitalMilkAmount = hospitalMilk; // Liters
+          double totalDesiredSolids =
+              totalVolume * desiredSolids * 1.03; // Density ~1.03 kg/L
+          double hospitalMilkSolidsKg =
+              hospitalMilk * hospitalMilkSolids * 1.03;
+          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
+          waterAmount =
+              totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
+        } else {
+          // Kilo (using liters for bottle size, hospital milk)
+          totalVolume = numBottles * bottleSize; // Liters
+          hospitalMilkAmount = hospitalMilk; // Liters
+          double totalDesiredSolids = totalVolume * desiredSolids * 1.03;
+          double hospitalMilkSolidsKg =
+              hospitalMilkAmount * hospitalMilkSolids * 1.03;
+          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
+          waterAmount =
+              totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
+          // Convert outputs to kg
+          totalVolume *= 1.03;
+          hospitalMilkAmount *= 1.03;
+        }
+      }
+
+      // Ensure non-negative results
+      waterAmount = waterAmount < 0 ? 0 : waterAmount;
+      milkReplacerAmount = milkReplacerAmount < 0 ? 0 : milkReplacerAmount;
+      hospitalMilkAmount = hospitalMilkAmount < 0 ? 0 : hospitalMilkAmount;
+      totalVolume = totalVolume < 0 ? 0 : totalVolume;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +165,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20.h),
-
               SizedBox(
                 height: 100.h,
                 child: Container(
@@ -49,7 +183,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   ),
                 ),
               ),
-
               SizedBox(height: 14.h),
               Container(
                 decoration: BoxDecoration(
@@ -95,7 +228,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     ),
                     if (isDropdownExpanded) ...[
                       SizedBox(height: 8.h),
-
                       Container(
                         padding: EdgeInsets.all(5.h),
                         decoration: BoxDecoration(
@@ -110,7 +242,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ],
                         ),
                       ),
-
                       SizedBox(height: 8.h),
                       Container(
                         padding: EdgeInsets.all(5.h),
@@ -138,9 +269,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                   ],
                 ),
               ),
-
               SizedBox(height: 20.h),
-
               buildAllUnitColumns(),
               //--------------summary section----------------
               Container(
@@ -170,9 +299,9 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     ),
                     SizedBox(height: 18.h),
                     Container(
-                      padding: EdgeInsets.all(12.w),
+                      padding: EdgeInsets.all(13.w),
                       decoration: BoxDecoration(
-                        color: Color(0xFFF2F7Fd),
+                        color: const Color(0xFFF2F7Fd),
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Row(
@@ -182,16 +311,16 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           Text(
                             'water'.tr,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            '= 4500 (KGs)',
+                            '= ${waterAmount.toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primary,
                             ),
@@ -201,7 +330,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     ),
                     SizedBox(height: 18.h),
                     Container(
-                      padding: EdgeInsets.all(12.w),
+                      padding: EdgeInsets.all(13.w),
                       decoration: BoxDecoration(
                         color: AppColors.shade,
                         borderRadius: BorderRadius.circular(4.r),
@@ -213,16 +342,16 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           Text(
                             'milkPowder'.tr,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            '= 4500',
+                            '= ${milkReplacerAmount.toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -231,30 +360,30 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     ),
                     SizedBox(height: 18.h),
                     Container(
-                      padding: EdgeInsets.all(12.w),
+                      padding: EdgeInsets.all(13.w),
                       decoration: BoxDecoration(
-                        color: Color(0xFFfffae9),
+                        color: const Color(0xFFfffae9),
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Row(
                         children: [
                           SvgPicture.asset('assets/logos/water.svg'),
-                          Text('+'),
+                          const Text('+'),
                           SvgPicture.asset('assets/logos/bag.svg'),
                           SizedBox(width: 8.w),
                           Text(
                             'waterMilk'.tr,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            '= 4500',
+                            '= ${(waterAmount + milkReplacerAmount).toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                               color: Colors.orange,
                             ),
@@ -264,9 +393,9 @@ class _CalculateScreenState extends State<CalculateScreen> {
                     ),
                     SizedBox(height: 18.h),
                     Container(
-                      padding: EdgeInsets.all(12.w),
+                      padding: EdgeInsets.all(13.w),
                       decoration: BoxDecoration(
-                        color: Color(0xFFffe9e9),
+                        color: const Color(0xFFffe9e9),
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Row(
@@ -276,16 +405,22 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           Text(
                             'hospitalMilkUsed'.tr,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            '= 4500',
+                            '= ${hospitalMilkAmount.toStringAsFixed(2)} (${selectedUnit == 'english'
+                                ? selectedSubUnit == 'gallon'
+                                    ? 'gal'
+                                    : 'lbs'
+                                : selectedSubUnit == 'liter'
+                                ? 'L'
+                                : 'kg'})',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                               color: Colors.red,
                             ),
@@ -305,16 +440,22 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         Text(
                           'totalVolume'.tr,
                           style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
                           ),
                         ),
                         Spacer(),
                         Text(
-                          '= 4500 (lbs)',
+                          '= ${totalVolume.toStringAsFixed(2)} (${selectedUnit == 'english'
+                              ? selectedSubUnit == 'gallon'
+                                  ? 'gal'
+                                  : 'lbs'
+                              : selectedSubUnit == 'liter'
+                              ? 'L'
+                              : 'kg'})',
                           style: TextStyle(
-                            fontSize: 20.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.primary,
                           ),
@@ -341,6 +482,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
           setState(() {
             selectedUnit = value;
             selectedSubUnit = value == 'english' ? 'gallon' : 'liter';
+            _calculateRecipe();
           });
         },
         child: Container(
@@ -368,7 +510,12 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => selectedSubUnit = value),
+        onTap: () {
+          setState(() {
+            selectedSubUnit = value;
+            _calculateRecipe();
+          });
+        },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 8.h),
           decoration: BoxDecoration(
@@ -390,718 +537,186 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Widget buildAllUnitColumns() {
-    switch (selectedSubUnit) {
-      case 'gallon':
-        return _unitColumn(
-          isExpanded: true,
+    String hospitalMilkUnit =
+        selectedUnit == 'english'
+            ? (selectedSubUnit == 'gallon' ? '(Gallon)' : '(Quarts)')
+            : (selectedSubUnit == 'liter' ? '(Liter)' : '(Liters)');
+    String bottleSizeUnit =
+        selectedUnit == 'english'
+            ? (selectedSubUnit == 'gallon' ? '(Gallon)' : '(Quarts)')
+            : '(Liters)';
+
+    return _unitColumn(
+      isExpanded: true,
+      children: [
+        Row(
           children: [
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'startMixing'.tr,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
+            SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
+            SizedBox(width: 8.w),
+            Text(
+              'startMixing'.tr,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
             ),
-            SizedBox(height: 24.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'numberOfBottles'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
+          ],
+        ),
+        SizedBox(height: 24.h),
+        Row(
+          children: [
+            SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
+            SizedBox(width: 8.w),
+            Text(
+              'numberOfBottles'.tr,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
             ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 26.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'hospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' (Gallon)',
-                        style: TextStyle(
-                          color: Color(0xFFE53935),
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 24.h),
-            Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
-            SizedBox(height: 14.h),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSolidsExpanded = !isSolidsExpanded;
-                });
-              },
-              child: Row(
+          ],
+        ),
+        SizedBox(height: 7.h),
+        LightInputField(controller: _numBottlesController),
+        SizedBox(height: 26.h),
+        Row(
+          children: [
+            SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
+            SizedBox(width: 8.w),
+            Text.rich(
+              TextSpan(
                 children: [
-                  Text(
-                    'solids'.tr,
+                  TextSpan(
+                    text: 'hospitalMilk'.tr,
                     style: TextStyle(
-                      color: AppColors.primary,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
                     ),
                   ),
-                  Spacer(),
-                  SvgPicture.asset(
-                    isSolidsExpanded
-                        ? 'assets/logos/up.svg'
-                        : 'assets/logos/down.svg',
-                    height: 24.h,
-                  ),
-                ],
-              ),
-            ),
-            if (isSolidsExpanded) ...[
-              SizedBox(height: 10.h),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleGreen.svg',
-                        height: 18.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'bottleSize'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' (Gallon)',
-                              style: TextStyle(
-                                color: Color(0xFF36C275),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleMed.svg',
-                        height: 20.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'solidsInHospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'desiredSolid'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                ],
-              ),
-            ],
-          ],
-        );
-      case 'pounds':
-        return _unitColumn(
-          isExpanded: true,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'startMixing'.tr,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 24.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'numberOfBottles'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 26.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text.rich(
                   TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'hospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' (Quarts)',
-                        style: TextStyle(
-                          color: Color(0xFFE53935),
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 24.h),
-            Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
-            SizedBox(height: 14.h),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSolidsExpanded = !isSolidsExpanded;
-                });
-              },
-              child: Row(
-                children: [
-                  Text(
-                    'solids'.tr,
+                    text: ' $hospitalMilkUnit',
                     style: TextStyle(
-                      color: AppColors.primary,
+                      color: const Color(0xFFE53935),
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Spacer(),
-                  SvgPicture.asset(
-                    isSolidsExpanded
-                        ? 'assets/logos/up.svg'
-                        : 'assets/logos/down.svg',
-                    height: 24.h,
-                  ),
                 ],
               ),
             ),
-            if (isSolidsExpanded) ...[
-              SizedBox(height: 10.h),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleGreen.svg',
-                        height: 18.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'bottleSize'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' (Quarts)',
-                              style: TextStyle(
-                                color: Color(0xFF36C275),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleMed.svg',
-                        height: 20.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'solidsInHospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'desiredSolid'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                ],
+          ],
+        ),
+        SizedBox(height: 7.h),
+        LightInputField(controller: _hospitalMilkController),
+        SizedBox(height: 24.h),
+        Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
+        SizedBox(height: 14.h),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isSolidsExpanded = !isSolidsExpanded;
+            });
+          },
+          child: Row(
+            children: [
+              Text(
+                'solids'.tr,
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Spacer(),
+              SvgPicture.asset(
+                isSolidsExpanded
+                    ? 'assets/logos/up.svg'
+                    : 'assets/logos/down.svg',
+                height: 24.h,
               ),
             ],
-          ],
-        );
-      case 'liter':
-        return _unitColumn(
-          isExpanded: true,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'startMixing'.tr,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 24.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'numberOfBottles'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 26.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'hospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' (Liter)',
-                        style: TextStyle(
-                          color: Color(0xFFE53935),
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 24.h),
-            Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
-            SizedBox(height: 14.h),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSolidsExpanded = !isSolidsExpanded;
-                });
-              },
-              child: Row(
+          ),
+        ),
+        if (isSolidsExpanded) ...[
+          SizedBox(height: 10.h),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
                 children: [
-                  Text(
-                    'solids'.tr,
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                  SvgPicture.asset(
+                    'assets/logos/bottleGreen.svg',
+                    height: 18.h,
+                  ),
+                  SizedBox(width: 8.w),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'bottleSize'.tr,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' $bottleSizeUnit',
+                          style: TextStyle(
+                            color: const Color(0xFF36C275),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Spacer(),
-                  SvgPicture.asset(
-                    isSolidsExpanded
-                        ? 'assets/logos/up.svg'
-                        : 'assets/logos/down.svg',
-                    height: 24.h,
-                  ),
                 ],
               ),
-            ),
-            if (isSolidsExpanded) ...[
-              SizedBox(height: 10.h),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-
+              SizedBox(height: 7.h),
+              LightInputField(controller: _bottleSizeController),
+              SizedBox(height: 24.h),
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleGreen.svg',
-                        height: 18.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'bottleSize'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' (Liter)',
-                              style: TextStyle(
-                                color: Color(0xFF36C275),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleMed.svg',
-                        height: 20.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'solidsInHospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'desiredSolid'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                ],
-              ),
-            ],
-          ],
-        );
-      case 'kilo':
-        return _unitColumn(
-          isExpanded: true,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'startMixing'.tr,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 24.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text(
-                  'numberOfBottles'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 26.h),
-            Row(
-              children: [
-                SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
-                SizedBox(width: 8.w),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'hospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' (Liters)',
-                        style: TextStyle(
-                          color: Color(0xFFE53935),
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7.h),
-            LightInputField(),
-            SizedBox(height: 24.h),
-            Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
-            SizedBox(height: 14.h),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isSolidsExpanded = !isSolidsExpanded;
-                });
-              },
-              child: Row(
-                children: [
+                  SvgPicture.asset('assets/logos/bottleMed.svg', height: 20.h),
+                  SizedBox(width: 8.w),
                   Text(
-                    'solids'.tr,
+                    'solidsInHospitalMilk'.tr,
                     style: TextStyle(
-                      color: AppColors.primary,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
                     ),
                   ),
-                  Spacer(),
-                  SvgPicture.asset(
-                    isSolidsExpanded
-                        ? 'assets/logos/up.svg'
-                        : 'assets/logos/down.svg',
-                    height: 24.h,
-                  ),
                 ],
               ),
-            ),
-            if (isSolidsExpanded) ...[
-              SizedBox(height: 10.h),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-
+              SizedBox(height: 7.h),
+              LightInputField(controller: _hospitalMilkSolidsController),
+              SizedBox(height: 24.h),
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleGreen.svg',
-                        height: 18.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'bottleSize'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' (Liters)',
-                              style: TextStyle(
-                                color: Color(0xFF36C275),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
+                  SizedBox(width: 8.w),
+                  Text(
+                    'desiredSolid'.tr,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/bottleMed.svg',
-                        height: 20.h,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'solidsInHospitalMilk'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'desiredSolid'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 7.h),
-                  LightInputField(),
                 ],
               ),
+              SizedBox(height: 7.h),
+              LightInputField(controller: _desiredSolidsController),
             ],
-          ],
-        );
-      default:
-        return SizedBox.shrink();
-    }
+          ),
+        ],
+      ],
+    );
   }
 
   Widget _unitColumn({

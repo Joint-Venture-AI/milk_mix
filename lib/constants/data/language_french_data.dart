@@ -77,7 +77,7 @@ Map<String, String> languageFrenchData = {
   'recipeSummary': 'Résumé de la recette',
   'water': 'Eau',
   'milkPowder': 'Lait en poudre',
-  'waterMilk': 'Eau + Lait en poudre',
+  'waterMilk': 'Eau+Lait en poudre',
   'hospitalMilkUsed': 'Lait d’hôpital utilisé',
   'totalVolume': 'Volume total',
   'calculate': 'Calculer',

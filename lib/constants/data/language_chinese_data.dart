@@ -68,7 +68,7 @@ Map<String, String> languageChineseData = {
   'recipeSummary': '配方总结',
   'water': '水',
   'milkPowder': '奶粉',
-  'waterMilk': '水 + 奶粉',
+  'waterMilk': '水+奶粉',
   'hospitalMilkUsed': '已使用医院牛奶',
   'totalVolume': '总容量',
   'calculate': '计算',
