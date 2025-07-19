@@ -38,7 +38,30 @@ class RecipeSummaryDialog extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16.h),
+            _buildRow(
+              'assets/logos/bottle.svg',
+              'Number of Bottols',
+              ' = 4500',
+            ),
+            _buildRow('assets/logos/drop.svg', 'Hospital Milk', ' = 4500'),
+            _buildRow('assets/logos/bottleGreen.svg', 'Bottle Size', ' = 4500'),
+            _buildRow(
+              'assets/logos/bottleMed.svg',
+              'Solids in Hospital Milk',
+              ' = 4500',
+            ),
+            _buildRow(
+              'assets/logos/bottleMed.svg',
+              'Solids in Hospital Milk',
+              ' = 4500',
+            ),
+            _buildRow(
+              'assets/logos/bottleMed.svg',
+              'Desired Solids(11-16%)',
+              ' = 4500',
+            ),
 
+            Divider(color: Colors.grey.shade300, thickness: 1, height: 15.h),
             _buildRow('assets/logos/drop.svg', 'Pounds of Water', ' = 4500'),
             _buildRow(
               'assets/logos/bottle.svg',
