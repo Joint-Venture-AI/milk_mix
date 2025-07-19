@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,7 +5,6 @@ import 'package:get/get.dart';
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
-import 'package:milk_mix/view/widget/%20text_field_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -25,60 +23,10 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   void dispose() {
-    _individualEmailController.dispose();
-    _individualPasswordController.dispose();
-    _farmUsernameController.dispose();
-    _farmEmailController.dispose();
-    _farmPasswordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _usernameController.dispose();
     super.dispose();
-  }
-
-  Future<void> loginUser() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      Get.snackbar("Error", "Email and Password are required");
-      return;
-    }
-
-    setState(() => isLoading = true);
-
-    try {
-      final response = await http.post(
-        Uri.parse(
-          "https://lamprey-included-lion.ngrok-free.app/api/auth/login/",
-        ),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({"email": email, "password": password}),
-      );
-
-      setState(() => isLoading = false);
-
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        final token = data["access_token"];
-        final refreshToken = data["refresh_token"];
-        final role = data["role"];
-        final isVerified = data["is_verified"];
-        final profile = data["profile"];
-
-        if (role == "consultant") {
-          Get.toNamed(AppRoutes.homeConsult);
-        } else if (role == "farm user") {
-          Get.toNamed(AppRoutes.homeFarm);
-        } else {
-          Get.toNamed(AppRoutes.home);
-        }
-      } else {
-        final message = data["message"] ?? "Login failed. Please try again.";
-        Get.snackbar("Login Failed", message);
-      }
-    } catch (e) {
-      setState(() => isLoading = false);
-      Get.snackbar("Error", "Unexpected error occurred: $e");
-    }
   }
 
   @override
@@ -113,7 +61,6 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 24.h),
 
-              // Toggle buttons
               Container(
                 height: 45.h,
                 decoration: BoxDecoration(
@@ -243,7 +190,98 @@ class _SigninScreenState extends State<SigninScreen> {
                     Get.toNamed(AppRoutes.home);
                   },
                 ),
+                SizedBox(height: 56.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(color: Colors.grey.shade200, thickness: 1),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: Text(
+                        'orContinue'.tr,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(color: Colors.grey.shade200, thickness: 1),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
 
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 48.h),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          backgroundColor: AppColors.shade,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/logos/google.svg',
+                              width: 18.w,
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'Google',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1A1A1A),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 14.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 48.h),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+
+                          backgroundColor: AppColors.shade,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/logos/apple.svg',
+                              width: 18.w,
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'Apple',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1A1A1A),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
                 SizedBox(height: 20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -399,7 +437,7 @@ class _SigninScreenState extends State<SigninScreen> {
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 
