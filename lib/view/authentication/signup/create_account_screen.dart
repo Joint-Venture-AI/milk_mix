@@ -23,7 +23,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool isLoading = false;
 
   String _selectedRole = 'consultant';
-  final List<String> _roles = ['consultant', 'user'];
+  final List<String> _roles = ['consultant', 'farm'];
+  final Map<String, String> roleLabels = {
+    'consultant': 'Consultant',
+    'farm': 'Individual',
+  };
 
   @override
   void dispose() {
@@ -206,14 +210,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               DropdownButtonFormField<String>(
                 value: _selectedRole,
                 items:
-                    _roles
-                        .map(
-                          (String role) => DropdownMenuItem<String>(
-                            value: role,
-                            child: Text(role.capitalizeFirst!),
-                          ),
-                        )
-                        .toList(),
+                    _roles.map((String role) {
+                      return DropdownMenuItem<String>(
+                        value: role,
+                        child: Text(roleLabels[role]!),
+                      );
+                    }).toList(),
                 onChanged: (value) {
                   setState(() {
                     _selectedRole = value!;

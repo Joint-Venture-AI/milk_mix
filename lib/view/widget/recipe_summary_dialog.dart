@@ -52,7 +52,7 @@ class RecipeSummaryDialog extends StatelessWidget {
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
-              'Solids in Hospital Milk',
+              'Solids in Hospital Volume',
               ' = 4500',
             ),
             _buildRow(

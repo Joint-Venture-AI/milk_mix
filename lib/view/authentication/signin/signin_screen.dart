@@ -1,11 +1,43 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
+
+class NetworkCaller {
+  static final String baseUrl = "https://lamprey-included-lion.ngrok-free.app";
+
+  static Future<Map<String, dynamic>> post(
+    String endpoint,
+    Map<String, dynamic> body,
+  ) async {
+    final url = Uri.parse('$baseUrl$endpoint');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
+
+      final decoded = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {"success": true, "data": decoded};
+      } else {
+        return {
+          "success": false,
+          "message": decoded["message"] ?? "Login failed",
+        };
+      }
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
+    }
+  }
+}
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -15,18 +47,56 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
-  String selectedType = 'individual';
-  String selectedUnit = 'english';
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _usernameController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _usernameController.dispose();
     super.dispose();
+  }
+
+  Future<void> loginUser() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      Get.snackbar(
+        "Error",
+        "Email and password are required",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    final response = await NetworkCaller.post("/api/auth/login/", {
+      "email": email,
+      "password": password,
+    });
+
+    if (response["success"] == true) {
+      final data = response["data"];
+      final role = data["role"];
+
+      if (role == "consultant") {
+        Get.offAllNamed(AppRoutes.homeConsult);
+      } else if (role == "farm") {
+        Get.offAllNamed(AppRoutes.homePersonal);
+      } else {
+        Get.snackbar(
+          "Error",
+          "Unknown role: $role",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } else {
+      Get.snackbar(
+        "Login Failed",
+        response["message"] ?? "Try again",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
@@ -41,7 +111,7 @@ class _SigninScreenState extends State<SigninScreen> {
             children: [
               SizedBox(height: 54.h),
               Text(
-                'loginType'.tr,
+                'login'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -51,7 +121,7 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 16.h),
               Text(
-                'loginTypeSubTitle'.tr,
+                'loginSubtitle'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,
@@ -59,290 +129,77 @@ class _SigninScreenState extends State<SigninScreen> {
                   color: AppColors.textGrey,
                 ),
               ),
+              SizedBox(height: 42.h),
+
+              // EMAIL
+              Text('email'.tr, style: labelStyle()),
+              SizedBox(height: 6.h),
+              buildTextField(
+                _emailController,
+                'enterYourEmail'.tr,
+                'assets/logos/mail.svg',
+              ),
               SizedBox(height: 24.h),
 
-              Container(
-                height: 45.h,
-                decoration: BoxDecoration(
-                  color: AppColors.shade,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Row(
-                    children: [
-                      ToggleButton(
-                        'individual',
-                        'assets/logos/user-line.svg',
-                        'individualUser'.tr,
-                      ),
-                      ToggleButton(
-                        'farm',
-                        'assets/logos/multi-user.svg',
-                        'farmUser'.tr,
-                      ),
-                    ],
+              // PASSWORD
+              Text('password'.tr, style: labelStyle()),
+              SizedBox(height: 6.h),
+              buildTextField(
+                _passwordController,
+                'enterPassword'.tr,
+                'assets/logos/lock.svg',
+                obscure: true,
+              ),
+              SizedBox(height: 6.h),
+
+              Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () {
+                    // Forgot password logic here
+                  },
+                  child: Text(
+                    'forgotPassword'.tr,
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
+              SizedBox(height: 44.h),
 
-              SizedBox(height: 42.h),
-              //---individula user-----
-              if (selectedType == 'individual') ...[
-                Text(
-                  'email'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'enterYourEmail'.tr,
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/mail.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  'password'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'enterPassword'.tr,
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/lock.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: TextButton(
+              TextWidgetButton(text: 'login'.tr, onPressed: loginUser),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('dontHaveAnAccount'.tr, style: regularStyle()),
+                  SizedBox(width: 8.w),
+                  TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.createAccount);
+                    },
                     child: Text(
-                      'forgotPassword'.tr,
+                      'signUp'.tr,
                       style: TextStyle(
                         color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 44.h),
-                TextWidgetButton(
-                  text: 'loginIndividual'.tr,
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.home);
-                  },
-                ),
-
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'dontHaveAnAccount'.tr,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.createAccount);
-                      },
-                      child: Text(
-                        'signUp'.tr,
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ] else ...[
-                //-------farm user-----
-                Text(
-                  'farmUsername'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'farmUsername'.tr,
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/at.svg',
-                        width: 18.w,
-                        height: 18.h,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  'email'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'enterYourEmail'.tr,
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/mail.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  'password'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'enterPassword'.tr,
-                    hintStyle: TextStyle(
-                      color: AppColors.textLightGrey,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: SvgPicture.asset(
-                        'assets/logos/lock.svg',
-                        width: 20.w,
-                        height: 20.h,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.h,
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 44.h),
-                TextWidgetButton(
-                  text: 'loginFarmMember'.tr,
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.homeFarm);
-                  },
-                ),
-              ],
+                ],
+              ),
             ],
           ),
         ),
@@ -350,42 +207,39 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
-  Widget ToggleButton(String value, String imagePath, String label) {
-    final isSelected = selectedType == value;
-
-    return Expanded(
-      child: SizedBox(
-        height: 33.h,
-        child: GestureDetector(
-          onTap: () => setState(() => selectedType = value),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : Colors.transparent,
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  imagePath,
-                  height: 16.h,
-                  color: isSelected ? Colors.white : AppColors.textGrey,
-                ),
-                SizedBox(width: 6.w),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textGrey,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ],
-            ),
+  Widget buildTextField(
+    TextEditingController controller,
+    String hintText,
+    String iconPath, {
+    bool obscure = false,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: AppColors.textLightGrey, fontSize: 14.sp),
+        prefixIcon: Padding(
+          padding: EdgeInsets.all(12.w),
+          child: SvgPicture.asset(
+            iconPath,
+            width: 20.w,
+            height: 20.h,
+            color: AppColors.textPrimary,
           ),
         ),
+        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
       ),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
     );
   }
+
+  TextStyle labelStyle() =>
+      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600);
+
+  TextStyle regularStyle() => TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textPrimary,
+  );
 }
