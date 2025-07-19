@@ -61,43 +61,83 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       return;
     }
 
-    setState(() => isLoading = true);
+    try {
+      setState(() => isLoading = true);
 
-    final url = Uri.parse(
-      "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
-    );
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        "name": name,
-        "email": email,
-        "role": "consultant",
-        "password": password,
-      }),
-    );
-
-    setState(() => isLoading = false);
-
-    final resData = jsonDecode(response.body);
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.snackbar(
-        "Success",
-        "Account created. Please verify OTP.",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.shade50,
+      final url = Uri.parse(
+        "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
       );
-      Get.toNamed(AppRoutes.otpVerification);
-    } else {
-      final message =
-          resData['message'] ?? resData['error'] ?? "Something went wrong";
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "name": name,
+          "email": email,
+          "role": "consultant",
+          "password": password,
+        }),
+      );
+
+      setState(() => isLoading = false);
+
+      final resData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar(
+          "Success",
+          "Account created. Please verify OTP.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.shade50,
+        );
+        Get.toNamed(AppRoutes.otpVerification, arguments: {"email": email});
+      } else {
+        final message =
+            resData['message'] ?? resData['error'] ?? "Something went wrong";
+        Get.snackbar(
+          "Signup Failed",
+          message,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
       Get.snackbar(
-        "Signup Failed",
-        message,
+        "Error",
+        "Unexpected error: $e",
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  Widget buildLabel(String text) => Text(
+    text,
+    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+  );
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required String icon,
+    bool obscureText = false,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: AppColors.textLightGrey,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+        ),
+        prefixIcon: Padding(
+          padding: EdgeInsets.all(12.w),
+          child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
+        ),
+        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
+      ),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+    );
   }
 
   @override
@@ -116,14 +156,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   children: [
                     SizedBox(width: 115.w),
                     SvgPicture.asset('assets/logos/milkmix.svg', width: 80.w),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ),
               SizedBox(height: 14.h),
               Text(
-                textAlign: TextAlign.center,
                 'createAccountTitle'.tr,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -138,7 +178,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 hintText: 'enterYourName'.tr,
                 icon: 'assets/logos/user.svg',
               ),
-
               SizedBox(height: 20.h),
 
               buildLabel('email'.tr),
@@ -147,7 +186,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 hintText: 'enterYourEmail'.tr,
                 icon: 'assets/logos/mail.svg',
               ),
-
               SizedBox(height: 20.h),
 
               buildLabel('password'.tr),
@@ -157,7 +195,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 icon: 'assets/logos/lock.svg',
                 obscureText: true,
               ),
-
               SizedBox(height: 40.h),
 
               isLoading
@@ -194,124 +231,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ],
               ),
               SizedBox(height: 20.h),
-              buildSocialDivider(),
-              SizedBox(height: 20.h),
-              buildSocialButtons(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildLabel(String text) => Text(
-    text,
-    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
-  );
-
-  Widget buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required String icon,
-    bool obscureText = false,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: AppColors.textLightGrey,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
-        ),
-        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
-      ),
-      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-    );
-  }
-
-  Widget buildSocialDivider() {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: Colors.grey.shade200, thickness: 1)),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Text(
-            'or continue with',
-            style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
-          ),
-        ),
-        Expanded(child: Divider(color: Colors.grey.shade200, thickness: 1)),
-      ],
-    );
-  }
-
-  Widget buildSocialButtons() {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 48.h),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              backgroundColor: AppColors.shade,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/logos/google.svg', width: 18.w),
-                SizedBox(width: 8.w),
-                Text(
-                  'Google',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1A1A1A),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(width: 14.w),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 48.h),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              backgroundColor: AppColors.shade,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/logos/apple.svg', width: 18.w),
-                SizedBox(width: 8.w),
-                Text(
-                  'Apple',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1A1A1A),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

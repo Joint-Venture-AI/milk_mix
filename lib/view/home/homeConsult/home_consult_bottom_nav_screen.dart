@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
-import 'package:milk_mix/view/home/settings/setting_screen.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/manage_farm_screen.dart';
+import 'package:milk_mix/view/home/settingsConsult/setting_screen_consult.dart';
 
 class HomeConsultBottomNavScreen extends StatefulWidget {
   const HomeConsultBottomNavScreen({super.key});
@@ -20,7 +20,7 @@ class _MainPageState extends State<HomeConsultBottomNavScreen> {
   final List<Widget> _screens = [
     CalculateScreen(),
     ManageFarmScreen(),
-    SettingScreen(),
+    SettingScreenConsult(),
   ];
 
   BottomNavigationBarItem _navIcon({

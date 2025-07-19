@@ -23,6 +23,12 @@ import 'package:milk_mix/view/home/homeConsult/home_consult_bottom_nav_screen.da
 import 'package:milk_mix/view/home/homeConsult/manageFarm/add_farm_screen.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_list.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_screen.dart';
+import 'package:milk_mix/view/home/settingsConsult/change_password_screen_consult.dart';
+import 'package:milk_mix/view/home/settingsConsult/edit_language_screen_consult.dart';
+import 'package:milk_mix/view/home/settingsConsult/edit_measurement_screen_consult.dart';
+import 'package:milk_mix/view/home/settingsConsult/edit_profile_screen_consult.dart';
+import 'package:milk_mix/view/home/settingsConsult/help_and_support_screen_consult.dart';
+import 'package:milk_mix/view/home/settingsConsult/subscription_screen_consult.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
@@ -60,6 +66,12 @@ class AppRoutes {
   static String recipeSummary = "/recipe-summary";
   static String homePersonal = "/personal-home";
   static String member = "/member";
+  static String editProfileConsult = "/edit-profile";
+  static String editLanguageConsult = "/edit-language";
+  static String editMeasurementConsult = "/edit-measurement";
+  static String changePasswordConsult = "/change-password";
+  static String helpAndSupportConsult = "/help-and-support";
+  static String subscriptionConsult = "/subscription";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -91,5 +103,20 @@ class AppRoutes {
     GetPage(name: subscription, page: () => SubscriptionScreen()),
     GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
     GetPage(name: member, page: () => MembersScreen()),
+    GetPage(name: editProfileConsult, page: () => EditProfileScreenConsult()),
+    GetPage(name: editLanguageConsult, page: () => EditLanguageScreenConsult()),
+    GetPage(
+      name: editMeasurementConsult,
+      page: () => EditMeasurementScreenConsult(),
+    ),
+    GetPage(
+      name: changePasswordConsult,
+      page: () => ChangePasswordScreenConsult(),
+    ),
+    GetPage(
+      name: helpAndSupportConsult,
+      page: () => HelpAndSupportScreenConsult(),
+    ),
+    GetPage(name: subscriptionConsult, page: () => SubscriptionScreenConsult()),
   ];
 }

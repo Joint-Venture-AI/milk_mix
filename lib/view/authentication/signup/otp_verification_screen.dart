@@ -1,14 +1,73 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:milk_mix/constants/color.dart';
 
-class OtpVerificationScreen extends StatelessWidget {
+class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
+
+  @override
+  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+}
+
+class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+  String? _otp;
+  bool isLoading = false;
+
+  Future<void> verifyOtp() async {
+    final email = Get.arguments?['email'] as String?;
+    if (email == null || _otp == null || _otp!.length != 6) {
+      Get.snackbar(
+        "Error",
+        "Please enter a valid 6-digit OTP",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final url = Uri.parse(
+        "https://lamprey-included-lion.ngrok-free.app/api/auth/otp/verify/",
+      );
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"email": email, "otp": _otp}),
+      );
+
+      setState(() => isLoading = false);
+
+      final resData = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar(
+          "Success",
+          "OTP verified successfully",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.shade50,
+        );
+        Get.toNamed(AppRoutes.selectLanguage);
+      } else {
+        final message =
+            resData['message'] ?? resData['error'] ?? "OTP verification failed";
+        Get.snackbar("Failed", message, snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+      Get.snackbar(
+        "Error",
+        "Unexpected error: $e",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +94,8 @@ class OtpVerificationScreen extends StatelessWidget {
               SizedBox(height: 14.h),
 
               Text(
-                textAlign: TextAlign.center,
                 'verifyEmailTitle'.tr,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -47,8 +106,8 @@ class OtpVerificationScreen extends StatelessWidget {
               SizedBox(height: 6.h),
 
               Text(
-                textAlign: TextAlign.center,
                 'verifyEmailSubTitle'.tr,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -77,9 +136,11 @@ class OtpVerificationScreen extends StatelessWidget {
                     inactiveColor: const Color.fromARGB(255, 220, 220, 220),
                     borderWidth: 1,
                   ),
-                  animationDuration: Duration(milliseconds: 300),
+                  animationDuration: const Duration(milliseconds: 300),
                   enableActiveFill: true,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    _otp = value;
+                  },
                   appContext: context,
                 ),
               ),
@@ -105,7 +166,11 @@ class OtpVerificationScreen extends StatelessWidget {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () {
-                      // Trigger resend OTP logic here
+                      Get.snackbar(
+                        "Info",
+                        "Resend OTP functionality not implemented",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
                     },
                     child: Text(
                       'sendAgain'.tr,
@@ -121,12 +186,12 @@ class OtpVerificationScreen extends StatelessWidget {
 
               SizedBox(height: 290.h),
 
-              TextWidgetButton(
-                text: 'verifyOtp'.tr,
-                onPressed: () {
-                  Get.toNamed(AppRoutes.selectLanguage);
-                },
-              ),
+              isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : TextWidgetButton(
+                    text: 'verifyOtp'.tr,
+                    onPressed: verifyOtp,
+                  ),
             ],
           ),
         ),
