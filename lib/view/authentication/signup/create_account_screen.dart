@@ -19,7 +19,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
   bool isLoading = false;
+
+  String _selectedRole = 'consultant';
+  final List<String> _roles = ['consultant', 'user'];
 
   @override
   void dispose() {
@@ -67,13 +71,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       final url = Uri.parse(
         "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
       );
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "name": name,
           "email": email,
-          "role": "consultant",
+          "role": _selectedRole,
           "password": password,
         }),
       );
@@ -195,6 +200,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 icon: 'assets/logos/lock.svg',
                 obscureText: true,
               ),
+              SizedBox(height: 20.h),
+
+              buildLabel('Role'),
+              DropdownButtonFormField<String>(
+                value: _selectedRole,
+                items:
+                    _roles
+                        .map(
+                          (String role) => DropdownMenuItem<String>(
+                            value: role,
+                            child: Text(role.capitalizeFirst!),
+                          ),
+                        )
+                        .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRole = value!;
+                  });
+                },
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 14.h,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
               SizedBox(height: 40.h),
 
               isLoading
@@ -203,8 +237,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     text: 'createAccount'.tr,
                     onPressed: registerUser,
                   ),
-
               SizedBox(height: 40.h),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
