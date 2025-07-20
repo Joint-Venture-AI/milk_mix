@@ -5,6 +5,7 @@ List<LanguageModel> languages = [
   LanguageModel(code: 'bn', name: 'Bangla', flag: 'assets/flags/bd.png'),
   LanguageModel(code: 'zh', name: 'Chinese', flag: 'assets/flags/cn.png'),
   LanguageModel(code: 'nl', name: 'Dutch', flag: 'assets/flags/nl.png'),
+  LanguageModel(code: 'de', name: 'German', flag: 'assets/flags/de.png'),
   LanguageModel(
     code: 'us',
     name: 'English (United States)',
