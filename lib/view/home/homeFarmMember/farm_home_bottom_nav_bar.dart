@@ -3,25 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/homeFarm/calculate_farm_screen.dart';
+import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
 import 'package:milk_mix/view/home/history/history_screen.dart';
-import 'package:milk_mix/view/home/members/members_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
 
-class PersonalHomeBottomNavBar extends StatefulWidget {
-  const PersonalHomeBottomNavBar({super.key});
+class FarmHomeBottomNavBar extends StatefulWidget {
+  const FarmHomeBottomNavBar({super.key});
 
   @override
-  State<PersonalHomeBottomNavBar> createState() => _MainPageState();
+  State<FarmHomeBottomNavBar> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<PersonalHomeBottomNavBar> {
+class _MainPageState extends State<FarmHomeBottomNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    CalculateScreenFarm(),
+    CalculateScreen(),
     HistoryScreen(),
-    MembersScreen(),
     SettingScreen(),
   ];
 
@@ -81,11 +79,6 @@ class _MainPageState extends State<PersonalHomeBottomNavBar> {
               title: 'history'.tr,
               icon: 'assets/logos/history_h.svg',
               index: 1,
-            ),
-            _navIcon(
-              title: 'members'.tr,
-              icon: 'assets/logos/members.svg',
-              index: 2,
             ),
             _navIcon(
               title: 'settings'.tr,

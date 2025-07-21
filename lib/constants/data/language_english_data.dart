@@ -21,7 +21,7 @@ Map<String, String> languageEnglishData = {
   'createAccountTitle': 'Create Your Account',
   'verifyEmailTitle': 'Verify Your Email',
   'verifyEmailSubTitle':
-      'We sent a 4 digit code to your email domain@gmail.com',
+      'We sent a 6 digit code to your email domain@gmail.com',
   'selectLanguage': 'Select your preferred language',
   'selectMeasurement': 'Select Your Measurement System',
   'englishStandard': 'English Standard',
