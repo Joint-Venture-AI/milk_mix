@@ -109,9 +109,19 @@ class _SigninScreenState extends State<SigninScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 54.h),
+              SizedBox(height: 40.h),
+              Center(
+                child: Row(
+                  children: [
+                    SizedBox(width: 115.w),
+                    SvgPicture.asset('assets/logos/milkmix.svg', width: 80.w),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 14.h),
               Text(
-                'login'.tr,
+                'loginToMilkMix'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -119,16 +129,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   color: AppColors.textPrimary,
                 ),
               ),
-              SizedBox(height: 16.h),
-              Text(
-                'loginSubtitle'.tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textGrey,
-                ),
-              ),
+
               SizedBox(height: 42.h),
 
               // EMAIL

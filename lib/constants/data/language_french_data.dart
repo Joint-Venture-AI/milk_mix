@@ -3,7 +3,7 @@ Map<String, String> languageFrenchData = {
   'onboardSubTitle1':
       'Calculez rapidement le mélange de lait selon la teneur souhaitée en solides',
   'onboardTitle2': 'Mélange simplifié',
-  'onboardSubTitle2': 'Rapide, simple et précis',
+  'onboardSubTitle2': 'Se connecter à MilkMix',
   'onboardTitle3': 'Suivez la croissance de vos veaux',
   'onboardSubTitle3': 'Mélangez rapidement sans connexion ou compte requis',
   'onboardDescription1':
@@ -185,4 +185,5 @@ Map<String, String> languageFrenchData = {
   'problem': 'Problème',
   'writrProblem': 'Décrivez votre problème',
   'problemDescription': 'Décrivez votre problème en détail',
+  'loginToMilkMix': 'Se connecter à Milk Mix',
 };

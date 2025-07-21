@@ -251,7 +251,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       color: AppColors.textPrimary,
                     ),
                   ),
-                  SizedBox(width: 4.w),
+                  SizedBox(width: 2.w),
                   TextButton(
                     style: TextButton.styleFrom(padding: EdgeInsets.zero),
                     onPressed: () => Get.toNamed(AppRoutes.signin),

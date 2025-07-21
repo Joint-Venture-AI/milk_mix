@@ -2,7 +2,7 @@ Map<String, String> languageBanglaData = {
   'onboardTitle1': 'বাচ্চা বাছুরদের জন্য স্মার্ট মিক্সিং',
   'onboardSubTitle1':
       'আপনার কাঙ্ক্ষিত সলিড কন্টেন্টের জন্য দ্রুত দুধ মিশ্রণ হিসাব করুন',
-  'onboardTitle2': 'মিক্সিং সহজ করে তুলুন',
+  'onboardTitle2': 'মিল্ক মিক্সে লগইন করুন',
   'onboardSubTitle2': 'দ্রুত, সহজ এবং সঠিক',
   'onboardTitle3': 'আপনার বাছুরের বৃদ্ধির ট্র্যাক রাখুন',
   'onboardSubTitle3': 'দ্রুত সলিড মিক্স করুন, লগইন বা ওয়াই-ফাই প্রয়োজন নেই',
@@ -184,4 +184,5 @@ Map<String, String> languageBanglaData = {
   'problem': 'সমস্যা',
   'writrProblem': 'সমস্যা লিখুন',
   'problemDescription': 'আপনার সমস্যার বিস্তারিত বর্ণনা লিখুন',
+  'loginToMilkMix': 'মিল্কমিক্সে লগইন করুন',
 };

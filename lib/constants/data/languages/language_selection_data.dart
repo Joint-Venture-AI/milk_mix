@@ -1,4 +1,4 @@
-import 'package:milk_mix/constants/data/language_model.dart';
+import 'package:milk_mix/constants/data/languages/translation/language_model.dart';
 
 List<LanguageModel> languages = [
   LanguageModel(code: 'ar', name: 'Arabic', flag: 'assets/flags/arab.png'),

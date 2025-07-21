@@ -2,7 +2,7 @@ Map<String, String> languageGermanData = {
   'onboardTitle1': 'Intelligentes Mischungsverfahren für Kälber',
   'onboardSubTitle1':
       'Berechne schnell den Milchmix für gewünschten Feststoffgehalt',
-  'onboardTitle2': 'Mischen ganz einfach',
+  'onboardTitle2': 'Bei MilkMix anmelden',
   'onboardSubTitle2': 'Schnell, einfach und exakt',
   'onboardTitle3': 'Beobachte das Kalbwachstum',
   'onboardSubTitle3': 'Mische Feststoffe zügig, ohne Anmeldung oder WLAN',
@@ -183,4 +183,5 @@ Map<String, String> languageGermanData = {
   'problem': 'Problem',
   'writrProblem': 'Beschreibe dein Problem',
   'problemDescription': 'Erkläre dein Problem im Detail',
+  'loginToMilkMix': 'Bei Milk Mix anmelden',
 };

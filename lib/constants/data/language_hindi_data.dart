@@ -183,4 +183,5 @@ Map<String, String> languageHindiData = {
   'problem': 'समस्या',
   'writrProblem': 'अपनी समस्या लिखें',
   'problemDescription': 'अपनी समस्या का विवरण दें',
+  'loginToMilkMix': 'Milk Mix में लॉगिन करें',
 };

@@ -1,9 +1,9 @@
 Map<String, String> languageEnglishData = {
   'onboardTitle1': 'Smart mixing for Baby Calves',
   'onboardSubTitle1': 'Quickly calculate milk mix for desired solids content',
-  'onboardTitle2': 'Mixing made easy',
+  'onboardTitle2': 'Designed for Real Farm Environments',
   'onboardSubTitle2': 'Fast, easy and accurate',
-  'onboardTitle3': 'Track your calf growth',
+  'onboardTitle3': 'User friendly and easy to use',
   'onboardSubTitle3': 'Mix solids quickly, without logging in or needing Wi-Fi',
   'onboardDescription1':
       'Milk Mix is a smart mixing app that helps you mix milk for your baby calves with ease.',
@@ -183,4 +183,5 @@ Map<String, String> languageEnglishData = {
   'problem': 'Problem',
   'writrProblem': 'Write Your Problem',
   'problemDescription': 'Describe your problem in detail',
+  'loginToMilkMix': 'Login to Milk Mix',
 };
