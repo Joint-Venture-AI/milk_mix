@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:milk_mix/view/home/homeFarmMember/farm_home_bottom_nav_bar.dart';
+import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
@@ -72,6 +72,7 @@ class AppRoutes {
   static String changePasswordConsult = "/change-password";
   static String helpAndSupportConsult = "/help-and-support";
   static String subscriptionConsult = "/subscription";
+  static String farmMemberHome = "/farm-member-home";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -118,5 +119,6 @@ class AppRoutes {
       page: () => HelpAndSupportScreenConsult(),
     ),
     GetPage(name: subscriptionConsult, page: () => SubscriptionScreenConsult()),
+    GetPage(name: farmMemberHome, page: () => FarmHomeBottomNavBar()),
   ];
 }

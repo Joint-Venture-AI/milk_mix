@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/homeFarm/calculate_farm_screen.dart';
+import 'package:milk_mix/view/home/homeFarmMember/calculate_farm_screen.dart';
 import 'package:milk_mix/view/home/history/history_screen.dart';
 import 'package:milk_mix/view/home/members/members_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';

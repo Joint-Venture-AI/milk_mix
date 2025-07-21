@@ -82,7 +82,7 @@ class _SigninScreenState extends State<SigninScreen> {
       if (role == "consultant") {
         Get.offAllNamed(AppRoutes.homeConsult);
       } else if (role == "farm") {
-        Get.offAllNamed(AppRoutes.homePersonal);
+        Get.offAllNamed(AppRoutes.farmMemberHome);
       } else {
         Get.snackbar(
           "Error",

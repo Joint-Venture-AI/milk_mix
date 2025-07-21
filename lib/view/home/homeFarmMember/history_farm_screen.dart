@@ -4,6 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/history_wigets.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class HistoryItem {
   final String number;
@@ -19,61 +22,63 @@ class HistoryItem {
   });
 }
 
-class HistoryScreenFarm extends StatelessWidget {
-  const HistoryScreenFarm({super.key});
+class HistoryFarmScreen extends StatefulWidget {
+  const HistoryFarmScreen({super.key});
 
-  static final List<HistoryItem> _historyItems = [
-    HistoryItem(
-      number: '01',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '02',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:32 AM',
-    ),
-    HistoryItem(
-      number: '03',
-      volume: '1500',
-      date: '06-9-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '04',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '05',
-      volume: '1500',
-      date: '06-12-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '06',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '07',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:30 AM',
-    ),
-    HistoryItem(
-      number: '08',
-      volume: '1500',
-      date: '06-7-25',
-      time: '10:30 AM',
-    ),
-  ];
+  @override
+  State<HistoryFarmScreen> createState() => _HistoryScreenFarmState();
+}
+
+class _HistoryScreenFarmState extends State<HistoryFarmScreen> {
+  List<HistoryItem> _historyItems = [];
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHistoryData();
+  }
+
+  Future<void> _fetchHistoryData() async {
+    try {
+      final baseUrl = 'https://lamprey-included-lion.ngrok-free.app';
+      final response = await http.get(Uri.parse('$baseUrl/api/milk-history/'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        setState(() {
+          _historyItems =
+              jsonData.map((item) {
+                final createdAt = DateTime.parse(item['created_at']);
+                final dateFormat = DateFormat('MM-d-yy');
+                final timeFormat = DateFormat('hh:mm a');
+                return HistoryItem(
+                  number: item['id'].toString(),
+                  volume: item['total_volume'],
+                  date: dateFormat.format(createdAt),
+                  time: timeFormat.format(createdAt),
+                );
+              }).toList();
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _errorMessage = 'Failed to load history: ${response.statusCode}';
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Error fetching history: $e';
+        _isLoading = false;
+      });
+    }
+  }
 
   void _clearHistory() {
+    setState(() {
+      _historyItems.clear();
+    });
     print('History cleared');
   }
 
@@ -139,20 +144,30 @@ class HistoryScreenFarm extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.h),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: _historyItems.length,
-                itemBuilder: (context, index) {
-                  final item = _historyItems[index];
-                  return HistoryTile(
-                    number: item.number,
-                    volume: item.volume,
-                    date: item.date,
-                    time: item.time,
-                  );
-                },
-              ),
+              if (_isLoading)
+                Center(child: CircularProgressIndicator())
+              else if (_errorMessage != null)
+                Center(
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(fontSize: 16.sp, color: Colors.red),
+                  ),
+                )
+              else
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _historyItems.length,
+                  itemBuilder: (context, index) {
+                    final item = _historyItems[index];
+                    return HistoryTile(
+                      number: item.number,
+                      volume: item.volume,
+                      date: item.date,
+                      time: item.time,
+                    );
+                  },
+                ),
             ],
           ),
         ),
