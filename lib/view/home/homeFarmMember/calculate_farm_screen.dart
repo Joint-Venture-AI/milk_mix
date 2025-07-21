@@ -53,11 +53,11 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
     // Populate fields with JSON data after 5 seconds
     Future.delayed(Duration(seconds: 5), () {
       setState(() {
-        _numBottlesController.text = '0'; // number_of_bottles
-        _bottleSizeController.text = '0'; // bottle_size
-        _hospitalMilkController.text = '0'; // hospital_milk_volume
-        _hospitalMilkSolidsController.text = '0'; // hospital_solids
-        _desiredSolidsController.text = '0'; // desired_solids_content
+        _numBottlesController.text = '10'; // number_of_bottles
+        _bottleSizeController.text = '2.50'; // bottle_size
+        _hospitalMilkController.text = '20.00'; // hospital_milk_volume
+        _hospitalMilkSolidsController.text = '12.50'; // hospital_solids
+        _desiredSolidsController.text = '13.00'; // desired_solids_content
         selectedUnit = 'english'; // Match JSON units
         selectedSubUnit = 'pounds'; // JSON uses pounds for some outputs
         _calculateRecipe();
