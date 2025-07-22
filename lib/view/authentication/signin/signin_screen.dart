@@ -132,7 +132,6 @@ class _SigninScreenState extends State<SigninScreen> {
 
               SizedBox(height: 42.h),
 
-              // EMAIL
               Text('email'.tr, style: labelStyle()),
               SizedBox(height: 6.h),
               buildTextField(
@@ -142,7 +141,6 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 24.h),
 
-              // PASSWORD
               Text('password'.tr, style: labelStyle()),
               SizedBox(height: 6.h),
               buildTextField(
@@ -161,9 +159,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  onPressed: () {
-                    // Forgot password logic here
-                  },
+                  onPressed: () {},
                   child: Text(
                     'forgotPassword'.tr,
                     style: TextStyle(

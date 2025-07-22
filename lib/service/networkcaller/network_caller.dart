@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NetworkCaller {
-  static const String baseUrl = "https://lamprey-included-lion.ngrok-free.app";
+  static final String baseUrl = "https://lamprey-included-lion.ngrok-free.app";
 
   static Future<Map<String, dynamic>> post(
     String endpoint,
@@ -15,13 +15,14 @@ class NetworkCaller {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
+
       final decoded = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return {"success": true, "data": decoded};
       } else {
         return {
           "success": false,
-          "message": decoded["message"] ?? "Request failed",
+          "message": decoded["message"] ?? "Login failed",
         };
       }
     } catch (e) {

@@ -27,7 +27,6 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
   final TextEditingController _desiredSolidsController =
       TextEditingController();
 
-  // Recipe summary variables
   double waterAmount = 0;
   double milkReplacerAmount = 0;
   double hospitalMilkAmount = 0;
@@ -36,30 +35,28 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with 0
+
     _numBottlesController.text = '0';
     _hospitalMilkController.text = '0';
     _bottleSizeController.text = '0';
     _hospitalMilkSolidsController.text = '0';
     _desiredSolidsController.text = '0';
 
-    // Add listeners to recalculate on input changes
     _numBottlesController.addListener(_calculateRecipe);
     _hospitalMilkController.addListener(_calculateRecipe);
     _bottleSizeController.addListener(_calculateRecipe);
     _hospitalMilkSolidsController.addListener(_calculateRecipe);
     _desiredSolidsController.addListener(_calculateRecipe);
 
-    // Populate fields with JSON data after 5 seconds
     Future.delayed(Duration(seconds: 5), () {
       setState(() {
-        _numBottlesController.text = '10'; // number_of_bottles
-        _bottleSizeController.text = '2.50'; // bottle_size
-        _hospitalMilkController.text = '20.00'; // hospital_milk_volume
-        _hospitalMilkSolidsController.text = '12.50'; // hospital_solids
-        _desiredSolidsController.text = '13.00'; // desired_solids_content
-        selectedUnit = 'english'; // Match JSON units
-        selectedSubUnit = 'pounds'; // JSON uses pounds for some outputs
+        _numBottlesController.text = '0';
+        _bottleSizeController.text = '0';
+        _hospitalMilkController.text = '0';
+        _hospitalMilkSolidsController.text = '0';
+        _desiredSolidsController.text = '0';
+        selectedUnit = 'english';
+        selectedSubUnit = 'pounds';
         _calculateRecipe();
       });
     });
@@ -80,7 +77,6 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
 
   void _calculateRecipe() {
     setState(() {
-      // Parse input values with fallback to 0
       double numBottles = double.tryParse(_numBottlesController.text) ?? 0;
       double hospitalMilk = double.tryParse(_hospitalMilkController.text) ?? 0;
       double bottleSize = double.tryParse(_bottleSizeController.text) ?? 0;
@@ -89,11 +85,9 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
       double desiredSolids =
           double.tryParse(_desiredSolidsController.text) ?? 0;
 
-      // Convert percentages to decimals
       hospitalMilkSolids /= 100;
       desiredSolids /= 100;
 
-      // Ensure non-negative inputs
       numBottles = numBottles < 0 ? 0 : numBottles;
       hospitalMilk = hospitalMilk < 0 ? 0 : hospitalMilk;
       bottleSize = bottleSize < 0 ? 0 : bottleSize;
@@ -101,65 +95,57 @@ class _CalculateScreenState extends State<CalculateScreenFarm> {
       desiredSolids = desiredSolids < 0 ? 0 : desiredSolids;
 
       if (selectedUnit == 'english') {
-        // Imperial calculations (based on CSV Option 2, Gallons/Pounds)
         if (selectedSubUnit == 'gallon') {
-          // Total volume = number of bottles * bottle size (gallons)
           totalVolume = numBottles * bottleSize;
-          hospitalMilkAmount = hospitalMilk; // Gallons
-          // Total desired solids (lbs) = total volume * desired solids % * density (8.6 lbs/gallon)
+          hospitalMilkAmount = hospitalMilk;
+
           double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
-          // Solids from hospital milk (lbs) = hospital milk * hospital milk solids % * density
+
           double hospitalMilkSolidsLbs =
               hospitalMilk * hospitalMilkSolids * 8.6;
-          // Milk replacer solids needed (lbs) = total desired solids - hospital milk solids
+
           milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
-          // Water (lbs) = total volume * density - hospital milk solids - milk replacer solids
+
           waterAmount =
               totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
         } else {
-          // Pounds (using quarts for bottle size, hospital milk)
-          totalVolume =
-              numBottles * bottleSize / 4; // Convert quarts to gallons
-          hospitalMilkAmount = hospitalMilk / 4; // Convert quarts to gallons
+          totalVolume = numBottles * bottleSize / 4;
+          hospitalMilkAmount = hospitalMilk / 4;
           double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
           double hospitalMilkSolidsLbs =
               hospitalMilkAmount * hospitalMilkSolids * 8.6;
           milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
           waterAmount =
               totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
-          // Convert outputs to pounds
+
           totalVolume *= 8.6;
           hospitalMilkAmount *= 8.6;
         }
       } else {
-        // Metric calculations (based on CSV Option 2, Liters/Kg)
         if (selectedSubUnit == 'liter') {
-          totalVolume = numBottles * bottleSize; // Liters
-          hospitalMilkAmount = hospitalMilk; // Liters
-          double totalDesiredSolids =
-              totalVolume * desiredSolids * 1.03; // Density ~1.03 kg/L
+          totalVolume = numBottles * bottleSize;
+          hospitalMilkAmount = hospitalMilk;
+          double totalDesiredSolids = totalVolume * desiredSolids * 1.03;
           double hospitalMilkSolidsKg =
               hospitalMilk * hospitalMilkSolids * 1.03;
           milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
           waterAmount =
               totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
         } else {
-          // Kilo (using liters for bottle size, hospital milk)
-          totalVolume = numBottles * bottleSize; // Liters
-          hospitalMilkAmount = hospitalMilk; // Liters
+          totalVolume = numBottles * bottleSize;
+          hospitalMilkAmount = hospitalMilk;
           double totalDesiredSolids = totalVolume * desiredSolids * 1.03;
           double hospitalMilkSolidsKg =
               hospitalMilkAmount * hospitalMilkSolids * 1.03;
           milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
           waterAmount =
               totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
-          // Convert outputs to kg
+
           totalVolume *= 1.03;
           hospitalMilkAmount *= 1.03;
         }
       }
 
-      // Ensure non-negative results
       waterAmount = waterAmount < 0 ? 0 : waterAmount;
       milkReplacerAmount = milkReplacerAmount < 0 ? 0 : milkReplacerAmount;
       hospitalMilkAmount = hospitalMilkAmount < 0 ? 0 : hospitalMilkAmount;
