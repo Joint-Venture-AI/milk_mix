@@ -1,43 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-
-class NetworkCaller {
-  static final String baseUrl = "https://lamprey-included-lion.ngrok-free.app";
-
-  static Future<Map<String, dynamic>> post(
-    String endpoint,
-    Map<String, dynamic> body,
-  ) async {
-    final url = Uri.parse('$baseUrl$endpoint');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(body),
-      );
-
-      final decoded = jsonDecode(response.body);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return {"success": true, "data": decoded};
-      } else {
-        return {
-          "success": false,
-          "message": decoded["message"] ?? "Login failed",
-        };
-      }
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
-    }
-  }
-}
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -70,30 +40,43 @@ class _SigninScreenState extends State<SigninScreen> {
       return;
     }
 
-    final response = await NetworkCaller.post("/api/auth/login/", {
-      "email": email,
-      "password": password,
-    });
+    try {
+      final response = await http.post(
+        Uri.parse(
+          "https://lamprey-included-lion.ngrok-free.app/api/auth/login/",
+        ),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"email": email, "password": password}),
+      );
 
-    if (response["success"] == true) {
-      final data = response["data"];
-      final role = data["role"];
+      final decoded = jsonDecode(response.body);
 
-      if (role == "consultant") {
-        Get.offAllNamed(AppRoutes.homeConsult);
-      } else if (role == "farm") {
-        Get.offAllNamed(AppRoutes.farmMemberHome);
+      if (decoded["success"] == true) {
+        final data = decoded["data"];
+        final role = data["role"];
+
+        if (role == "consultant") {
+          Get.offAllNamed(AppRoutes.homeConsult);
+        } else if (role == "farm") {
+          Get.offAllNamed(AppRoutes.farmMemberHome);
+        } else {
+          Get.snackbar(
+            "Error",
+            "Unknown role: $role",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
       } else {
         Get.snackbar(
-          "Error",
-          "Unknown role: $role",
+          "Login Failed",
+          decoded["message"] ?? "Try again",
           snackPosition: SnackPosition.BOTTOM,
         );
       }
-    } else {
+    } catch (e) {
       Get.snackbar(
-        "Login Failed",
-        response["message"] ?? "Try again",
+        "Error",
+        "Something went wrong: $e",
         snackPosition: SnackPosition.BOTTOM,
       );
     }
@@ -129,9 +112,9 @@ class _SigninScreenState extends State<SigninScreen> {
                   color: AppColors.textPrimary,
                 ),
               ),
-
               SizedBox(height: 42.h),
 
+              // EMAIL
               Text('email'.tr, style: labelStyle()),
               SizedBox(height: 6.h),
               buildTextField(
