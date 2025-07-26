@@ -1,4 +1,6 @@
 Map<String, String> languageJapaneseData = {
+  'loginTile': 'MilkMixへお帰りなさい',
+  'loginSubtitle': '保存された値と設定でミキシングを続けるにはサインインしてください。',
   'onboardTitle1': '子牛のためのスマートミキシング',
   'onboardSubTitle1': '目的の固形分に合わせたミルクミックスを素早く計算',
   'onboardTitle2': '簡単なミキシング',

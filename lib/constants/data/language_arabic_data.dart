@@ -1,4 +1,6 @@
 Map<String, String> languageArabicData = {
+  'loginTile': 'مرحبًا بعودتك إلى MilkMix',
+  'loginSubtitle': 'سجّل الدخول للمتابعة باستخدام القيم والإعدادات المحفوظة.',
   'onboardTitle1': 'الخلط الذكي لعجول الأطفال',
   'onboardSubTitle1': 'احسب مزيج الحليب بسرعة للمحتوى الصلب المطلوب',
   'onboardTitle2': 'الخلط أصبح سهلاً',

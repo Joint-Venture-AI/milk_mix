@@ -1,4 +1,6 @@
 Map<String, String> languageChineseData = {
+  'loginTile': '欢迎回到 MilkMix',
+  'loginSubtitle': '请登录以继续使用您保存的数值和设置进行混合。',
   'onboardTitle1': '小牛智能配奶',
   'onboardSubTitle1': '快速计算所需固体含量的奶配方',
   'onboardTitle2': '轻松混合',

@@ -1,4 +1,7 @@
 Map<String, String> languageItalianData = {
+  'loginTile': 'Bentornato su MilkMix',
+  'loginSubtitle':
+      'Accedi per continuare a mescolare con i tuoi valori e impostazioni salvati.',
   'onboardTitle1': 'Miscelazione intelligente per vitelli',
   'onboardSubTitle1':
       'Calcola rapidamente la miscela di latte per il contenuto di solidi desiderato',

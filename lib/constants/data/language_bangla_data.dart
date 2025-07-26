@@ -1,4 +1,7 @@
 Map<String, String> languageBanglaData = {
+  'loginTile': 'MilkMix-এ আবার স্বাগতম',
+  'loginSubtitle':
+      'আপনার সংরক্ষিত মান এবং সেটিংস সহ মিক্সিং চালিয়ে যেতে সাইন ইন করুন।',
   'onboardTitle1': 'বাচ্চা বাছুরদের জন্য স্মার্ট মিক্সিং',
   'onboardSubTitle1':
       'আপনার কাঙ্ক্ষিত সলিড কন্টেন্টের জন্য দ্রুত দুধ মিশ্রণ হিসাব করুন',

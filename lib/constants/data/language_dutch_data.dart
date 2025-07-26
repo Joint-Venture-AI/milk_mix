@@ -1,4 +1,7 @@
 Map<String, String> languageDutchData = {
+  'loginTile': 'Welkom terug bij MilkMix',
+  'loginSubtitle':
+      'Meld je aan om verder te gaan met je opgeslagen waarden en instellingen.',
   'onboardTitle1': 'Slim mengen voor kalfjes',
   'onboardSubTitle1': 'Bereken snel melk met het gewenste droge stofgehalte',
   'onboardTitle2': 'Mengen eenvoudiger gemaakt',
