@@ -37,17 +37,17 @@ class calculationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bottle_size'] = this.bottleSize;
-    data['number_of_bottles'] = this.numberOfBottles;
-    data['hospital_solids'] = this.hospitalSolids;
-    data['hospital_milk_volume'] = this.hospitalMilkVolume;
-    data['desired_solids_content'] = this.desiredSolidsContent;
-    data['pounds_of_water'] = this.poundsOfWater;
-    data['pounds_of_milk_replacer'] = this.poundsOfMilkReplacer;
-    data['solids_hospital_milk'] = this.solidsHospitalMilk;
-    data['hospital_milk_used'] = this.hospitalMilkUsed;
-    data['total_volume'] = this.totalVolume;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bottle_size'] = bottleSize;
+    data['number_of_bottles'] = numberOfBottles;
+    data['hospital_solids'] = hospitalSolids;
+    data['hospital_milk_volume'] = hospitalMilkVolume;
+    data['desired_solids_content'] = desiredSolidsContent;
+    data['pounds_of_water'] = poundsOfWater;
+    data['pounds_of_milk_replacer'] = poundsOfMilkReplacer;
+    data['solids_hospital_milk'] = solidsHospitalMilk;
+    data['hospital_milk_used'] = hospitalMilkUsed;
+    data['total_volume'] = totalVolume;
     return data;
   }
 }

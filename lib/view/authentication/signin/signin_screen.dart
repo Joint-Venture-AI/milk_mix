@@ -104,11 +104,7 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 14.h),
               Text(
-<<<<<<< HEAD
                 'loginTile'.tr,
-=======
-                'loginToMilkMix'.tr,
->>>>>>> 7a24e9cd9c6b829c86e473dd5ff7f9585bee86e9
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,

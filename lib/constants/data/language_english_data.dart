@@ -183,11 +183,7 @@ Map<String, String> languageEnglishData = {
   'problem': 'Problem',
   'writrProblem': 'Write Your Problem',
   'problemDescription': 'Describe your problem in detail',
-<<<<<<< HEAD
   'loginTile': 'Welcome Back to MilkMix',
   'loginSubtitle':
       'Sign in to continue mixing with your saved values and settings.',
-=======
-  'loginToMilkMix': 'Login to Milk Mix',
->>>>>>> 7a24e9cd9c6b829c86e473dd5ff7f9585bee86e9
 };
