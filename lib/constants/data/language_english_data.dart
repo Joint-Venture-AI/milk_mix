@@ -3,7 +3,7 @@ Map<String, String> languageEnglishData = {
   'onboardSubTitle1': 'Quickly calculate milk mix for desired solids content',
   'onboardTitle2': 'Designed for Real Farm Environments',
   'onboardSubTitle2': 'Fast, easy and accurate',
-  'onboardTitle3': 'Track your calf growth',
+  'onboardTitle3': 'User friendly and easy to use',
   'onboardSubTitle3': 'Mix solids quickly, without logging in or needing Wi-Fi',
   'onboardDescription1':
       'Milk Mix is a smart mixing app that helps you mix milk for your baby calves with ease.',
@@ -21,7 +21,7 @@ Map<String, String> languageEnglishData = {
   'createAccountTitle': 'Create Your Account',
   'verifyEmailTitle': 'Verify Your Email',
   'verifyEmailSubTitle':
-      'We sent a 4 digit code to your email domain@gmail.com',
+      'We sent a 6 digit code to your email domain@gmail.com',
   'selectLanguage': 'Select your preferred language',
   'selectMeasurement': 'Select Your Measurement System',
   'englishStandard': 'English Standard',
@@ -183,7 +183,11 @@ Map<String, String> languageEnglishData = {
   'problem': 'Problem',
   'writrProblem': 'Write Your Problem',
   'problemDescription': 'Describe your problem in detail',
+<<<<<<< HEAD
   'loginTile': 'Welcome Back to MilkMix',
   'loginSubtitle':
       'Sign in to continue mixing with your saved values and settings.',
+=======
+  'loginToMilkMix': 'Login to Milk Mix',
+>>>>>>> 7a24e9cd9c6b829c86e473dd5ff7f9585bee86e9
 };

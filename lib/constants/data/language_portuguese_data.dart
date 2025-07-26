@@ -186,4 +186,5 @@ Map<String, String> languagePortugueseData = {
   'problem': 'Problema',
   'writrProblem': 'Escreva seu problema',
   'problemDescription': 'Descreva seu problema em detalhes',
+  'loginToMilkMix': 'Entrar no MilkMix',
 };

@@ -183,4 +183,5 @@ Map<String, String> languageArabicData = {
   'problem': 'مشكلة',
   'writrProblem': 'اكتب مشكلتك',
   'problemDescription': 'صف مشكلتك بالتفصيل',
+  'loginToMilkMix': 'تسجيل الدخول إلى Milk Mix',
 };

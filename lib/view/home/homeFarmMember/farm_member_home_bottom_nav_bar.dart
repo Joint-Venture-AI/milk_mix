@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
-import 'package:milk_mix/view/home/history/history_screen.dart';
-import 'package:milk_mix/view/home/settings/setting_screen.dart';
+import 'package:milk_mix/view/home/homeFarmMember/calculate_farm_screen.dart';
+import 'package:milk_mix/view/home/homeFarmMember/history_farm_screen.dart';
+import 'package:milk_mix/view/home/homeFarmMember/settingsFarm/setting_farm_screen.dart';
+import 'package:milk_mix/view/home/members/members_screen.dart';
 
 class FarmHomeBottomNavBar extends StatefulWidget {
   const FarmHomeBottomNavBar({super.key});
@@ -17,9 +19,10 @@ class _MainPageState extends State<FarmHomeBottomNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    CalculateScreen(),
-    HistoryScreen(),
-    SettingScreen(),
+    CalculateScreenFarm(),
+    HistoryFarmScreen(),
+    MembersScreen(),
+    SettingFarmScreen(),
   ];
 
   BottomNavigationBarItem _navIcon({
@@ -70,17 +73,22 @@ class _MainPageState extends State<FarmHomeBottomNavBar> {
           iconSize: 25.sp,
           items: [
             _navIcon(
-              title: 'Calculate',
+              title: 'calculate'.tr,
               icon: 'assets/logos/calculate.svg',
               index: 0,
             ),
             _navIcon(
-              title: 'History',
+              title: 'history'.tr,
               icon: 'assets/logos/history_h.svg',
               index: 1,
             ),
             _navIcon(
-              title: 'Settings',
+              title: 'members'.tr,
+              icon: 'assets/logos/members.svg',
+              index: 2,
+            ),
+            _navIcon(
+              title: 'settings'.tr,
               icon: 'assets/logos/settings.svg',
               index: 3,
             ),

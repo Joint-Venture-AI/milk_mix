@@ -174,4 +174,5 @@ Map<String, String> languageJapaneseData = {
   'problem': '問題',
   'writrProblem': '問題を記入してください',
   'problemDescription': '問題の詳細を記述してください',
+  'loginToMilkMix': 'Milk Mixにログイン',
 };

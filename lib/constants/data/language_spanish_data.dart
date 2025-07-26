@@ -5,7 +5,7 @@ Map<String, String> languageSpanishData = {
   'onboardTitle1': 'Mezcla inteligente para terneros',
   'onboardSubTitle1':
       'Calcula rápidamente la mezcla de leche para el contenido deseado de sólidos',
-  'onboardTitle2': 'Mezcla fácil',
+  'onboardTitle2': '	Iniciar sesión en MilkMix',
   'onboardSubTitle2': 'Rápido, fácil y preciso',
   'onboardTitle3': 'Sigue el crecimiento de tu ternero',
   'onboardSubTitle3':
@@ -187,4 +187,5 @@ Map<String, String> languageSpanishData = {
   'problem': 'Problema',
   'writrProblem': 'Describe tu problema',
   'problemDescription': 'Describe tu problema con detalle',
+  'loginToMilkMix': 'Iniciar sesión en Milk Mix',
 };

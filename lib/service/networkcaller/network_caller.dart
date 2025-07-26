@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class NetworkCaller {
@@ -22,7 +23,7 @@ class NetworkCaller {
       } else {
         return {
           "success": false,
-          "message": decoded["message"] ?? "Registration failed",
+          "message": decoded["message"] ?? "Login failed",
         };
       }
     } catch (e) {

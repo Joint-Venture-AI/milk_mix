@@ -4,7 +4,7 @@ Map<String, String> languageDutchData = {
       'Meld je aan om verder te gaan met je opgeslagen waarden en instellingen.',
   'onboardTitle1': 'Slim mengen voor kalfjes',
   'onboardSubTitle1': 'Bereken snel melk met het gewenste droge stofgehalte',
-  'onboardTitle2': 'Mengen eenvoudiger gemaakt',
+  'onboardTitle2': 'Inloggen bij MilkMix',
   'onboardSubTitle2': 'Snel, eenvoudig en nauwkeurig',
   'onboardTitle3': 'Volg de groei van je kalf',
   'onboardSubTitle3': 'Meng snel zonder in te loggen of wifi nodig te hebben',
@@ -186,4 +186,5 @@ Map<String, String> languageDutchData = {
   'problem': 'Probleem',
   'writrProblem': 'Beschrijf je probleem',
   'problemDescription': 'Beschrijf je probleem in detail',
+  'loginToMilkMix': 'Inloggen bij Milk Mix',
 };

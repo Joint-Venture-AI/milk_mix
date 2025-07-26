@@ -1,43 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-
-class NetworkCaller {
-  static final String baseUrl = "https://lamprey-included-lion.ngrok-free.app";
-
-  static Future<Map<String, dynamic>> post(
-    String endpoint,
-    Map<String, dynamic> body,
-  ) async {
-    final url = Uri.parse('$baseUrl$endpoint');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(body),
-      );
-
-      final decoded = jsonDecode(response.body);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return {"success": true, "data": decoded};
-      } else {
-        return {
-          "success": false,
-          "message": decoded["message"] ?? "Login failed",
-        };
-      }
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
-    }
-  }
-}
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -70,30 +40,43 @@ class _SigninScreenState extends State<SigninScreen> {
       return;
     }
 
-    final response = await NetworkCaller.post("/api/auth/login/", {
-      "email": email,
-      "password": password,
-    });
+    try {
+      final response = await http.post(
+        Uri.parse(
+          "https://lamprey-included-lion.ngrok-free.app/api/auth/login/",
+        ),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"email": email, "password": password}),
+      );
 
-    if (response["success"] == true) {
-      final data = response["data"];
-      final role = data["role"];
+      final decoded = jsonDecode(response.body);
 
-      if (role == "consultant") {
-        Get.offAllNamed(AppRoutes.homeConsult);
-      } else if (role == "farm") {
-        Get.offAllNamed(AppRoutes.homePersonal);
+      if (decoded["success"] == true) {
+        final data = decoded["data"];
+        final role = data["role"];
+
+        if (role == "consultant") {
+          Get.offAllNamed(AppRoutes.homeConsult);
+        } else if (role == "farm") {
+          Get.offAllNamed(AppRoutes.farmMemberHome);
+        } else {
+          Get.snackbar(
+            "Error",
+            "Unknown role: $role",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
       } else {
         Get.snackbar(
-          "Error",
-          "Unknown role: $role",
+          "Login Failed",
+          decoded["message"] ?? "Try again",
           snackPosition: SnackPosition.BOTTOM,
         );
       }
-    } else {
+    } catch (e) {
       Get.snackbar(
-        "Login Failed",
-        response["message"] ?? "Try again",
+        "Error",
+        "Something went wrong: $e",
         snackPosition: SnackPosition.BOTTOM,
       );
     }
@@ -121,22 +104,16 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 14.h),
               Text(
+<<<<<<< HEAD
                 'loginTile'.tr,
+=======
+                'loginToMilkMix'.tr,
+>>>>>>> 7a24e9cd9c6b829c86e473dd5ff7f9585bee86e9
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                'loginSubtitle'.tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textGrey,
                 ),
               ),
               SizedBox(height: 42.h),
@@ -151,7 +128,6 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
               SizedBox(height: 24.h),
 
-              // PASSWORD
               Text('password'.tr, style: labelStyle()),
               SizedBox(height: 6.h),
               buildTextField(
@@ -170,9 +146,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  onPressed: () {
-                    // Forgot password logic here
-                  },
+                  onPressed: () {},
                   child: Text(
                     'forgotPassword'.tr,
                     style: TextStyle(
