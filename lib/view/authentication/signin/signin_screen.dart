@@ -119,7 +119,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 31.h),
+              SizedBox(height: 14.h),
               Text(
                 'loginTile'.tr,
                 textAlign: TextAlign.center,

@@ -213,7 +213,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     _roles.map((String role) {
                       return DropdownMenuItem<String>(
                         value: role,
-                        child: Text(roleLabels[role]!),
+                        child: Text(
+                          roleLabels[role]!,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       );
                     }).toList(),
                 onChanged: (value) {
@@ -222,14 +229,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   });
                 },
                 decoration: InputDecoration(
+                  hintText: 'Select Role',
+                  hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 12.w,
                     vertical: 14.h,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(
+                      color: Colors.blueAccent,
+                      width: 1.5,
+                    ),
                   ),
                 ),
+                icon: Icon(
+                  Icons.arrow_drop_down_rounded,
+                  color: Colors.blueAccent,
+                ),
+                dropdownColor: Colors.white,
+                style: TextStyle(fontSize: 14.sp, color: Colors.black),
               ),
               SizedBox(height: 40.h),
 
