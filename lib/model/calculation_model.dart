@@ -1,4 +1,4 @@
-class calculationModel {
+class CalculationModel {
   double? bottleSize;
   int? numberOfBottles;
   double? hospitalSolids;
@@ -10,7 +10,7 @@ class calculationModel {
   int? hospitalMilkUsed;
   String? totalVolume;
 
-  calculationModel({
+  CalculationModel({
     this.bottleSize,
     this.numberOfBottles,
     this.hospitalSolids,
@@ -23,7 +23,7 @@ class calculationModel {
     this.totalVolume,
   });
 
-  calculationModel.fromJson(Map<String, dynamic> json) {
+  CalculationModel.fromJson(Map<String, dynamic> json) {
     bottleSize = json['bottle_size'];
     numberOfBottles = json['number_of_bottles'];
     hospitalSolids = json['hospital_solids'];
