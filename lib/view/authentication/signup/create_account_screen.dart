@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
@@ -19,6 +18,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late final ApiService _apiService = ApiService();
 
   bool isLoading = false;
 
@@ -69,53 +69,81 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       return;
     }
 
-    try {
-      setState(() => isLoading = true);
+    setState(() => isLoading = true);
 
-      final url = Uri.parse(
-        "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
+    final result = await _apiService.auth.register(
+      email: email,
+      password: password,
+      name: name,
+      role: _selectedRole,
+    );
+
+    setState(() => isLoading = false);
+
+    if (result.isSuccess) {
+      Get.snackbar(
+        "Success",
+        "Account created. Please verify OTP.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.shade50,
       );
-
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "name": name,
-          "email": email,
-          "role": _selectedRole,
-          "password": password,
-        }),
-      );
-
-      setState(() => isLoading = false);
-
-      final resData = jsonDecode(response.body);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar(
-          "Success",
-          "Account created. Please verify OTP.",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green.shade50,
-        );
-        Get.toNamed(AppRoutes.otpVerification, arguments: {"email": email});
-      } else {
-        final message =
-            resData['message'] ?? resData['error'] ?? "Something went wrong";
-        Get.snackbar(
-          "Signup Failed",
-          message,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } catch (e) {
-      setState(() => isLoading = false);
+      Get.toNamed(AppRoutes.otpVerification, arguments: {"email": email});
+    } else {
       Get.snackbar(
         "Error",
-        "Unexpected error: $e",
+        result.error ?? "Failed to create account",
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade50,
       );
     }
+
+    // try {
+    //   setState(() => isLoading = true);
+
+    //   final url = Uri.parse(
+    //     "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
+    //   );
+
+    //   final response = await http.post(
+    //     url,
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: jsonEncode({
+    //       "name": name,
+    //       "email": email,
+    //       "role": _selectedRole,
+    //       "password": password,
+    //     }),
+    //   );
+
+    //   setState(() => isLoading = false);
+
+    //   final resData = jsonDecode(response.body);
+
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     Get.snackbar(
+    //       "Success",
+    //       "Account created. Please verify OTP.",
+    //       snackPosition: SnackPosition.BOTTOM,
+    //       backgroundColor: Colors.green.shade50,
+    //     );
+    //     Get.toNamed(AppRoutes.otpVerification, arguments: {"email": email});
+    //   } else {
+    //     final message =
+    //         resData['message'] ?? resData['error'] ?? "Something went wrong";
+    //     Get.snackbar(
+    //       "Signup Failed",
+    //       message,
+    //       snackPosition: SnackPosition.BOTTOM,
+    //     );
+    //   }
+    // } catch (e) {
+    //   setState(() => isLoading = false);
+    //   Get.snackbar(
+    //     "Error",
+    //     "Unexpected error: $e",
+    //     snackPosition: SnackPosition.BOTTOM,
+    //   );
+    // }
   }
 
   Widget buildLabel(String text) => Text(

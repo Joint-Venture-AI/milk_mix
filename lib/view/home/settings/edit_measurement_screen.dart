@@ -6,7 +6,9 @@ import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+//api-done:update measurement system
 class EditMeasurementScreen extends StatefulWidget {
   const EditMeasurementScreen({super.key});
 
@@ -16,6 +18,38 @@ class EditMeasurementScreen extends StatefulWidget {
 
 class _EditMeasurementScreenState extends State<EditMeasurementScreen> {
   String? _selectedSystem;
+  static const String _measurementSystemKey = 'measurement_system';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMeasurementSystem();
+  }
+
+  // Load saved measurement system from SharedPreferences
+  Future<void> _loadMeasurementSystem() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedSystem = prefs.getString(_measurementSystemKey);
+    if (savedSystem != null) {
+      setState(() {
+        _selectedSystem = savedSystem;
+      });
+    }
+  }
+
+  // Save measurement system to SharedPreferences
+  Future<void> _saveMeasurementSystem(String system) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_measurementSystemKey, system);
+  }
+
+  // Update measurement system and save to SharedPreferences
+  void _updateMeasurementSystem(String system) {
+    setState(() {
+      _selectedSystem = system;
+    });
+    _saveMeasurementSystem(system);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +76,7 @@ class _EditMeasurementScreenState extends State<EditMeasurementScreen> {
 
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedSystem = 'imperial';
-                  });
+                  _updateMeasurementSystem('imperial');
                 },
                 child: Container(
                   padding: EdgeInsets.all(14.w),
@@ -64,14 +96,14 @@ class _EditMeasurementScreenState extends State<EditMeasurementScreen> {
                     children: [
                       Row(
                         children: [
-                          SvgPicture.asset('assets/flags/usa.svg', width: 26.w),
+                          Image.asset('assets/flags/us.png', width: 26.w),
                           SizedBox(width: 14.w),
                           Text(
                             'English Standard',
                             style: TextStyle(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
+                              color: const Color.fromARGB(255, 18, 37, 63),
                             ),
                           ),
                           Spacer(),
@@ -187,9 +219,7 @@ class _EditMeasurementScreenState extends State<EditMeasurementScreen> {
 
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedSystem = 'siunit';
-                  });
+                  _updateMeasurementSystem('siunit');
                 },
                 child: Container(
                   padding: EdgeInsets.all(14.w),
@@ -338,12 +368,36 @@ class _EditMeasurementScreenState extends State<EditMeasurementScreen> {
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'Cancel',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
-                    child: TextWidgetButton(text: 'Update', onPressed: () {}),
+                    child: TextWidgetButton(
+                      text: 'Update',
+                      onPressed: () {
+                        if (_selectedSystem != null) {
+                          Get.snackbar(
+                            'Success',
+                            'Measurement system updated successfully',
+                            backgroundColor: AppColors.primary,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                          Get.back();
+                        } else {
+                          Get.snackbar(
+                            'Error',
+                            'Please select a measurement system',
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

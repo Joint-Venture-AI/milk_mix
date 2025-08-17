@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 
 class RecipeSummaryDialog extends StatelessWidget {
-  const RecipeSummaryDialog({super.key});
+  final dynamic historyData;
+
+  const RecipeSummaryDialog({super.key, this.historyData});
 
   @override
   Widget build(BuildContext context) {
@@ -40,46 +43,63 @@ class RecipeSummaryDialog extends StatelessWidget {
             SizedBox(height: 16.h),
             _buildRow(
               'assets/logos/bottle.svg',
-              'Number of Bottols',
-              ' = 4500',
+              'Number of Bottles',
+              ' = ${historyData?.numberOfBottles ?? 'N/A'}',
             ),
-            _buildRow('assets/logos/drop.svg', 'Hospital Milk', ' = 4500'),
-            _buildRow('assets/logos/bottleGreen.svg', 'Bottle Size', ' = 4500'),
+            _buildRow(
+              'assets/logos/drop.svg',
+              'Hospital Milk',
+              ' = ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'}',
+            ),
+            _buildRow(
+              'assets/logos/bottleGreen.svg',
+              'Bottle Size',
+              ' = ${historyData?.bottleSize?.toStringAsFixed(2) ?? 'N/A'}',
+            ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Solids in Hospital Milk',
-              ' = 4500',
+              ' = ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
-              'Solids in Hospital Volume',
-              ' = 4500',
+              'Hospital Milk Volume',
+              ' = ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Desired Solids(11-16%)',
-              ' = 4500',
+              ' = ${historyData?.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}',
             ),
 
             Divider(color: Colors.grey.shade300, thickness: 1, height: 15.h),
-            _buildRow('assets/logos/drop.svg', 'Pounds of Water', ' = 4500'),
+            _buildRow(
+              'assets/logos/drop.svg',
+              'Pounds of Water',
+              ' = ${historyData?.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'}',
+            ),
             _buildRow(
               'assets/logos/bottle.svg',
               'Pounds of Milk Replacer',
-              ' = 4500',
+              ' = ${historyData?.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Solids Hospital Milk',
-              ' = 4500',
+              ' = ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Hospital Milk Used',
-              ' = 4500',
+              ' = ${historyData?.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'}',
             ),
             Divider(color: Colors.grey.shade300, thickness: 1, height: 15.h),
-            _buildRow(null, 'Total Volume', '18000 lbs', bold: true),
+            _buildRow(
+              null,
+              'Total Volume',
+              historyData?.totalVolume ?? 'N/A',
+              bold: true,
+            ),
             SizedBox(height: 15.h),
             Row(
               children: [
@@ -120,7 +140,7 @@ class RecipeSummaryDialog extends StatelessWidget {
 
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () => _copyRecipeSummary(),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       decoration: BoxDecoration(
@@ -193,5 +213,50 @@ class RecipeSummaryDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _copyRecipeSummary() {
+    if (historyData == null) return;
+
+    final summary = '''
+Recipe Summary - ${historyData?.createdAt != null ? _formatDateForCopy(historyData!.createdAt!) : 'N/A'}
+
+Bottle Information:
+• Number of Bottles: ${historyData?.numberOfBottles ?? 'N/A'}
+• Bottle Size: ${historyData?.bottleSize?.toStringAsFixed(2) ?? 'N/A'} ml
+
+Hospital Milk Details:
+• Hospital Milk Volume: ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Solids in Hospital Milk: ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}%
+• Hospital Milk Used: ${historyData?.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'} lbs
+
+Calculation Results:
+• Desired Solids Content: ${historyData?.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}%
+• Pounds of Water: ${historyData?.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Pounds of Milk Replacer: ${historyData?.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'} lbs
+
+Total Volume: ${historyData?.totalVolume ?? 'N/A'}
+
+Generated on: ${DateTime.now().toString()}
+''';
+
+    Clipboard.setData(ClipboardData(text: summary));
+    Get.snackbar(
+      'Copied!',
+      'Recipe summary copied to clipboard',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: AppColors.primary,
+      colorText: Colors.white,
+      duration: Duration(seconds: 2),
+    );
+  }
+
+  String _formatDateForCopy(String dateString) {
+    try {
+      final date = DateTime.parse(dateString);
+      return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year} at ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+    } catch (e) {
+      return dateString;
+    }
   }
 }

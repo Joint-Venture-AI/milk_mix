@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/data_source/client/token_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,8 +18,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.toNamed(AppRoutes.onBoarding);
+    Future.delayed(const Duration(seconds: 3), () async {
+      if (await TokenStorage.getAccessToken() != null) {
+        final role = await TokenStorage.getRole();
+        if (role == 'consultant') {
+          Get.toNamed(AppRoutes.homeConsult);
+        } else if (role == 'farm') {
+          Get.toNamed(AppRoutes.farmMemberHome);
+        } else {
+          Get.toNamed(AppRoutes.signin);
+        }
+      } else {
+        Get.toNamed(AppRoutes.onBoarding);
+      }
     });
   }
 

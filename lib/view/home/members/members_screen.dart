@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class MembersScreen extends StatelessWidget {
@@ -42,7 +43,12 @@ class MembersScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 160.h),
-              TextWidgetButton(text: 'Upgrade Now!', onPressed: () {}),
+              TextWidgetButton(
+                text: 'Upgrade Now!',
+                onPressed: () {
+                  Get.toNamed(AppRoutes.memberPremium);
+                },
+              ),
             ],
           ),
         ),

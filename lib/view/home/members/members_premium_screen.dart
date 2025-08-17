@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/member_controller.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
@@ -15,6 +17,14 @@ class MembersPremiumScreen extends StatefulWidget {
 }
 
 class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
+  final controller = Get.put<MemberController>(MemberController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchMembers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,6 +176,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                 ),
               ),
               SizedBox(height: 24.h),
+              // farm members list
               Text(
                 '${'farmMembers'.tr}'
                 ' (3)',
@@ -175,113 +186,150 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   color: AppColors.textPrimary,
                 ),
               ),
-              SizedBox(height: 16.h),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.memberDetails);
-                },
-                child: Container(
-                  height: 65.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: AppColors.lightGrey, width: 1.w),
-                    color: AppColors.surface,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/outlinePerson.svg',
-                        width: 40.w,
-                      ),
-                      SizedBox(width: 12.w),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Danial Smith',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            '${'createdOn'.tr} May 23, 2025',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textLightGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      SvgPicture.asset(
-                        'assets/logos/trash.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.memberDetails);
-                },
-                child: Container(
-                  height: 65.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(color: AppColors.lightGrey, width: 1.w),
-                    color: AppColors.surface,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logos/outlinePerson.svg',
-                        width: 40.w,
-                      ),
-                      SizedBox(width: 12.w),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Danial Smith',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            '${'createdOn'.tr} May 23, 2025',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textLightGrey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      SvgPicture.asset(
-                        'assets/logos/trash.svg',
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Obx(() {
+                final isLoading = controller.fetchMemberIsLoading.value;
+                if (isLoading)
+                  return const Center(child: CircularProgressIndicator());
+                final members = controller.members.value;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: members.length,
+                  itemBuilder: (context, index) {
+                    final member = members[index];
+                    print(member.toJson());
+                    String? utcString = member.farmUserProfile?.joinedDate;
 
+                    // Parse UTC string to DateTime
+                    DateTime? utcDateTime = DateTime.tryParse(utcString ?? '');
+
+                    // Convert to local time
+                    DateTime? localDateTime = utcDateTime?.toLocal();
+
+                    // Format the date
+                    String formatted =
+                        localDateTime != null
+                            ? DateFormat("MMM dd, yyyy").format(localDateTime)
+                            : '';
+
+                    return Column(
+                      children: [
+                        SizedBox(height: 16.h),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.memberDetails);
+                          },
+                          child: Container(
+                            height: 65.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: AppColors.lightGrey,
+                                width: 1.w,
+                              ),
+                              color: AppColors.surface,
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/logos/outlinePerson.svg',
+                                  width: 40.w,
+                                ),
+                                SizedBox(width: 12.w),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      member.farmUserProfile?.name ?? '',
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      // '${'createdOn'.tr} May 23, 2025',
+                                      'Joined on $formatted',
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.textLightGrey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                SvgPicture.asset(
+                                  'assets/logos/trash.svg',
+                                  width: 20.w,
+                                  height: 20.h,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }),
+
+              // SizedBox(height: 16.h),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.toNamed(AppRoutes.memberDetails);
+              //   },
+              //   child: Container(
+              //     height: 65.h,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(10.r),
+              //       border: Border.all(color: AppColors.lightGrey, width: 1.w),
+              //       color: AppColors.surface,
+              //     ),
+              //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+              //     child: Row(
+              //       children: [
+              //         SvgPicture.asset(
+              //           'assets/logos/outlinePerson.svg',
+              //           width: 40.w,
+              //         ),
+              //         SizedBox(width: 12.w),
+              //         Column(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               'Danial Smith',
+              //               style: TextStyle(
+              //                 fontSize: 16.sp,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: AppColors.textPrimary,
+              //               ),
+              //             ),
+              //             SizedBox(height: 4.h),
+              //             Text(
+              //               '${'createdOn'.tr} May 23, 2025',
+              //               style: TextStyle(
+              //                 fontSize: 14.sp,
+              //                 fontWeight: FontWeight.w400,
+              //                 color: AppColors.textLightGrey,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         Spacer(),
+              //         SvgPicture.asset(
+              //           'assets/logos/trash.svg',
+              //           width: 20.w,
+              //           height: 20.h,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 40.h),
               TextWidgetButton(
                 text:

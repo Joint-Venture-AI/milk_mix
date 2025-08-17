@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/constants/data/languages/language_selection_data.dart'
     as Language;
+import 'package:milk_mix/constants/data/languages/language_storage.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/language_tile.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
+//api-done:update language
 class EditLanguageScreen extends StatefulWidget {
   const EditLanguageScreen({super.key});
 
@@ -17,7 +19,99 @@ class EditLanguageScreen extends StatefulWidget {
 }
 
 class _EditLanguageScreenState extends State<EditLanguageScreen> {
-  String selectedLanguage = 'en';
+  // String selectedLanguage = 'en';
+  String selectedLocale = 'en_US';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentLanguage();
+  }
+
+  Future<void> _loadCurrentLanguage() async {
+    await LanguageStorage.init();
+    final savedLocale = await LanguageStorage.getSavedLocale();
+
+    if (savedLocale != null) {
+      final languageAndCountry = Language.getLanguageAndCountryFromLocale(
+        savedLocale,
+      );
+      setState(() {
+        // selectedLanguage = languageAndCountry['language'] ?? 'en';
+        selectedLocale = savedLocale;
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        // selectedLanguage = 'en';
+        selectedLocale = 'en_US';
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _updateLanguage() async {
+    if (isLoading) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Get the locale for the selected language
+      // final locale = Language.getLocaleFromLanguageCode(selectedLanguage);
+      // final languageAndCountry = Language.getLanguageAndCountryFromLocale(
+      //   locale,
+      // );
+
+      // Save to shared preferences
+      final success = await LanguageStorage.saveLanguage(
+        selectedLocale.split('_')[0],
+        selectedLocale.split('_')[1],
+      );
+
+      if (success) {
+        // Update the app locale
+        Get.updateLocale(
+          Locale(selectedLocale.split('_')[0], selectedLocale.split('_')[1]),
+        );
+
+        // Show success message
+        Get.snackbar(
+          'Success',
+          'Language updated successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.primary,
+          colorText: Colors.white,
+        );
+
+        // Navigate back
+        Get.back();
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to update language',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'An error occurred while updating language',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,31 +134,35 @@ class _EditLanguageScreenState extends State<EditLanguageScreen> {
                 ),
               ),
               SizedBox(height: 16.h),
-              for (var lang in Language.languages)
-                LanguageTile(
-                  flagPath: lang.flag,
-                  language: lang.name,
-                  isSelected: selectedLanguage == lang.code,
-                  onTap: () {
-                    setState(() {
-                      selectedLanguage = lang.code;
-                    });
-                  },
-                ),
+              if (isLoading)
+                const Center(child: CircularProgressIndicator())
+              else
+                for (var lang in Language.languages)
+                  LanguageTile(
+                    flagPath: lang.flag,
+                    language: lang.name,
+                    isSelected: selectedLocale == lang.locale,
+                    onTap: () {
+                      setState(() {
+                        selectedLocale = lang.locale;
+                        //  selectedLanguage = lang.code;
+                      });
+                    },
+                  ),
               SizedBox(height: 300.h),
               Row(
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'cancel'.tr,
-                      onPressed: () {},
+                      onPressed: isLoading ? () {} : () => Get.back(),
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
                       text: 'update'.tr,
-                      onPressed: () {},
+                      onPressed: isLoading ? null : _updateLanguage,
                     ),
                   ),
                 ],

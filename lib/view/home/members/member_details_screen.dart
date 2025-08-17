@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
-import 'package:milk_mix/view/widget/history_wigets.dart';
+import 'package:milk_mix/view/widget/history_tile.dart';
 
 class MemberDetailsScreen extends StatelessWidget {
   const MemberDetailsScreen({super.key});

@@ -10,6 +10,7 @@ class HistoryTile extends StatelessWidget {
   final String volume;
   final String date;
   final String time;
+  final dynamic historyData;
 
   const HistoryTile({
     super.key,
@@ -17,6 +18,7 @@ class HistoryTile extends StatelessWidget {
     required this.volume,
     required this.date,
     required this.time,
+    this.historyData,
   });
 
   @override
@@ -27,7 +29,8 @@ class HistoryTile extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => const RecipeSummaryDialog(),
+              builder:
+                  (context) => RecipeSummaryDialog(historyData: historyData),
             );
           },
           contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h),

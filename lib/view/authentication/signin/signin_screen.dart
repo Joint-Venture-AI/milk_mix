@@ -1,13 +1,12 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
+import 'package:milk_mix/controllers/auth_controller.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -19,6 +18,7 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late final AuthController _authController;
 
   @override
   void dispose() {
@@ -27,59 +27,17 @@ class _SigninScreenState extends State<SigninScreen> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _authController = Get.put(AuthController());
+  }
+
   Future<void> loginUser() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      Get.snackbar(
-        "Error",
-        "Email and password are required",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return;
-    }
-
-    try {
-      final response = await http.post(
-        Uri.parse(
-          "https://lamprey-included-lion.ngrok-free.app/api/auth/login/",
-        ),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({"email": email, "password": password}),
-      );
-
-      final decoded = jsonDecode(response.body);
-
-      if (decoded["success"] == true) {
-        final data = decoded["data"];
-        final role = data["role"];
-
-        if (role == "consultant") {
-          Get.offAllNamed(AppRoutes.homeConsult);
-        } else if (role == "farm") {
-          Get.offAllNamed(AppRoutes.farmMemberHome);
-        } else {
-          Get.snackbar(
-            "Error",
-            "Unknown role: $role",
-            snackPosition: SnackPosition.BOTTOM,
-          );
-        }
-      } else {
-        Get.snackbar(
-          "Login Failed",
-          decoded["message"] ?? "Try again",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Something went wrong: $e",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
+    await _authController.login(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override
@@ -87,191 +45,235 @@ class _SigninScreenState extends State<SigninScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 40.h),
-              Center(
-                child: Row(
-                  children: [
-                    SizedBox(width: 115.w),
-                    SvgPicture.asset('assets/logos/milkmix.svg', width: 80.w),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-              SizedBox(height: 14.h),
-              Text(
-                'loginTile'.tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: 42.h),
-
-              // EMAIL
-              Text('email'.tr, style: labelStyle()),
-              SizedBox(height: 6.h),
-              buildTextField(
-                _emailController,
-                'enterYourEmail'.tr,
-                'assets/logos/mail.svg',
-              ),
-              SizedBox(height: 24.h),
-
-              Text('password'.tr, style: labelStyle()),
-              SizedBox(height: 6.h),
-              buildTextField(
-                _passwordController,
-                'enterPassword'.tr,
-                'assets/logos/lock.svg',
-                obscure: true,
-              ),
-              SizedBox(height: 6.h),
-
-              Align(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.all(20.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 40.h),
+                  Center(
+                    child: Row(
+                      children: [
+                        SizedBox(width: 115.w),
+                        SvgPicture.asset(
+                          'assets/logos/milkmix.svg',
+                          width: 80.w,
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
                   ),
-                  onPressed: () {},
-                  child: Text(
-                    'forgotPassword'.tr,
+                  SizedBox(height: 14.h),
+                  Text(
+                    'loginTile'.tr,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 44.h),
+                  SizedBox(height: 42.h),
 
-              TextWidgetButton(text: 'login'.tr, onPressed: loginUser),
-              SizedBox(height: 20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('dontHaveAnAccount'.tr, style: regularStyle()),
-                  SizedBox(width: 8.w),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.createAccount);
-                    },
-                    child: Text(
-                      'signUp'.tr,
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                  // EMAIL
+                  Text('email'.tr, style: labelStyle()),
+                  SizedBox(height: 6.h),
+                  buildTextField(
+                    _emailController,
+                    'enterYourEmail'.tr,
+                    'assets/logos/mail.svg',
                   ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Text(
-                      'or continue with',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        backgroundColor: AppColors.shade,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/google.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
+                  SizedBox(height: 24.h),
 
-                        backgroundColor: AppColors.shade,
+                  Text('password'.tr, style: labelStyle()),
+                  SizedBox(height: 6.h),
+                  buildTextField(
+                    _passwordController,
+                    'enterPassword'.tr,
+                    'assets/logos/lock.svg',
+                    obscure: true,
+                  ),
+                  SizedBox(height: 6.h),
+
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/apple.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Apple',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
+                      onPressed: () {},
+                      child: Text(
+                        'forgotPassword'.tr,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
+                  SizedBox(height: 44.h),
+
+                  Obx(
+                    () => AbsorbPointer(
+                      absorbing: _authController.isLoading.value,
+                      child: Opacity(
+                        opacity: _authController.isLoading.value ? 0.6 : 1,
+                        child: TextWidgetButton(
+                          text: 'login'.tr,
+                          onPressed: loginUser,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('dontHaveAnAccount'.tr, style: regularStyle()),
+                      SizedBox(width: 8.w),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.createAccount);
+                        },
+                        child: Text(
+                          'signUp'.tr,
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey.shade200,
+                          thickness: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Text(
+                          'or continue with',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.grey.shade200,
+                          thickness: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 48.h),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            backgroundColor: AppColors.shade,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/logos/google.svg',
+                                width: 18.w,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                'Google',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1A1A1A),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 14.w),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 48.h),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+
+                            backgroundColor: AppColors.shade,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/logos/apple.svg',
+                                width: 18.w,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                'Apple',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1A1A1A),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
+            ),
+            Obx(
+              () =>
+                  _authController.isLoading.value
+                      ? Container(
+                        color: Colors.black.withOpacity(0.2),
+                        child: Center(
+                          child: Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.all(12),
+                            child: const CircularProgressIndicator(),
+                          ),
+                        ),
+                      )
+                      : const SizedBox.shrink(),
+            ),
+          ],
         ),
       ),
     );

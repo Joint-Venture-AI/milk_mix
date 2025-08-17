@@ -29,6 +29,7 @@ class _EditLanguageScreenState extends State<ChangePasswordFarmScreen> {
               const AppBarWidget(),
 
               SizedBox(height: 16.h),
+
               Text(
                 'changePassword'.tr,
                 style: TextStyle(
@@ -37,7 +38,6 @@ class _EditLanguageScreenState extends State<ChangePasswordFarmScreen> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-
               SizedBox(height: 32.h),
               Text(
                 'password'.tr,

@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/homeFarmMember/calculate_farm_screen.dart';
+import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
 import 'package:milk_mix/view/home/homeFarmMember/history_farm_screen.dart';
-import 'package:milk_mix/view/home/homeFarmMember/settingsFarm/setting_farm_screen.dart';
+import 'package:milk_mix/view/home/settings/setting_screen.dart';
 import 'package:milk_mix/view/home/members/members_screen.dart';
 
 class FarmHomeBottomNavBar extends StatefulWidget {
@@ -19,10 +19,10 @@ class _MainPageState extends State<FarmHomeBottomNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    CalculateScreenFarm(),
+    CalculateScreen(),
     HistoryFarmScreen(),
     MembersScreen(),
-    SettingFarmScreen(),
+    SettingScreen(),
   ];
 
   BottomNavigationBarItem _navIcon({

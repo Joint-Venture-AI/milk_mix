@@ -1,13 +1,35 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/profile_farm_controller.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
-class EditProfileScreen extends StatelessWidget {
+//api-done:edit profile
+class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
+
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _masterUsernameController =
+      TextEditingController();
+  final controller = Get.put(ProfileFarmController());
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text =
+        controller.userProfile.value?.userProfile?.name ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,29 +74,64 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 28.h),
-              Container(
-                width: 100.w,
-                height: 100.w,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.textLightGrey, width: 1),
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/logos/camera.svg',
-                    width: 30.w,
-                    height: 30.h,
+              Obx(() {
+                return Container(
+                  width: 100.w,
+                  height: 100.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryLight,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.textLightGrey,
+                      width: 1,
+                    ),
                   ),
-                ),
-              ),
+                  child: Center(
+                    child:
+                        controller
+                                    .userProfile
+                                    .value
+                                    ?.userProfile
+                                    ?.profilePicture ==
+                                null
+                            ? SvgPicture.asset(
+                              'assets/logos/camera.svg',
+                              width: 30.w,
+                              height: 30.h,
+                            )
+                            : ClipRRect(
+                              borderRadius: BorderRadius.circular(50.r),
+                              child: Image.network(
+                                ApiConfig.baseUrl +
+                                    controller
+                                        .userProfile
+                                        .value!
+                                        .userProfile!
+                                        .profilePicture!,
+                                width: 100.w,
+                                height: 100.w,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                  ),
+                );
+              }),
               SizedBox(height: 20.h),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final pickedFile = await ImagePicker().pickImage(
+                      source: ImageSource.gallery,
+                    );
+
+                    if (pickedFile != null) {
+                      final imageFile = File(pickedFile.path);
+                      await controller.updateProfile(profilePicture: imageFile);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 48.h),
                     backgroundColor: Colors.white,
@@ -119,6 +176,7 @@ class EditProfileScreen extends StatelessWidget {
               SizedBox(height: 6.h),
               TextField(
                 keyboardType: TextInputType.emailAddress,
+                controller: _nameController,
                 decoration: InputDecoration(
                   hintText: 'changeName'.tr,
                   hintStyle: TextStyle(
@@ -137,92 +195,112 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
-              SizedBox(height: 24.h),
-              Text(
-                'changeEmail'.tr,
-                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 6.h),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'changeEmail'.tr,
-                  hintStyle: TextStyle(
-                    color: AppColors.textLightGrey,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(12.w),
-                    child: SvgPicture.asset(
-                      'assets/logos/mail.svg',
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
-                ),
-                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-              ),
-              SizedBox(height: 24.h),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '${'change'.tr} ',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Master Username',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 6.h),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'changeMasterUsername'.tr,
-                  hintStyle: TextStyle(
-                    color: AppColors.textLightGrey,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(12.w),
-                    child: SvgPicture.asset(
-                      'assets/logos/at.svg',
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
-                ),
-                style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-              ),
+              // SizedBox(height: 24.h),
+              // Text(
+              //   'changeEmail'.tr,
+              //   style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              // ),
+              // SizedBox(height: 6.h),
+              // TextField(
+              //   keyboardType: TextInputType.emailAddress,
+              //   decoration: InputDecoration(
+              //     hintText: 'changeEmail'.tr,
+              //     hintStyle: TextStyle(
+              //       color: AppColors.textLightGrey,
+              //       fontSize: 14.sp,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //     prefixIcon: Padding(
+              //       padding: EdgeInsets.all(12.w),
+              //       child: SvgPicture.asset(
+              //         'assets/logos/mail.svg',
+              //         width: 20.w,
+              //         height: 20.h,
+              //       ),
+              //     ),
+              //   ),
+              //   style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+              // ),
+              // SizedBox(height: 24.h),
+              // Text.rich(
+              //   TextSpan(
+              //     children: [
+              //       TextSpan(
+              //         text: '${'change'.tr} ',
+              //         style: TextStyle(
+              //           fontSize: 14.sp,
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black,
+              //         ),
+              //       ),
+              //       TextSpan(
+              //         text: 'Master Username',
+              //         style: TextStyle(
+              //           fontSize: 14.sp,
+              //           fontWeight: FontWeight.w600,
+              //           color: AppColors.primary,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 6.h),
+              // TextField(
+              //   keyboardType: TextInputType.emailAddress,
+              //   decoration: InputDecoration(
+              //     hintText: 'changeMasterUsername'.tr,
+              //     hintStyle: TextStyle(
+              //       color: AppColors.textLightGrey,
+              //       fontSize: 14.sp,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //     prefixIcon: Padding(
+              //       padding: EdgeInsets.all(12.w),
+              //       child: SvgPicture.asset(
+              //         'assets/logos/at.svg',
+              //         width: 20.w,
+              //         height: 20.h,
+              //       ),
+              //     ),
+              //   ),
+              //   style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+              // ),
               SizedBox(height: 60.h),
               Row(
                 children: [
-                  Expanded(
-                    child: TextButtonWidgetLight(
-                      text: 'reset'.tr,
-                      onPressed: () {},
-                    ),
-                  ),
-                  SizedBox(width: 15.w),
-                  Expanded(
-                    child: TextWidgetButton(
-                      text: 'update'.tr,
-                      onPressed: () {},
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: TextButtonWidgetLight(
+                  //     text: 'reset'.tr,
+                  //     onPressed: () {},
+                  //   ),
+                  // ),
+                  // SizedBox(width: 15.w),
+                  Obx(() {
+                    return Expanded(
+                      child: TextWidgetButton(
+                        text: controller.isLoading.value ? '...' : 'update'.tr,
+                        onPressed:
+                            controller.isLoading.value
+                                ? null
+                                : () async {
+                                  print('object');
+                                  if (_nameController.text.isEmpty) {
+                                    Get.snackbar(
+                                      'Name',
+                                      'Name is required',
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red[100],
+                                      colorText: Colors.red[900],
+                                    );
+                                    return;
+                                  }
+                                  await controller.updateProfile(
+                                    name: _nameController.text.trim(),
+                                  );
+                                },
+                      ),
+                    );
+                  }),
                 ],
               ),
             ],

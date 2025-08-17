@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/constants/data/languages/language_selection_data.dart'
     as Language;
+import 'package:milk_mix/constants/data/languages/language_storage.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/language_tile.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -69,9 +70,48 @@ class _SelectPreferredLanguageScreenState
               padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.w),
               child: TextWidgetButton(
                 text: 'confirm'.tr,
-                onPressed: () {
-                  Get.updateLocale(Locale(selectedLanguage));
-                  Get.toNamed(AppRoutes.selectMeasurement);
+                onPressed: () async {
+                  try {
+                    // Get the locale for the selected language
+                    final locale = Language.getLocaleFromLanguageCode(
+                      selectedLanguage,
+                    );
+                    final languageAndCountry =
+                        Language.getLanguageAndCountryFromLocale(locale);
+
+                    // Save to shared preferences
+                    await LanguageStorage.init();
+                    final success = await LanguageStorage.saveLanguage(
+                      languageAndCountry['language']!,
+                      languageAndCountry['country']!,
+                    );
+
+                    if (success) {
+                      // Update the app locale
+                      Get.updateLocale(
+                        Locale(
+                          languageAndCountry['language']!,
+                          languageAndCountry['country'],
+                        ),
+                      );
+
+                      // Navigate to next screen
+                      Get.toNamed(AppRoutes.selectMeasurement);
+                    } else {
+                      // Still navigate but show error
+                      Get.snackbar(
+                        'Warning',
+                        'Language preference could not be saved',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.orange,
+                        colorText: Colors.white,
+                      );
+                      Get.toNamed(AppRoutes.selectMeasurement);
+                    }
+                  } catch (e) {
+                    // Navigate even if there's an error
+                    Get.toNamed(AppRoutes.selectMeasurement);
+                  }
                 },
               ),
             ),

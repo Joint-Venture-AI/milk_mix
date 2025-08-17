@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/model/create_history.dart';
 import 'package:milk_mix/view/widget/light_text_input_widget.dart';
 
+//api-done: calculate screen
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
 
@@ -13,8 +18,11 @@ class CalculateScreen extends StatefulWidget {
 }
 
 class _CalculateScreenState extends State<CalculateScreen> {
-  String selectedUnit = 'english';
-  String selectedSubUnit = 'gallon';
+  Timer? _debounce;
+  final ApiService apiService = ApiService();
+
+  String selectedUnitType = 'english';
+  String selectedUnit = 'gallon';
   bool isDropdownExpanded = false;
   bool isSolidsExpanded = false;
 
@@ -56,6 +64,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _numBottlesController.dispose();
     _hospitalMilkController.dispose();
     _bottleSizeController.dispose();
@@ -86,11 +95,11 @@ class _CalculateScreenState extends State<CalculateScreen> {
       hospitalMilkSolids = hospitalMilkSolids < 0 ? 0 : hospitalMilkSolids;
       desiredSolids = desiredSolids < 0 ? 0 : desiredSolids;
 
-      if (selectedUnit == 'english') {
+      if (selectedUnitType == 'english') {
         // Imperial calculations (based on CSV Option 2, Gallons/Pounds)
-        if (selectedSubUnit == 'gallon') {
+        if (selectedUnit == 'gallon') {
           // Total volume = number of bottles * bottle size (gallons)
-          totalVolume = numBottles * bottleSize;
+          totalVolume = numBottles * bottleSize / 4;
           hospitalMilkAmount = hospitalMilk; // Gallons
           // Total desired solids (lbs) = total volume * desired solids % * density (8.6 lbs/gallon)
           double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
@@ -119,7 +128,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
         }
       } else {
         // Metric calculations (based on CSV Option 2, Liters/Kg)
-        if (selectedSubUnit == 'liter') {
+        if (selectedUnit == 'liter') {
           totalVolume = numBottles * bottleSize; // Liters
           hospitalMilkAmount = hospitalMilk; // Liters
           double totalDesiredSolids =
@@ -151,6 +160,39 @@ class _CalculateScreenState extends State<CalculateScreen> {
       hospitalMilkAmount = hospitalMilkAmount < 0 ? 0 : hospitalMilkAmount;
       totalVolume = totalVolume < 0 ? 0 : totalVolume;
     });
+
+    // Cancel previous timer if still running
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    // Start a new debounce timer (e.g., 800ms delay)
+    _debounce = Timer(const Duration(milliseconds: 1600), () {
+      _postCalculationResults();
+    });
+  }
+
+  Future<void> _postCalculationResults() async {
+    final result = await apiService.milkHistory.createMilkHistory(
+      createHistory: CreateHistory(
+        bottleSize: double.parse(_bottleSizeController.text),
+        numberOfBottles: int.parse(_numBottlesController.text),
+        hospitalSolids: double.parse(_hospitalMilkSolidsController.text),
+        hospitalMilkVolume: double.parse(_hospitalMilkController.text),
+        desiredSolidsContent: double.parse(_desiredSolidsController.text),
+        poundsOfWater: waterAmount,
+        poundsOfMilkReplacer: milkReplacerAmount,
+        solidsHospitalMilk: waterAmount + milkReplacerAmount,
+        hospitalMilkUsed: hospitalMilkAmount,
+        totalVolume: totalVolume.toString(),
+      ),
+    );
+
+    if (result.isSuccess) {
+      // Handle success, e.g., show a success message
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Calculation successful!')));
+    }
   }
 
   @override
@@ -251,7 +293,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         ),
                         child: Row(
                           children:
-                              selectedUnit == 'english'
+                              selectedUnitType == 'english'
                                   ? [
                                     _subUnitToggle('gallon', 'Gallon'),
                                     SizedBox(width: 8.w),
@@ -318,7 +360,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ),
                           Spacer(),
                           Text(
-                            '= ${waterAmount.toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
+                            '= ${waterAmount.toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
@@ -349,7 +391,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ),
                           Spacer(),
                           Text(
-                            '= ${milkReplacerAmount.toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
+                            '= ${milkReplacerAmount.toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
@@ -381,7 +423,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ),
                           Spacer(),
                           Text(
-                            '= ${(waterAmount + milkReplacerAmount).toStringAsFixed(2)} (${selectedUnit == 'english' ? 'lbs' : 'kg'})',
+                            '= ${(waterAmount + milkReplacerAmount).toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
@@ -412,11 +454,11 @@ class _CalculateScreenState extends State<CalculateScreen> {
                           ),
                           Spacer(),
                           Text(
-                            '= ${hospitalMilkAmount.toStringAsFixed(2)} (${selectedUnit == 'english'
-                                ? selectedSubUnit == 'gallon'
+                            '= ${hospitalMilkAmount.toStringAsFixed(2)} (${selectedUnitType == 'english'
+                                ? selectedUnit == 'gallon'
                                     ? 'gal'
                                     : 'lbs'
-                                : selectedSubUnit == 'liter'
+                                : selectedUnit == 'liter'
                                 ? 'L'
                                 : 'kg'})',
                             style: TextStyle(
@@ -447,13 +489,8 @@ class _CalculateScreenState extends State<CalculateScreen> {
                         ),
                         Spacer(),
                         Text(
-                          '= ${totalVolume.toStringAsFixed(2)} (${selectedUnit == 'english'
-                              ? selectedSubUnit == 'gallon'
-                                  ? 'gal'
-                                  : 'lbs'
-                              : selectedSubUnit == 'liter'
-                              ? 'L'
-                              : 'kg'})',
+                          '= ${totalVolume.toStringAsFixed(2)} '
+                          '(${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
@@ -474,14 +511,14 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Widget _mainUnitToggle(String value, String label) {
-    final isSelected = selectedUnit == value;
+    final isSelected = selectedUnitType == value;
 
     return Expanded(
       child: GestureDetector(
         onTap: () {
           setState(() {
-            selectedUnit = value;
-            selectedSubUnit = value == 'english' ? 'gallon' : 'liter';
+            selectedUnitType = value;
+            selectedUnit = value == 'english' ? 'gallon' : 'liter';
             _calculateRecipe();
           });
         },
@@ -506,13 +543,13 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Widget _subUnitToggle(String value, String label) {
-    final isSelected = selectedSubUnit == value;
+    final isSelected = selectedUnit == value;
 
     return Expanded(
       child: GestureDetector(
         onTap: () {
           setState(() {
-            selectedSubUnit = value;
+            selectedUnit = value;
             _calculateRecipe();
           });
         },
@@ -538,13 +575,11 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Widget buildAllUnitColumns() {
     String hospitalMilkUnit =
-        selectedUnit == 'english'
-            ? (selectedSubUnit == 'gallon' ? '(Gallon)' : '(Quarts)')
-            : (selectedSubUnit == 'liter' ? '(Liter)' : '(Liters)');
+        selectedUnitType == 'english'
+            ? (selectedUnit == 'gallon' ? '(Gallon)' : '(Pounds)')
+            : (selectedUnit == 'liter' ? '(Liter)' : '(Kilo)');
     String bottleSizeUnit =
-        selectedUnit == 'english'
-            ? (selectedSubUnit == 'gallon' ? '(Gallon)' : '(Quarts)')
-            : '(Liters)';
+        selectedUnitType == 'english' ? '(Quarts)' : '(Liters)';
 
     return _unitColumn(
       isExpanded: true,

@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/profile_farm_controller.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/settings_tile.dart';
 
+//api-done:setting
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProfileFarmController());
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -28,48 +32,50 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 48.h,
-                    width: 48.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryLight,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.primary, width: 2),
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      color: AppColors.primary,
-                      size: 24.h,
-                    ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'John Deo',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                        ),
+              Obx(() {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 48.h,
+                      width: 48.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryLight,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.primary, width: 2),
                       ),
-                      Text(
-                        'sample@gmail.com',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textLightGrey,
-                        ),
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.primary,
+                        size: 24.h,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    SizedBox(width: 14.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          controller.userProfile.value?.userProfile?.name ?? '',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          controller.userProfile.value?.email ?? '',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textLightGrey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }),
               SizedBox(height: 24.h),
               SettingTile(
                 iconPath: 'assets/logos/group.svg',
@@ -117,8 +123,10 @@ class SettingScreen extends StatelessWidget {
               SettingTile(
                 iconPath: 'assets/logos/logout.svg',
                 title: 'logout'.tr,
-
-                onTap: () {},
+                onTap: () async {
+                  await ApiService().logout();
+                  Get.offAllNamed(AppRoutes.signin);
+                },
               ),
             ],
           ),

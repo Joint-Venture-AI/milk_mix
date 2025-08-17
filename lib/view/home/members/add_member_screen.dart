@@ -3,13 +3,50 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/member_controller.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
-class AddMemberScreen extends StatelessWidget {
+import 'package:milk_mix/model/member_request.dart';
+
+class AddMemberScreen extends StatefulWidget {
   const AddMemberScreen({super.key});
+
+  @override
+  State<AddMemberScreen> createState() => _AddMemberScreenState();
+}
+
+class _AddMemberScreenState extends State<AddMemberScreen> {
+  final MemberController controller = Get.put(MemberController());
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _addMember() async {
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      Get.snackbar('Error', 'Please fill all fields');
+      return;
+    }
+    final request = MemberRequest(name: name, email: email, password: password);
+    controller.addMember(memberRequest: request);
+    if (mounted) {
+      Get.snackbar('Success', 'Member added successfully');
+      Get.toNamed(AppRoutes.home);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +60,6 @@ class AddMemberScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AppBarWidget(),
-
               SvgPicture.asset('assets/logos/addmember.svg', height: 60.h),
               SizedBox(height: 20.h),
               Text(
@@ -88,7 +124,8 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                controller: nameController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: 'memberNameField'.tr,
                   hintStyle: TextStyle(
@@ -105,7 +142,6 @@ class AddMemberScreen extends StatelessWidget {
                       color: AppColors.textPrimary,
                     ),
                   ),
-
                   prefixIconConstraints: BoxConstraints(
                     minWidth: 40.w,
                     minHeight: 40.h,
@@ -120,6 +156,7 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'enterEmail'.tr,
@@ -146,7 +183,9 @@ class AddMemberScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                controller: passwordController,
+                obscureText: true,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: 'enterPasswordMember'.tr,
                   hintStyle: TextStyle(
@@ -166,26 +205,29 @@ class AddMemberScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 48.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButtonWidgetLight(
-                      text: 'cancel'.tr,
-                      onPressed: () {
-                        Get.back();
-                      },
+              Obx(
+                () => Row(
+                  children: [
+                    Expanded(
+                      child: TextButtonWidgetLight(
+                        text: 'cancel'.tr,
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 15.w),
-                  Expanded(
-                    child: TextWidgetButton(
-                      text: 'addUser10'.tr,
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.home);
-                      },
+                    SizedBox(width: 15.w),
+                    Expanded(
+                      child:
+                          controller.addMemberIsLoading.value
+                              ? Center(child: CircularProgressIndicator())
+                              : TextWidgetButton(
+                                text: 'addUser10'.tr,
+                                onPressed: _addMember,
+                              ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

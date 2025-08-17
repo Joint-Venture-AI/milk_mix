@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TokenStorage {
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
+  static const String _roleKey = 'role';
 
   static SharedPreferences? _prefs;
 
@@ -40,6 +41,18 @@ class TokenStorage {
     }
   }
 
+  // Save role
+  static Future<bool> saveRole(String role) async {
+    try {
+      final prefs = await _preferences;
+      await prefs.setString(_roleKey, role);
+      return true;
+    } catch (e) {
+      debugPrint('❌ Failed to save role: $e');
+      return false;
+    }
+  }
+
   // Get access token
   static Future<String?> getAccessToken() async {
     try {
@@ -62,6 +75,18 @@ class TokenStorage {
     }
   }
 
+  // Get role
+  static Future<String?> getRole() async {
+    try {
+      final prefs = await _preferences;
+      return prefs.getString(_roleKey);
+    } catch (e) {
+      debugPrint('❌ Failed to get role: $e');
+      return null;
+    }
+  }
+
+  // Clear all tokens and user data
   static Future<bool> clearAll() async {
     try {
       final prefs = await _preferences;
@@ -69,6 +94,7 @@ class TokenStorage {
       await Future.wait([
         prefs.remove(_accessTokenKey),
         prefs.remove(_refreshTokenKey),
+        prefs.remove(_roleKey),
       ]);
 
       debugPrint('✅ All tokens and user data cleared');
@@ -84,11 +110,12 @@ class TokenStorage {
     try {
       final accessToken = await getAccessToken();
       final refreshToken = await getRefreshToken();
-
+      final role = await getRole();
       if (accessToken != null) {
         return StoredAuthData(
           accessToken: accessToken,
           refreshToken: refreshToken,
+          role: role,
         );
       }
       return null;
@@ -102,6 +129,7 @@ class TokenStorage {
 class StoredAuthData {
   final String accessToken;
   final String? refreshToken;
+  final String? role;
 
-  StoredAuthData({required this.accessToken, this.refreshToken});
+  StoredAuthData({required this.accessToken, this.refreshToken, this.role});
 }

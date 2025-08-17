@@ -4,7 +4,7 @@ import 'package:milk_mix/constants/color.dart';
 
 class TextWidgetButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const TextWidgetButton({
     super.key,

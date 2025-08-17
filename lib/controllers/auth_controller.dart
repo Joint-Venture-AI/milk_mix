@@ -1,0 +1,38 @@
+import 'package:get/get.dart';
+import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/routes.dart';
+
+class AuthController extends GetxController {
+  final RxBool isLoading = false.obs;
+  final ApiService apiService = ApiService();
+
+  Future<void> login({required String email, required String password}) async {
+    if (email.trim().isEmpty || password.trim().isEmpty) {
+      Get.snackbar('Error', 'Email and password are required');
+      return;
+    }
+
+    isLoading.value = true;
+
+    final result = await apiService.auth.login(
+      email: email.trim(),
+      password: password.trim(),
+    );
+
+    if (result.isSuccess) {
+      final auth = result.data!;
+      final role = auth.role;
+
+      if (role == 'consultant') {
+        Get.offAllNamed(AppRoutes.homeConsult);
+      } else if (role == 'farm') {
+        Get.offAllNamed(AppRoutes.farmMemberHome);
+      } else {
+        Get.snackbar('Error', 'Unknown role: $role');
+      }
+    } else {
+      Get.snackbar('Login Failed', 'Try again');
+    }
+    isLoading.value = false;
+  }
+}

@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:milk_mix/data_source/client/custom_http_client.dart';
 import 'package:milk_mix/data_source/client/http_client_config.dart';
 import 'package:milk_mix/data_source/client/result.dart';
 import 'package:milk_mix/data_source/client/token_storage.dart';
+import 'package:milk_mix/model/add_member_response.dart';
 import 'package:milk_mix/model/auth_response.dart';
+import 'package:milk_mix/model/create_history.dart';
+import 'package:milk_mix/model/farm_members_response.dart';
+import 'package:milk_mix/model/get_milk_history_response.dart';
+import 'package:milk_mix/model/member_request.dart';
+import 'package:milk_mix/model/milk_history_response.dart';
+import 'package:milk_mix/model/profile_response.dart';
 
 class ApiConfig {
   static const String baseUrl = 'http://10.10.12.9:8002';
@@ -11,7 +20,9 @@ class ApiConfig {
 
   // API Endpoints
   static const String auth = '/auth';
-  static const String refresh = '/auth/refresh';
+  static const String milkHistory = '/milk-history';
+  static const String members = '/members';
+  static const String consultants = '/consultants';
 }
 
 class ApiService {
@@ -19,7 +30,9 @@ class ApiService {
   static ApiService? _instance;
   bool _isInitialized = false;
 
-  ApiService._internal(this._httpClient);
+  ApiService._internal(this._httpClient) {
+    _initialize();
+  }
 
   factory ApiService({CustomHttpClient? httpClient}) {
     _instance ??= ApiService._internal(
@@ -39,7 +52,13 @@ class ApiService {
 
   AuthService get auth => AuthService(_httpClient);
 
-  Future<void> initialize() async {
+  MilkHistoryService get milkHistory => MilkHistoryService(_httpClient);
+
+  FarmMembersService get farmMembers => FarmMembersService(_httpClient);
+
+  ConsultantsService get consultants => ConsultantsService(_httpClient);
+
+  void _initialize() async {
     if (_isInitialized) return;
 
     debugPrint('🚀 Initializing API Service...');
@@ -47,9 +66,6 @@ class ApiService {
     await TokenStorage.init();
 
     await _restoreStoredTokens();
-
-    // Register token refresher so HTTP client can auto-refresh on 401
-    _httpClient.registerTokenRefresher(_attemptTokenRefresh);
 
     _isInitialized = true;
     debugPrint('✅ API Service initialized');
@@ -74,26 +90,26 @@ class ApiService {
     }
   }
 
-  Future<bool> _attemptTokenRefresh() async {
-    try {
-      final refreshResult = await auth.refreshToken();
+  // Future<bool> _attemptTokenRefresh() async {
+  //   try {
+  //     final refreshResult = await auth.refreshToken();
 
-      if (refreshResult.isSuccess) {
-        debugPrint('✅ Token refreshed successfully');
-        return true;
-      } else {
-        debugPrint('❌ Token refresh failed: ${refreshResult.error}');
-        await TokenStorage.clearAll();
-        _httpClient.clearAuth();
-        return false;
-      }
-    } catch (e) {
-      debugPrint('❌ Token refresh error: $e');
-      await TokenStorage.clearAll();
-      _httpClient.clearAuth();
-      return false;
-    }
-  }
+  //     if (refreshResult.isSuccess) {
+  //       debugPrint('✅ Token refreshed successfully');
+  //       return true;
+  //     } else {
+  //       debugPrint('❌ Token refresh failed: ${refreshResult.error}');
+  //       await TokenStorage.clearAll();
+  //       _httpClient.clearAuth();
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     debugPrint('❌ Token refresh error: $e');
+  //     await TokenStorage.clearAll();
+  //     _httpClient.clearAuth();
+  //     return false;
+  //   }
+  // }
 
   Future<void> logout() async {
     await TokenStorage.clearAll();
@@ -107,12 +123,13 @@ class AuthService {
 
   AuthService(this._httpClient);
 
+  // -------------
   Future<Result<AuthResponse>> login({
     required String email,
     required String password,
   }) async {
-    final result = await _httpClient.post<AuthResponse>(
-      '${ApiConfig.auth}/login',
+    final result = await _httpClient.post(
+      '${ApiConfig.auth}/login/',
       body: {'email': email, 'password': password},
       fromJson: (json) => AuthResponse.fromJson(json),
     );
@@ -127,41 +144,193 @@ class AuthService {
         accessToken: authResponse.accessToken ?? '',
         refreshToken: authResponse.refreshToken,
       );
+      await TokenStorage.saveRole(authResponse.role ?? '');
     }
 
     return result;
   }
 
-  Future<Result<AuthResponse>> refreshToken() async {
-    final storedRefresh = await TokenStorage.getRefreshToken();
-    if (storedRefresh == null || storedRefresh.isEmpty) {
-      return const Failure<AuthResponse>(
-        'No refresh token available',
-        type: FailureType.unauthorized,
-      );
-    }
+  Future<Result<dynamic>> register({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+  }) {
+    final body = {
+      'name': name,
+      'email': email,
+      'password': password,
+      'role': role,
+    };
+    return _httpClient.post('${ApiConfig.auth}/register/', body: body);
+  }
 
-    final result = await _httpClient.post<AuthResponse>(
-      ApiConfig.refresh,
-      body: {'refresh_token': storedRefresh},
+  Future<Result<AuthResponse>> verifyOtp({
+    required String otp,
+    required String email,
+  }) {
+    final body = {'email': email, 'otp': otp};
+    return _httpClient.post(
+      '${ApiConfig.auth}/otp/verify/',
+      body: body,
       fromJson: (json) => AuthResponse.fromJson(json),
     );
+  }
 
-    if (result.isSuccess) {
-      final authResponse = result.data!;
-      final newAccess = authResponse.accessToken ?? '';
-      final newRefresh = authResponse.refreshToken ?? storedRefresh;
+  Future<Result<dynamic>> passwordResetRequest({required String email}) {
+    final body = {'email': email};
+    return _httpClient.post(
+      '${ApiConfig.auth}/password-reset/request/',
+      body: body,
+      fromJson: (json) => json,
+    );
+  }
 
-      _httpClient.setAuthToken(
-        accessToken: newAccess,
-        refreshToken: newRefresh,
-      );
-      await TokenStorage.saveTokens(
-        accessToken: newAccess,
-        refreshToken: newRefresh,
+  Future<Result<dynamic>> passwordResetConfirm({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) {
+    final body = {'email': email, 'otp': otp, 'new_password': newPassword};
+    return _httpClient.post(
+      '${ApiConfig.auth}/password-reset/confirm/',
+      body: body,
+      fromJson: (json) => json,
+    );
+  }
+
+  Future<Result<dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) {
+    final body = {
+      'current_password': currentPassword,
+      'new_password': newPassword,
+    };
+    return _httpClient.post(
+      '${ApiConfig.auth}/password-change/',
+      body: body,
+      fromJson: (json) => json,
+    );
+  }
+
+  // -----------------
+  Future<Result<User>> getProfile() {
+    return _httpClient.get(
+      '${ApiConfig.auth}/profile/',
+      fromJson: (json) => User.fromJson(json),
+    );
+  }
+
+  Future<Result<dynamic>> updateProfile({
+    String? name,
+    String? phoneNumber,
+    File? profilePicture,
+  }) async {
+    final fields = <String, String>{};
+    final files = <MultipartFile>[];
+
+    // Add name only if not null
+    if (name != null) {
+      fields['name'] = name;
+    }
+
+    // Add phone number only if not null
+    if (phoneNumber != null) {
+      fields['phone_number'] = phoneNumber;
+    }
+
+    if (profilePicture != null) {
+      files.add(
+        MultipartFile.fromFile(
+          'profile_picture',
+          profilePicture,
+          filename: profilePicture.path.split('/').last,
+          contentType: 'image/jpeg',
+        ),
       );
     }
 
+    final result = await _httpClient.putMultipart<Map<String, dynamic>>(
+      '${ApiConfig.auth}/profile/',
+      formData: FormData(fields: fields, files: files),
+      fromJson: (json) => json,
+    );
+
     return result;
   }
+}
+
+class MilkHistoryService {
+  final CustomHttpClient _httpClient;
+
+  MilkHistoryService(this._httpClient);
+
+  Future<Result<MilkHistoryResponse>> createMilkHistory({
+    required CreateHistory createHistory,
+  }) {
+    return _httpClient.post(
+      '${ApiConfig.milkHistory}/create/',
+      body: createHistory.toJson(),
+      fromJson: (json) => MilkHistoryResponse.fromJson(json),
+    );
+  }
+
+  // get history of the firm
+  Future<Result<List<GetMilkHistoryData>>> getMilkHistory() {
+    return _httpClient.get(
+      '${ApiConfig.milkHistory}/',
+      fromJson: (json) {
+        return GetMilkHistoryData.listFromJson(json);
+      },
+    );
+  }
+
+  Future<Result<List<MilkHistoryData>>> getMilkHistoryByUser(int id) {
+    return _httpClient.get(
+      '${ApiConfig.milkHistory}/user/$id/',
+      fromJson: (json) => MilkHistoryData.fromJsonList(json),
+    );
+  }
+
+  Future<Result<dynamic>> clearMilkHistory() {
+    return _httpClient.delete(
+      '${ApiConfig.milkHistory}/clear/',
+      fromJson: (json) => json,
+    );
+  }
+}
+
+class FarmMembersService {
+  final CustomHttpClient _httpClient;
+
+  FarmMembersService(this._httpClient);
+
+  Future<Result<AddMemberResponse>> addMember({
+    required MemberRequest memberRequest,
+  }) {
+    return _httpClient.post(
+      '${ApiConfig.members}/create/',
+      fromJson: (json) => AddMemberResponse.fromJson(json),
+    );
+  }
+
+  Future<Result<FarmMembersResponse>> getAllMembers({required int farmId}) {
+    return _httpClient.get(
+      '${ApiConfig.members}/farm/$farmId/',
+      fromJson: (json) => FarmMembersResponse.fromJson(json),
+    );
+  }
+}
+
+class ConsultantsService {
+  final CustomHttpClient _httpClient;
+
+  ConsultantsService(this._httpClient);
+}
+
+class FarmService {
+  final CustomHttpClient _httpClient;
+
+  FarmService(this._httpClient);
 }
