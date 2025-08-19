@@ -27,6 +27,7 @@ dependencies:
   # flutter_image_compress: ^2.3.0
   # image_cropper: ^8.0.2
   # wechat_assets_picker: ^9.4.2
+  flutter_typeahead: ^5.2.0
 
 dev_dependencies:
   flutter_test:

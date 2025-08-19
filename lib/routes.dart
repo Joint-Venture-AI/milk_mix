@@ -26,7 +26,6 @@ import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_screen.da
 import 'package:milk_mix/view/home/settingsConsult/change_password_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/edit_language_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/edit_measurement_screen_consult.dart';
-import 'package:milk_mix/view/home/settingsConsult/edit_profile_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/help_and_support_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/subscription_screen_consult.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
@@ -104,7 +103,6 @@ class AppRoutes {
     GetPage(name: subscription, page: () => SubscriptionScreen()),
     GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
     GetPage(name: member, page: () => MembersScreen()),
-    GetPage(name: editProfileConsult, page: () => EditProfileScreenConsult()),
     GetPage(name: editLanguageConsult, page: () => EditLanguageScreenConsult()),
     GetPage(
       name: editMeasurementConsult,

@@ -188,9 +188,10 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               ),
               Obx(() {
                 final isLoading = controller.fetchMemberIsLoading.value;
-                if (isLoading)
+                if (isLoading) {
                   return const Center(child: CircularProgressIndicator());
-                final members = controller.members.value;
+                }
+                final members = controller.members;
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -199,19 +200,13 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                     final member = members[index];
                     print(member.toJson());
                     String? utcString = member.farmUserProfile?.joinedDate;
-
-                    // Parse UTC string to DateTime
                     DateTime? utcDateTime = DateTime.tryParse(utcString ?? '');
-
-                    // Convert to local time
                     DateTime? localDateTime = utcDateTime?.toLocal();
-
-                    // Format the date
                     String formatted =
                         localDateTime != null
                             ? DateFormat("MMM dd, yyyy").format(localDateTime)
                             : '';
-
+                    //
                     return Column(
                       children: [
                         SizedBox(height: 16.h),

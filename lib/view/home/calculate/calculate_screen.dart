@@ -173,11 +173,11 @@ class _CalculateScreenState extends State<CalculateScreen> {
   Future<void> _postCalculationResults() async {
     final result = await apiService.milkHistory.createMilkHistory(
       createHistory: CreateHistory(
-        bottleSize: double.parse(_bottleSizeController.text),
-        numberOfBottles: int.parse(_numBottlesController.text),
-        hospitalSolids: double.parse(_hospitalMilkSolidsController.text),
-        hospitalMilkVolume: double.parse(_hospitalMilkController.text),
-        desiredSolidsContent: double.parse(_desiredSolidsController.text),
+        bottleSize: double.tryParse(_bottleSizeController.text),
+        numberOfBottles: int.tryParse(_numBottlesController.text),
+        hospitalSolids: double.tryParse(_hospitalMilkSolidsController.text),
+        hospitalMilkVolume: double.tryParse(_hospitalMilkController.text),
+        desiredSolidsContent: double.tryParse(_desiredSolidsController.text),
         poundsOfWater: waterAmount,
         poundsOfMilkReplacer: milkReplacerAmount,
         solidsHospitalMilk: waterAmount + milkReplacerAmount,

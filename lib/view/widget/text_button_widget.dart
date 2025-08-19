@@ -19,7 +19,7 @@ class TextWidgetButton extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        color: AppColors.primary,
+        color: onPressed != null ? AppColors.primary : AppColors.textGrey,
       ),
       child: ElevatedButton(
         onPressed: onPressed,

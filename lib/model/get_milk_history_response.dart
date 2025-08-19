@@ -37,9 +37,6 @@ class GetMilkHistoryData {
 
   static List<GetMilkHistoryData> listFromJson(List<dynamic> json) {
     return json.map((value) {
-      print('--------------');
-      print(value.runtimeType);
-
       return GetMilkHistoryData.fromJson(value as Map<String, dynamic>);
     }).toList();
   }

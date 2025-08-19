@@ -13,6 +13,7 @@ import 'package:milk_mix/model/get_milk_history_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/milk_history_response.dart';
 import 'package:milk_mix/model/profile_response.dart';
+import 'package:milk_mix/model/search_farm_response.dart';
 
 class ApiConfig {
   static const String baseUrl = 'http://10.10.12.9:8002';
@@ -327,6 +328,38 @@ class ConsultantsService {
   final CustomHttpClient _httpClient;
 
   ConsultantsService(this._httpClient);
+
+  Future<Result<SearchFarmResponse>> searchFarms({required String query}) {
+    return _httpClient.get(
+      '${ApiConfig.consultants}/search/farm/?name=$query',
+      fromJson: (json) => SearchFarmResponse.fromJson(json),
+    );
+  }
+
+  Future<Result<dynamic>> joinRequest({
+    required int farmId,
+    required int consultantId,
+  }) {
+    return _httpClient.post(
+      '${ApiConfig.consultants}/request/',
+      body: {'farm': farmId, 'consultant': consultantId},
+      fromJson: (json) => json,
+    );
+  }
+
+  Future<Result<dynamic>> getAcceptedFarms() {
+    return _httpClient.get(
+      '${ApiConfig.consultants}/farm/list',
+      fromJson: (json) => json,
+    );
+  }
+
+  Future<Result<dynamic>> getFarmMembers({required String farmId}) {
+    return _httpClient.get(
+      '${ApiConfig.consultants}/farm/$farmId/memnber-list/',
+      fromJson: (json) => json,
+    );
+  }
 }
 
 class FarmService {

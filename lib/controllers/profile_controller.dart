@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:milk_mix/data_source/api_service.dart';
-import 'package:milk_mix/utils/image_picker.dart' as custom_image_picker;
 
 class ProfileController extends GetxController {
   final ApiService _apiService = ApiService();

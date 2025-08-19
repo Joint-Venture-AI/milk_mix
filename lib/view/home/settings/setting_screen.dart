@@ -36,20 +36,39 @@ class SettingScreen extends StatelessWidget {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 48.h,
-                      width: 48.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLight,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.primary, width: 2),
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        color: AppColors.primary,
-                        size: 24.h,
-                      ),
-                    ),
+                    controller.userProfile.value?.userProfile?.profilePicture ==
+                            null
+                        ? Container(
+                          height: 48.h,
+                          width: 48.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLight,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.primary,
+                              width: 2,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.primary,
+                            size: 24.h,
+                          ),
+                        )
+                        : ClipRRect(
+                          borderRadius: BorderRadius.circular(50.r),
+                          child: Image.network(
+                            ApiConfig.baseUrl +
+                                controller
+                                    .userProfile
+                                    .value!
+                                    .userProfile!
+                                    .profilePicture!,
+                            width: 48.w,
+                            height: 48.w,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                     SizedBox(width: 14.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

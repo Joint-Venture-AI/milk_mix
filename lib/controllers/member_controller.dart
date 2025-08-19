@@ -32,5 +32,6 @@ class MemberController extends GetxController {
     if (farmId == null) return;
     await apiService.farmMembers.addMember(memberRequest: memberRequest);
     addMemberIsLoading.value = false;
+    fetchMembers();
   }
 }
