@@ -5,6 +5,7 @@ import 'package:milk_mix/data_source/client/custom_http_client.dart';
 import 'package:milk_mix/data_source/client/http_client_config.dart';
 import 'package:milk_mix/data_source/client/result.dart';
 import 'package:milk_mix/data_source/client/token_storage.dart';
+import 'package:milk_mix/model/accepted_farm_response.dart';
 import 'package:milk_mix/model/add_member_response.dart';
 import 'package:milk_mix/model/auth_response.dart';
 import 'package:milk_mix/model/create_history.dart';
@@ -12,6 +13,7 @@ import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/milk_history_response.dart';
+import 'package:milk_mix/model/pending_consultant_request_response.dart';
 import 'package:milk_mix/model/profile_response.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 
@@ -347,16 +349,32 @@ class ConsultantsService {
     );
   }
 
-  Future<Result<dynamic>> getAcceptedFarms() {
+  Future<Result<AcceptedFarmResponse>> getAcceptedFarms() {
     return _httpClient.get(
       '${ApiConfig.consultants}/farm/list',
-      fromJson: (json) => json,
+      fromJson: (json) => AcceptedFarmResponse.fromJson(json),
     );
   }
 
   Future<Result<dynamic>> getFarmMembers({required String farmId}) {
     return _httpClient.get(
       '${ApiConfig.consultants}/farm/$farmId/memnber-list/',
+      fromJson: (json) => json,
+    );
+  }
+
+  //
+  Future<Result<PendingConsultantRequestResponse>> getPendingRequests() {
+    return _httpClient.get(
+      '${ApiConfig.consultants}/request-list/',
+      fromJson: (json) => PendingConsultantRequestResponse.fromJson(json),
+    );
+  }
+
+  Future<Result<dynamic>> acceptRequest({required int requestId}) {
+    return _httpClient.post(
+      '${ApiConfig.consultants}/request/$requestId/manage/',
+      body: {"action": "accept"},
       fromJson: (json) => json,
     );
   }

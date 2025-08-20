@@ -155,101 +155,101 @@ class _SigninScreenState extends State<SigninScreen> {
                     ],
                   ),
                   SizedBox(height: 20.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey.shade200,
-                          thickness: 1,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: Text(
-                          'or continue with',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey.shade200,
-                          thickness: 1,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Divider(
+                  //         color: Colors.grey.shade200,
+                  //         thickness: 1,
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  //       child: Text(
+                  //         'or continue with',
+                  //         style: TextStyle(
+                  //           fontSize: 12.sp,
+                  //           color: Colors.grey.shade600,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Divider(
+                  //         color: Colors.grey.shade200,
+                  //         thickness: 1,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: 20.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 48.h),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            backgroundColor: AppColors.shade,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/logos/google.svg',
-                                width: 18.w,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                'Google',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF1A1A1A),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 14.w),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 48.h),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ElevatedButton.styleFrom(
+                  //           minimumSize: Size(double.infinity, 48.h),
+                  //           elevation: 0,
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(10.r),
+                  //           ),
+                  //           backgroundColor: AppColors.shade,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //               'assets/logos/google.svg',
+                  //               width: 18.w,
+                  //             ),
+                  //             SizedBox(width: 8.w),
+                  //             Text(
+                  //               'Google',
+                  //               style: TextStyle(
+                  //                 fontSize: 16.sp,
+                  //                 fontWeight: FontWeight.w600,
+                  //                 color: Color(0xFF1A1A1A),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 14.w),
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ElevatedButton.styleFrom(
+                  //           minimumSize: Size(double.infinity, 48.h),
+                  //           elevation: 0,
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(10.r),
+                  //           ),
 
-                            backgroundColor: AppColors.shade,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/logos/apple.svg',
-                                width: 18.w,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                'Apple',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF1A1A1A),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  //           backgroundColor: AppColors.shade,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //               'assets/logos/apple.svg',
+                  //               width: 18.w,
+                  //             ),
+                  //             SizedBox(width: 8.w),
+                  //             Text(
+                  //               'Apple',
+                  //               style: TextStyle(
+                  //                 fontSize: 14.sp,
+                  //                 fontWeight: FontWeight.w600,
+                  //                 color: Color(0xFF1A1A1A),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

@@ -2,14 +2,21 @@ import 'package:get/get.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/member_request.dart';
+import 'package:milk_mix/model/pending_consultant_request_response.dart';
 
 class MemberController extends GetxController {
   final apiService = ApiService();
+  //
   var fetchMemberIsLoading = false.obs;
   var addMemberIsLoading = false.obs;
-  RxList<FarmMemberData> members = RxList<FarmMemberData>(
-    [],
-  ); // RxList<FarmMemberData>
+  var getPendingRequestIsLoading = false.obs;
+  var acceptConsultantRequestIsLoading = false.obs;
+  //
+  RxList<FarmMemberData> members = RxList<FarmMemberData>([]);
+  RxList<PendingConsultantRequest> pendingRequests =
+      RxList<PendingConsultantRequest>([]);
+
+  //
   void fetchMembers() async {
     fetchMemberIsLoading.value = true;
     final resultP = await apiService.auth.getProfile();
@@ -33,5 +40,38 @@ class MemberController extends GetxController {
     await apiService.farmMembers.addMember(memberRequest: memberRequest);
     addMemberIsLoading.value = false;
     fetchMembers();
+  }
+
+  void getPendingRequests() async {
+    getPendingRequestIsLoading.value = true;
+    final result = await apiService.consultants.getPendingRequests();
+    final requests = result.data?.data ?? [];
+    if (result.isSuccess) {
+      pendingRequests(requests);
+    }
+    getPendingRequestIsLoading.value = false;
+  }
+
+  void acceptConsultantRequest(int requestId) async {
+    acceptConsultantRequestIsLoading.value = true;
+    final result = await apiService.consultants.acceptRequest(
+      requestId: requestId,
+    );
+    if (result.isSuccess) {
+      Get.snackbar(
+        'Success',
+        'Consultant request accepted successfully.',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 2),
+      );
+      getPendingRequests();
+    } else {
+      Get.snackbar(
+        'Error',
+        'Failed to accept consultant request.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+    acceptConsultantRequestIsLoading.value = false;
   }
 }

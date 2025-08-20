@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
@@ -53,32 +54,47 @@ class _MembersPremiumScreenState extends State<ManageFarmScreen> {
                 ],
               ),
               SizedBox(height: 20.h),
-              Container(
-                height: 52.h,
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.surfaceGrey, width: 1),
-                ),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/logos/sample.svg',
-                      width: 24.w,
-                      height: 24.h,
-                    ),
-                    SizedBox(width: 10.w),
-                    Text(
-                      'Danial Dairy Farm',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ],
-                ),
+              FutureBuilder(
+                future: ApiService().consultants.getAcceptedFarms(),
+                builder: (context, snapshot) {
+                  print('snapshot data: ${snapshot.data}');
+                  final farms = snapshot.data?.data?.data ?? [];
+                  return Column(
+                    children: [
+                      for (var farm in farms)
+                        Container(
+                          height: 52.h,
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                              color: AppColors.surfaceGrey,
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/logos/sample.svg',
+                                width: 24.w,
+                                height: 24.h,
+                              ),
+                              SizedBox(width: 10.w),
+                              Text(
+                                farm.farmName ?? 'Unknown Farm',
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
 
               SizedBox(height: 20.h),

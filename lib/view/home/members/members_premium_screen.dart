@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/member_controller.dart';
+import 'package:milk_mix/controllers/profile_controller.dart';
+import 'package:milk_mix/model/pending_consultant_request_response.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/view/widget/profile_image_circle.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
@@ -18,11 +22,13 @@ class MembersPremiumScreen extends StatefulWidget {
 
 class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
   final controller = Get.put<MemberController>(MemberController());
+  final profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
     controller.fetchMembers();
+    controller.getPendingRequests();
   }
 
   @override
@@ -64,117 +70,87 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                 ],
               ),
               SizedBox(height: 24.h),
-              Container(
-                height: 86.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.lightGrey, width: 1.w),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(14.r),
-                  child: Container(
-                    color: AppColors.shade,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 12.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'coreUser'.tr,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textGrey,
+              Obx(() {
+                return Container(
+                  height: 86.h,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.lightGrey, width: 1.w),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(14.r),
+                    child: Container(
+                      color: AppColors.shade,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'coreUser'.tr,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.textGrey,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                '@abcdeef',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textPrimary,
+                                SizedBox(height: 4.h),
+                                Text(
+                                  profileController.name.value,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textPrimary,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
-                        SizedBox(width: 12.w),
-                      ],
+                          InkWell(
+                            onTap: () {
+                              // copy farm email to clipboard
+                              Clipboard.setData(
+                                ClipboardData(
+                                  text: profileController.name.value,
+                                ),
+                              );
+                              Get.snackbar(
+                                'Copied',
+                                'Farm name copied to clipboard',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.green[100],
+                                colorText: Colors.green[900],
+                              );
+                            },
+                            child: SvgPicture.asset(
+                              'assets/logos/copy.svg',
+                              height: 20.h,
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
               SizedBox(height: 28.h),
-              Container(
-                height: 150.h,
-                padding: EdgeInsets.all(16.r),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.lightGrey),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/logos/avater.svg',
-                          width: 40.w,
-                          height: 40.w,
-                        ),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "John Doe",
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.textPrimary,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                "wantsToJoinAsConsultant".tr,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: AppColors.textGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButtonWidgetLight(
-                            text: 'dismiss'.tr,
-                            onPressed: () {},
-                          ),
-                        ),
-                        SizedBox(width: 15.w),
-                        Expanded(
-                          child: TextWidgetButton(
-                            text: 'accept'.tr,
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
+              Obx(() {
+                final isLoading = controller.getPendingRequestIsLoading.value;
+                if (isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return Column(
+                  children: <Widget>[
+                    ...controller.pendingRequests.map((request) {
+                      return PendingRequestCard(request: request);
+                    }),
                   ],
-                ),
-              ),
+                );
+              }),
               SizedBox(height: 24.h),
               // farm members list
               Text(
@@ -271,7 +247,6 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   },
                 );
               }),
-
               // SizedBox(height: 16.h),
               // GestureDetector(
               //   onTap: () {
@@ -337,6 +312,98 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PendingRequestCard extends StatelessWidget {
+  final PendingConsultantRequest request;
+  const PendingRequestCard({required this.request, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150.h,
+      padding: EdgeInsets.all(16.r),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: AppColors.lightGrey),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              // SvgPicture.asset(
+              //   'assets/logos/avater.svg',
+              //   width: 40.w,
+              //   height: 40.w,
+              // ),
+              ProfileImageCircle(
+                image: request.farmProfilePicture ?? '',
+                size: 40,
+              ),
+              SizedBox(width: 8.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      request.farmName ?? '',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      "wantsToJoinAsConsultant".tr,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.textGrey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+          Row(
+            children: [
+              Expanded(
+                child: TextButtonWidgetLight(
+                  text: 'dismiss'.tr,
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(width: 15.w),
+              Expanded(
+                child: Obx(() {
+                  final isLoading =
+                      Get.find<MemberController>()
+                          .acceptConsultantRequestIsLoading
+                          .value;
+                  return TextWidgetButton(
+                    text: isLoading ? 'Loading...' : 'accept'.tr,
+                    onPressed: () async {
+                      final controller = Get.find<MemberController>();
+                      if (request.id == null) return;
+                      if (controller.acceptConsultantRequestIsLoading.value) {
+                        return;
+                      }
+
+                      controller.acceptConsultantRequest(request.id!);
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

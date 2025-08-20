@@ -8,7 +8,6 @@ import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
-import 'package:milk_mix/controllers/add_farm_controller.dart';
 
 class AddFarmScreen extends StatefulWidget {
   const AddFarmScreen({super.key});
@@ -19,6 +18,7 @@ class AddFarmScreen extends StatefulWidget {
 
 class _AddFarmScreenState extends State<AddFarmScreen> {
   Farm? selectedFarm;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.w),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AppBarWidget(),
@@ -111,7 +111,21 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                   final farmName = farm.profile?.name ?? '';
                   final farmId = farm.id;
                   return ListTile(
-                    title: Text(farmName),
+                    tileColor: Colors.white,
+                    dense: true,
+                    title: Text(
+                      farmName,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    leading: SvgPicture.asset(
+                      'assets/logos/sample.svg',
+                      width: 24.w,
+                      height: 24.h,
+                    ),
                     subtitle:
                         farmId.toString().isNotEmpty
                             ? Text('ID: $farmId')
@@ -184,23 +198,105 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                     ],
                   ),
                 ),
-              SizedBox(height: 280.h),
+              if (selectedFarm != null)
+                Container(
+                  padding: EdgeInsets.all(10.r),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryLight,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Selected Farm',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Row(
+                        children: [
+                          SizedBox(width: 6.w),
+                          SvgPicture.asset(
+                            'assets/logos/sample.svg',
+                            width: 24.w,
+                            height: 24.h,
+                          ),
+                          SizedBox(width: 12.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                selectedFarm?.profile?.name ?? 'Farm Name',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              Text(
+                                'ID: ${selectedFarm?.id ?? 'N/A'}',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              Spacer(),
               TextWidgetButton(
-                text: '+  Add Farm (\$25/farm)',
+                text: isLoading ? 'Adding...' : '+  Add Farm (\$25/farm)',
                 onPressed:
                     selectedFarm == null
                         ? null
                         : () async {
+                          if (isLoading) return;
+                          setState(() {
+                            isLoading = true;
+                          });
                           final profileResult =
                               await ApiService.instance.auth.getProfile();
                           final consultantId = profileResult.data?.id;
                           if (consultantId == null) return;
                           final farmId = selectedFarm?.id;
                           if (farmId == null) return;
-                          await ApiService.instance.consultants.joinRequest(
-                            farmId: farmId,
-                            consultantId: consultantId,
-                          );
+                          final joinResult = await ApiService
+                              .instance
+                              .consultants
+                              .joinRequest(
+                                farmId: farmId,
+                                consultantId: consultantId,
+                              );
+                          setState(() {
+                            isLoading = false;
+                          });
+                          // Show success message on bottom
+                          if (joinResult.isSuccess) {
+                            Get.snackbar(
+                              'Success',
+                              'Farm request sent successfully.',
+                              backgroundColor: Colors.green.withOpacity(0.6),
+                              snackPosition: SnackPosition.BOTTOM,
+                              duration: Duration(seconds: 2),
+                            );
+                          } else {
+                            Get.snackbar(
+                              'Error',
+                              'Failed to send farm request.',
+                              backgroundColor: Colors.red.withOpacity(0.6),
+                              snackPosition: SnackPosition.BOTTOM,
+                              duration: Duration(seconds: 2),
+                            );
+                          }
                         },
               ),
             ],

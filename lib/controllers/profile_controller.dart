@@ -10,6 +10,7 @@ class ProfileController extends GetxController {
   final RxBool isImageLoading = false.obs;
   final Rx<File?> selectedImage = Rx<File?>(null);
   final RxString profileImageUrl = ''.obs;
+  final RxString name = ''.obs;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -45,14 +46,15 @@ class ProfileController extends GetxController {
         if (user.userProfile?.profilePicture != null) {
           profileImageUrl.value = user.userProfile!.profilePicture!;
         }
+        name.value = user.userProfile?.name ?? '';
 
-        Get.snackbar(
-          'Success',
-          'Profile loaded successfully',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
-          colorText: Colors.green[900],
-        );
+        // Get.snackbar(
+        //   'Success',
+        //   'Profile loaded successfully',
+        //   snackPosition: SnackPosition.BOTTOM,
+        //   backgroundColor: Colors.green[100],
+        //   colorText: Colors.green[900],
+        // );
       } else {
         Get.snackbar(
           'Warning',
