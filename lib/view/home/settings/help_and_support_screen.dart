@@ -7,8 +7,84 @@ import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
-class HelpAndSupportScreen extends StatelessWidget {
+import 'package:milk_mix/data_source/api_service.dart';
+
+class HelpAndSupportScreen extends StatefulWidget {
   const HelpAndSupportScreen({super.key});
+
+  @override
+  State<HelpAndSupportScreen> createState() => _HelpAndSupportScreenState();
+}
+
+class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _problemController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _problemController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendFeedback() async {
+    final email = _emailController.text.trim();
+    final problem = _problemController.text.trim();
+    final description = _descriptionController.text.trim();
+
+    if (email.isEmpty || problem.isEmpty || description.isEmpty) {
+      Get.snackbar('Error', 'Please fill all fields');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      final result = await ApiService.instance.support.sendFeedback(
+        email: email,
+        problem: problem,
+        description: description,
+      );
+      if (result.isSuccess) {
+        Get.snackbar(
+          'Success',
+          'Feedback sent successfully',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        _emailController.clear();
+        _problemController.clear();
+        _descriptionController.clear();
+      } else {
+        Get.snackbar(
+          'Error',
+          result.error?.toString() ?? 'Failed to send feedback',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _cancel() {
+    _emailController.clear();
+    _problemController.clear();
+    _descriptionController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +97,6 @@ class HelpAndSupportScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const AppBarWidget(),
-
               SizedBox(height: 16.h),
               Text(
                 textAlign: TextAlign.start,
@@ -39,6 +114,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'enterYourEmail'.tr,
@@ -65,7 +141,8 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                controller: _problemController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: 'writrProblem'.tr,
                   hintStyle: TextStyle(
@@ -76,7 +153,6 @@ class HelpAndSupportScreen extends StatelessWidget {
                 ),
                 style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
-
               SizedBox(height: 6.h),
               Text(
                 'writrProblem'.tr,
@@ -84,7 +160,8 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                controller: _descriptionController,
+                keyboardType: TextInputType.multiline,
                 minLines: 12,
                 maxLines: 12,
                 decoration: InputDecoration(
@@ -97,22 +174,20 @@ class HelpAndSupportScreen extends StatelessWidget {
                 ),
                 style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
-
               SizedBox(height: 48.h),
-
               Row(
                 children: [
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'cancel'.tr,
-                      onPressed: () {},
+                      onPressed: _isLoading ? () {} : _cancel,
                     ),
                   ),
                   SizedBox(width: 15.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: 'update'.tr,
-                      onPressed: () {},
+                      text: _isLoading ? 'loading'.tr : 'update'.tr,
+                      onPressed: _isLoading ? null : _sendFeedback,
                     ),
                   ),
                 ],

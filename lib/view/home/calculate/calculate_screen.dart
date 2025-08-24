@@ -8,6 +8,7 @@ import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/create_history.dart';
 import 'package:milk_mix/view/widget/light_text_input_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //api-done: calculate screen
 class CalculateScreen extends StatefulWidget {
@@ -59,7 +60,31 @@ class _CalculateScreenState extends State<CalculateScreen> {
     _desiredSolidsController.addListener(_calculateRecipe);
 
     // Perform initial calculation
-    _calculateRecipe();
+    // _calculateRecipe();
+
+    //
+
+    _loadMeasurementPreference();
+  }
+
+  void _loadMeasurementPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final unitType = prefs.getString('measurement_system') ?? '';
+    // imperial siunit
+    // imperial == english, pounds
+    // siunit == metric, kilo
+    setState(() {
+      if (unitType == 'imperial') {
+        selectedUnitType = 'english';
+        selectedUnit = 'pounds';
+      } else if (unitType == 'siunit') {
+        selectedUnitType = 'metric';
+        selectedUnit = 'kilo';
+      } else {
+        selectedUnitType = 'english';
+        selectedUnit = 'pounds';
+      }
+    });
   }
 
   @override

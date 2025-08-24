@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart'; // Added for Get.snackbar
+// Added for Get.snackbar
 
 class HistoryController extends GetxController {
   final ApiService _apiService = ApiService.instance;
@@ -50,39 +50,39 @@ class HistoryController extends GetxController {
   }
 
   Future<void> clearHistoryFromServer() async {
-    // try {
-    //   final result = await _apiService.milkHistory.clearMilkHistory();
-    //   if (result.isSuccess) {
-    //     historyList.clear();
-    //     Get.snackbar(
-    //       'Success',
-    //       'History cleared successfully',
-    //       snackPosition: SnackPosition.BOTTOM,
-    //       backgroundColor: Colors.green,
-    //       colorText: Colors.white,
-    //       duration: Duration(seconds: 2),
-    //     );
-    //   } else {
-    //     Get.snackbar(
-    //       'Error',
-    //       'Failed to clear history: ${result.error}',
-    //       snackPosition: SnackPosition.BOTTOM,
-    //       backgroundColor: Colors.red,
-    //       colorText: Colors.white,
-    //       duration: Duration(seconds: 3),
-    //     );
-    //   }
-    // } catch (e) {
-    //   debugPrint('Error clearing history: $e');
-    //   Get.snackbar(
-    //     'Error',
-    //     'An error occurred while clearing history',
-    //     snackPosition: SnackPosition.BOTTOM,
-    //     backgroundColor: Colors.red,
-    //     colorText: Colors.white,
-    //     duration: Duration(seconds: 3),
-    //   );
-    // }
+    try {
+      final result = await _apiService.milkHistory.clearMilkHistory();
+      if (result.isSuccess) {
+        historyList.clear();
+        Get.snackbar(
+          'Success',
+          'History cleared successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: Duration(seconds: 2),
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to clear history: ${result.error}',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: Duration(seconds: 3),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error clearing history: $e');
+      Get.snackbar(
+        'Error',
+        'An error occurred while clearing history',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
+    }
   }
 
   // GetMilkHistoryData? getHistoryById(int id) {

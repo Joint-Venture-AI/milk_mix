@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
 class MemberDetailsScreen extends StatelessWidget {
-  final int memberId;
-  final int farmId;
+  final int farmUserId;
+  final String? farmUserEmail;
+  final String? farmUserName;
+  final String? joinedDate;
   const MemberDetailsScreen({
-    required this.memberId,
-    required this.farmId,
+    this.farmUserEmail,
+    this.farmUserName,
+    this.joinedDate,
+    required this.farmUserId,
     super.key,
   });
 
@@ -32,7 +37,7 @@ class MemberDetailsScreen extends StatelessWidget {
               SizedBox(height: 14.h),
               Text(
                 textAlign: TextAlign.center,
-                'John deo',
+                farmUserName ?? '',
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
@@ -42,7 +47,7 @@ class MemberDetailsScreen extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 textAlign: TextAlign.center,
-                'sample@gmail.com',
+                farmUserEmail ?? '',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -61,7 +66,7 @@ class MemberDetailsScreen extends StatelessWidget {
                   SizedBox(width: 3.w),
                   Text(
                     textAlign: TextAlign.center,
-                    'May 20, 2025',
+                    joinedDate ?? '',
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -87,14 +92,30 @@ class MemberDetailsScreen extends StatelessWidget {
                 ),
               ),
               FutureBuilder(
-                future: ApiService().milkHistory.getMilkHistoryByUser(memberId),
+                future: ApiService().milkHistory.getMilkHistoryByUser(
+                  farmUserId,
+                ),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
                   final historyList = snapshot.data?.data ?? [];
                   if (historyList.isEmpty) {
-                    return Center(child: Text('No history available'));
+                    return Column(
+                      children: [
+                        SizedBox(height: 80.h),
+                        Center(
+                          child: Text(
+                            'No history available',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textLightGrey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
@@ -102,65 +123,21 @@ class MemberDetailsScreen extends StatelessWidget {
                     itemCount: historyList.length,
                     itemBuilder: (context, index) {
                       final history = historyList[index];
+                      final date = DateTime.tryParse(history.createdAt ?? '');
+                      final formattedDate = DateFormat(
+                        'yyyy-MM-dd',
+                      ).format(date!);
+                      final formattedTime = DateFormat('hh:mm a').format(date);
                       return HistoryTile(
                         number: (index + 1).toString().padLeft(2, '0'),
-                        volume: '0',
-                        date: '',
-                        time: '',
+                        volume: history.totalVolume.toString(),
+                        date: formattedDate,
+                        time: formattedTime,
                       );
                     },
                   );
-                  // return Column(
-                  //   children:
-                  //       historyList
-                  //           .map(
-                  //             (history) => HistoryTile(
-                  //               number: history.id.toString(),
-                  //               volume: history. volume.toString(),
-                  //               date: history.date,
-                  //               time: history.time,
-                  //             ),
-                  //           )
-                  //           .toList(),
-                  // );
                 },
               ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
-              // HistoryTile(
-              //   number: '01',
-              //   volume: '1500',
-              //   date: '06-7-25',
-              //   time: '10:30 AM',
-              // ),
             ],
           ),
         ),

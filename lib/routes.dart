@@ -25,8 +25,6 @@ import 'package:milk_mix/view/home/homeConsult/manageFarm/add_farm_screen.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_list.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_screen.dart';
 import 'package:milk_mix/view/home/settingsConsult/edit_language_screen_consult.dart';
-import 'package:milk_mix/view/home/settingsConsult/edit_measurement_screen_consult.dart';
-import 'package:milk_mix/view/home/settingsConsult/help_and_support_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/subscription_screen_consult.dart';
 import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
@@ -93,16 +91,31 @@ class AppRoutes {
       name: memberDetails,
       page: () {
         final args = Get.arguments as Map<String, dynamic>?;
-        final int? memberId =
-            args != null && args.containsKey('memberId')
-                ? args['memberId']
+        final int? farmUserId =
+            args != null && args.containsKey('farmUserId')
+                ? args['farmUserId']
                 : null;
-        final int? farmId =
-            args != null && args.containsKey('farmId') ? args['farmId'] : null;
-        if (memberId == null || farmId == null) {
-          throw ArgumentError('memberId and farmId are required');
+        final String? farmUserEmail =
+            args != null && args.containsKey('farmUserEmail')
+                ? args['farmUserEmail']
+                : null;
+        final String? farmUserName =
+            args != null && args.containsKey('farmUserName')
+                ? args['farmUserName']
+                : null;
+        final String? joinedDate =
+            args != null && args.containsKey('joinedDate')
+                ? args['joinedDate']
+                : null;
+        if (farmUserId == null) {
+          throw ArgumentError('farmUserId is required');
         }
-        return MemberDetailsScreen(memberId: memberId, farmId: farmId);
+        return MemberDetailsScreen(
+          farmUserId: farmUserId,
+          farmUserEmail: farmUserEmail,
+          farmUserName: farmUserName,
+          joinedDate: joinedDate,
+        );
       },
     ),
     GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
@@ -135,18 +148,6 @@ class AppRoutes {
     GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
     GetPage(name: member, page: () => MembersScreen()),
     GetPage(name: editLanguageConsult, page: () => EditLanguageScreenConsult()),
-    GetPage(
-      name: editMeasurementConsult,
-      page: () => EditMeasurementScreenConsult(),
-    ),
-    // GetPage(
-    //   name: changePasswordConsult,
-    //   page: () => ChangePasswordScreenConsult(),
-    // ),
-    GetPage(
-      name: helpAndSupportConsult,
-      page: () => HelpAndSupportScreenConsult(),
-    ),
     GetPage(name: subscriptionConsult, page: () => SubscriptionScreenConsult()),
     GetPage(name: farmMemberHome, page: () => FarmHomeBottomNavBar()),
     GetPage(name: memberHome, page: () => MemberHomeBottomNavBar()),

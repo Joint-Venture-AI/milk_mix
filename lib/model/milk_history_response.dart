@@ -21,6 +21,8 @@ class MilkHistoryData {
   int? id;
   int? user;
   String? userEmail;
+  int? farm;
+  String? farmEmail;
   String? createdAt;
   double? bottleSize;
   int? numberOfBottles;
@@ -31,6 +33,7 @@ class MilkHistoryData {
   double? poundsOfMilkReplacer;
   double? solidsHospitalMilk;
   double? hospitalMilkUsed;
+  String? totalVolume;
 
   MilkHistoryData({
     this.id,
@@ -46,6 +49,9 @@ class MilkHistoryData {
     this.poundsOfMilkReplacer,
     this.solidsHospitalMilk,
     this.hospitalMilkUsed,
+    this.totalVolume,
+    this.farm,
+    this.farmEmail,
   });
 
   factory MilkHistoryData.fromJson(Map<String, dynamic> json) {
@@ -87,6 +93,9 @@ class MilkHistoryData {
           (json['hospital_milk_used'] != null)
               ? double.tryParse(json['hospital_milk_used'].toString())
               : null,
+      totalVolume: json['total_volume']?.toString(),
+      farm: json['farm'] as int?,
+      farmEmail: json['farm_email'] as String?,
     );
   }
 
@@ -109,6 +118,9 @@ class MilkHistoryData {
       'pounds_of_milk_replacer': poundsOfMilkReplacer?.toStringAsFixed(2),
       'solids_hospital_milk': solidsHospitalMilk?.toStringAsFixed(2),
       'hospital_milk_used': hospitalMilkUsed?.toStringAsFixed(2),
+      'total_volume': totalVolume,
+      'farm': farm,
+      'farm_email': farmEmail,
     };
   }
 }

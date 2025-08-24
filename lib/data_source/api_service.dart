@@ -11,6 +11,7 @@ import 'package:milk_mix/model/auth_response.dart';
 import 'package:milk_mix/model/create_history.dart';
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
+import 'package:milk_mix/model/get_pending_req_for_consultant_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/milk_history_response.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
@@ -26,6 +27,7 @@ class ApiConfig {
   static const String milkHistory = '/milk-history';
   static const String members = '/members';
   static const String consultants = '/consultants';
+  static const String support = '/support';
 }
 
 class ApiService {
@@ -61,6 +63,8 @@ class ApiService {
   FarmMembersService get farmMembers => FarmMembersService(_httpClient);
 
   ConsultantsService get consultants => ConsultantsService(_httpClient);
+
+  SupportService get support => SupportService(_httpClient);
 
   void _initialize() async {
     if (_isInitialized) return;
@@ -293,13 +297,13 @@ class MilkHistoryService {
   Future<Result<List<MilkHistoryData>>> getMilkHistoryByUser(int id) {
     return _httpClient.get(
       '${ApiConfig.milkHistory}/user/$id/',
-      fromJson: (json) => MilkHistoryData.fromJsonList(json),
+      fromJson: (json) => MilkHistoryData.fromJsonList(json['data']),
     );
   }
 
   Future<Result<dynamic>> clearMilkHistory() {
     return _httpClient.delete(
-      '${ApiConfig.milkHistory}/clear/',
+      '${ApiConfig.milkHistory}/user/delete/',
       fromJson: (json) => json,
     );
   }
@@ -324,6 +328,13 @@ class FarmMembersService {
     return _httpClient.get(
       '${ApiConfig.members}/farm/$farmId/',
       fromJson: (json) => FarmMembersResponse.fromJson(json),
+    );
+  }
+
+  Future<Result<dynamic>> deleteMember({required int memberId}) {
+    return _httpClient.delete(
+      '${ApiConfig.members}/$memberId/delete/',
+      fromJson: (json) => json,
     );
   }
 }
@@ -373,6 +384,14 @@ class ConsultantsService {
     );
   }
 
+  Future<Result<GetPendingReqForConsultantResponse>>
+  getPendingRequestsForConsultant() {
+    return _httpClient.get(
+      '${ApiConfig.consultants}/get/pending-request/',
+      fromJson: (json) => GetPendingReqForConsultantResponse.fromJson(json),
+    );
+  }
+
   Future<Result<dynamic>> acceptRequest({required int requestId}) {
     return _httpClient.post(
       '${ApiConfig.consultants}/request/$requestId/manage/',
@@ -386,4 +405,27 @@ class FarmService {
   final CustomHttpClient _httpClient;
 
   FarmService(this._httpClient);
+}
+
+class SupportService {
+  final CustomHttpClient _httpClient;
+
+  SupportService(this._httpClient);
+
+  Future<Result<dynamic>> sendFeedback({
+    required String email,
+    required String problem,
+    required String description,
+  }) {
+    final body = {
+      'email': email,
+      'problem': problem,
+      'description': description,
+    };
+    return _httpClient.post(
+      '${ApiConfig.support}/submit/',
+      body: body,
+      fromJson: (json) => json,
+    );
+  }
 }

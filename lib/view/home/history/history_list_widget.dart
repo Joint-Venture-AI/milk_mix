@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/history_controller.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
-class HistryWidget extends StatefulWidget {
-  const HistryWidget({super.key});
+class HistoryListWidget extends StatefulWidget {
+  const HistoryListWidget({super.key});
 
   @override
-  State<HistryWidget> createState() => _HistryWidgetState();
+  State<HistoryListWidget> createState() => _HistoryListWidgetState();
 }
 
-class _HistryWidgetState extends State<HistryWidget> {
+class _HistoryListWidgetState extends State<HistoryListWidget> {
   @override
   void didChangeDependencies() {
     final HistoryController controller = Get.put(HistoryController());

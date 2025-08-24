@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/history/histry_widget.dart';
-import 'package:milk_mix/view/widget/history_tile.dart';
+import 'package:milk_mix/view/home/history/history_list_widget.dart';
 
 class HistoryItem {
   final String number;
@@ -80,6 +76,9 @@ class HistoryFarmScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: AppColors.surface, body: HistryWidget());
+    return Scaffold(
+      backgroundColor: AppColors.surface,
+      body: HistoryListWidget(),
+    );
   }
 }

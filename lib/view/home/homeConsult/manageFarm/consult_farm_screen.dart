@@ -78,11 +78,26 @@ class ConsultFarmScreen extends StatelessWidget {
                       for (var member in members) ...[
                         GestureDetector(
                           onTap: () {
+                            String? utcString =
+                                member.farmUserProfile?.joinedDate;
+                            DateTime? utcDateTime = DateTime.tryParse(
+                              utcString ?? '',
+                            );
+                            DateTime? localDateTime = utcDateTime?.toLocal();
+                            String formatted =
+                                localDateTime != null
+                                    ? DateFormat(
+                                      "MMM dd, yyyy",
+                                    ).format(localDateTime)
+                                    : '';
                             Get.toNamed(
                               AppRoutes.memberDetails,
                               arguments: {
-                                'memberId': member.memberId,
-                                'farmId': member.farmId,
+                                'farmUserId': member.farmUserId,
+                                'farmUserEmail': member.farmUserEmail,
+                                'farmUserName':
+                                    member.farmUserProfile?.name ?? '',
+                                'joinedDate': formatted,
                               },
                             );
                           },
@@ -130,10 +145,45 @@ class ConsultFarmScreen extends StatelessWidget {
                                   ],
                                 ),
                                 Spacer(),
-                                SvgPicture.asset(
-                                  'assets/logos/trash.svg',
-                                  width: 20.w,
-                                  height: 20.h,
+                                InkWell(
+                                  onTap: () async {
+                                    if (member.memberId == null) return;
+
+                                    Get.defaultDialog(
+                                      title: "Confirm Delete",
+                                      middleText:
+                                          "Are you sure you want to delete this member?",
+                                      textCancel: "Cancel",
+                                      textConfirm: "Delete",
+                                      confirmTextColor: Colors.white,
+                                      onConfirm: () async {
+                                        Get.back(); // close dialog before making API call
+
+                                        // final result = await ApiService()
+                                        //     .farmMembers
+                                        //     .deleteMember(
+                                        //       memberId: member.memberId!,
+                                        //     );
+
+                                        // if (result.isSuccess) {
+                                        //   Get.snackbar(
+                                        //     'Success',
+                                        //     'Member deleted successfully',
+                                        //   );
+                                        // } else {
+                                        //   Get.snackbar(
+                                        //     'Error',
+                                        //     'Failed to delete member',
+                                        //   );
+                                        // }
+                                      },
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/logos/trash.svg',
+                                    width: 20.w,
+                                    height: 20.h,
+                                  ),
                                 ),
                               ],
                             ),

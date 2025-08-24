@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/member_controller.dart';
 import 'package:milk_mix/controllers/profile_controller.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/profile_image_circle.dart';
@@ -193,8 +194,11 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                             Get.toNamed(
                               AppRoutes.memberDetails,
                               arguments: {
-                                'memberId': member.memberId,
-                                'farmId': member.farmId,
+                                'farmUserId': member.farmUserId,
+                                'farmUserEmail': member.farmUserEmail,
+                                'farmUserName':
+                                    member.farmUserProfile?.name ?? '',
+                                'joinedDate': formatted,
                               },
                             );
                           },
@@ -241,10 +245,53 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                                   ],
                                 ),
                                 Spacer(),
-                                SvgPicture.asset(
-                                  'assets/logos/trash.svg',
-                                  width: 20.w,
-                                  height: 20.h,
+                                InkWell(
+                                  onTap: () async {
+                                    if (member.memberId == null) return;
+
+                                    Get.defaultDialog(
+                                      title: "Confirm Delete",
+                                      backgroundColor: Colors.white,
+                                      buttonColor: AppColors.primary,
+                                      middleText:
+                                          "Are you sure you want to delete this member?",
+                                      textCancel: "Cancel",
+                                      textConfirm: "Delete",
+                                      confirmTextColor: Colors.white,
+                                      onConfirm: () async {
+                                        Get.back(); // close dialog before making API call
+                                        print(
+                                          'Deleting member with ID: ${member.memberId}',
+                                        );
+                                        final result = await ApiService()
+                                            .farmMembers
+                                            .deleteMember(
+                                              memberId: member.memberId!,
+                                            );
+
+                                        if (result.isSuccess) {
+                                          Get.snackbar(
+                                            'Success',
+                                            'Member deleted successfully',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+
+                                          controller.fetchMembers();
+                                        } else {
+                                          Get.snackbar(
+                                            'Error',
+                                            'Failed to delete member',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/logos/trash.svg',
+                                    width: 20.w,
+                                    height: 20.h,
+                                  ),
                                 ),
                               ],
                             ),

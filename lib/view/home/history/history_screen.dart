@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/view/home/history/histry_widget.dart';
+import 'package:milk_mix/view/home/history/history_list_widget.dart';
 
 //api-done: history screen
 class HistoryScreen extends StatelessWidget {
@@ -8,6 +8,9 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: AppColors.surface, body: HistryWidget());
+    return Scaffold(
+      backgroundColor: AppColors.surface,
+      body: HistoryListWidget(),
+    );
   }
 }
