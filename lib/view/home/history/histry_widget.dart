@@ -7,8 +7,20 @@ import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/history_controller.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
-class HistryWidget extends StatelessWidget {
+class HistryWidget extends StatefulWidget {
   const HistryWidget({super.key});
+
+  @override
+  State<HistryWidget> createState() => _HistryWidgetState();
+}
+
+class _HistryWidgetState extends State<HistryWidget> {
+  @override
+  void didChangeDependencies() {
+    final HistoryController controller = Get.put(HistoryController());
+    controller.refreshHistory();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +166,7 @@ class HistryWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final history = controller.getSortedHistory()[index];
                     return HistoryTile(
-                      number: '${(index + 1).toString().padLeft(2, '0')}',
+                      number: (index + 1).toString().padLeft(2, '0'),
                       volume: controller.getTotalVolume(history),
                       date: controller.formatDate(history.createdAt),
                       time: controller.formatTime(history.createdAt),

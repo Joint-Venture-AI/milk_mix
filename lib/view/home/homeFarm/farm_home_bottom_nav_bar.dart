@@ -6,14 +6,14 @@ import 'package:milk_mix/view/home/calculate/calculate_screen.dart';
 import 'package:milk_mix/view/home/history/history_screen.dart';
 import 'package:milk_mix/view/home/settings/setting_screen.dart';
 
-class FarmHomeBottomNavBar extends StatefulWidget {
-  const FarmHomeBottomNavBar({super.key});
+class MemberHomeBottomNavBar extends StatefulWidget {
+  const MemberHomeBottomNavBar({super.key});
 
   @override
-  State<FarmHomeBottomNavBar> createState() => _MainPageState();
+  State<MemberHomeBottomNavBar> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<FarmHomeBottomNavBar> {
+class _MainPageState extends State<MemberHomeBottomNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [

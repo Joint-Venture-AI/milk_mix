@@ -41,10 +41,15 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       return;
     }
     final request = MemberRequest(name: name, email: email, password: password);
-    controller.addMember(memberRequest: request);
-    if (mounted) {
+    final result = await controller.addMember(memberRequest: request);
+
+    if (result.isSuccess) {
+      print('-------------------');
       Get.snackbar('Success', 'Member added successfully');
-      Get.toNamed(AppRoutes.home);
+
+      // Get.back();
+    } else {
+      Get.snackbar('Error', result.error ?? 'Failed to add member');
     }
   }
 

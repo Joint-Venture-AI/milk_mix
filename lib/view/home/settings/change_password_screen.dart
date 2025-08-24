@@ -314,7 +314,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                 ),
 
-                SizedBox(height: 320.h),
+                SizedBox(height: 280.h),
                 Row(
                   children: [
                     Expanded(

@@ -8,7 +8,7 @@ class HistoryController extends GetxController {
   final ApiService _apiService = ApiService.instance;
 
   // Observable variables
-  final RxList<dynamic> historyList = <dynamic>[].obs;
+  final RxList<GetMilkHistoryData> historyList = <GetMilkHistoryData>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool hasError = false.obs;
   final RxString errorMessage = ''.obs;
@@ -119,8 +119,8 @@ class HistoryController extends GetxController {
   // }
 
   // Get sorted history (newest first)
-  List<dynamic> getSortedHistory() {
-    final sortedList = List<dynamic>.from(historyList);
+  List<GetMilkHistoryData> getSortedHistory() {
+    final sortedList = List<GetMilkHistoryData>.from(historyList);
     sortedList.sort((a, b) {
       if (a.createdAt == null || b.createdAt == null) return 0;
       try {

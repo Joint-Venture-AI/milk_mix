@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
 class MemberDetailsScreen extends StatelessWidget {
-  const MemberDetailsScreen({super.key});
+  final int memberId;
+  final int farmId;
+  const MemberDetailsScreen({
+    required this.memberId,
+    required this.farmId,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,42 +86,81 @@ class MemberDetailsScreen extends StatelessWidget {
                   color: AppColors.textPrimary,
                 ),
               ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
+              FutureBuilder(
+                future: ApiService().milkHistory.getMilkHistoryByUser(memberId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  final historyList = snapshot.data?.data ?? [];
+                  if (historyList.isEmpty) {
+                    return Center(child: Text('No history available'));
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: historyList.length,
+                    itemBuilder: (context, index) {
+                      final history = historyList[index];
+                      return HistoryTile(
+                        number: (index + 1).toString().padLeft(2, '0'),
+                        volume: '0',
+                        date: '',
+                        time: '',
+                      );
+                    },
+                  );
+                  // return Column(
+                  //   children:
+                  //       historyList
+                  //           .map(
+                  //             (history) => HistoryTile(
+                  //               number: history.id.toString(),
+                  //               volume: history. volume.toString(),
+                  //               date: history.date,
+                  //               time: history.time,
+                  //             ),
+                  //           )
+                  //           .toList(),
+                  // );
+                },
               ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
-              ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
-              ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
-              ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
-              ),
-              HistoryTile(
-                number: '01',
-                volume: '1500',
-                date: '06-7-25',
-                time: '10:30 AM',
-              ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
+              // HistoryTile(
+              //   number: '01',
+              //   volume: '1500',
+              //   date: '06-7-25',
+              //   time: '10:30 AM',
+              // ),
             ],
           ),
         ),

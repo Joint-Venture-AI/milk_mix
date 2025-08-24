@@ -27,6 +27,8 @@ class AuthController extends GetxController {
         Get.offAllNamed(AppRoutes.homeConsult);
       } else if (role == 'farm') {
         Get.offAllNamed(AppRoutes.farmMemberHome);
+      } else if (role == 'farm_user') {
+        Get.offAllNamed(AppRoutes.memberHome);
       } else {
         Get.snackbar('Error', 'Unknown role: $role');
       }

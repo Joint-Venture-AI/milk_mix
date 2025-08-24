@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/client/result.dart';
+import 'package:milk_mix/model/add_member_response.dart' hide FarmMemberData;
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
@@ -30,16 +32,21 @@ class MemberController extends GetxController {
     fetchMemberIsLoading.value = false;
   }
 
-  void addMember({required MemberRequest memberRequest}) async {
+  Future<Result<AddMemberResponse>> addMember({
+    required MemberRequest memberRequest,
+  }) async {
     addMemberIsLoading.value = true;
     final result = await apiService.auth.getProfile();
-    if (!result.isSuccess) return;
+    if (!result.isSuccess) return Failure('Failed to get profile');
     final farmId = result.data?.id;
     memberRequest.farm = farmId;
-    if (farmId == null) return;
-    await apiService.farmMembers.addMember(memberRequest: memberRequest);
+    if (farmId == null) return Failure('Farm ID is null');
+    final resultP = await apiService.farmMembers.addMember(
+      memberRequest: memberRequest,
+    );
     addMemberIsLoading.value = false;
     fetchMembers();
+    return resultP;
   }
 
   void getPendingRequests() async {

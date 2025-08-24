@@ -45,6 +45,7 @@ class ApiService {
               baseUrl: '${ApiConfig.baseUrl}/api',
               timeout: ApiConfig.timeout,
               enableLogging: kDebugMode,
+              sanitizeLoggedHeaders: false,
             ),
           ),
     );
@@ -315,6 +316,7 @@ class FarmMembersService {
     return _httpClient.post(
       '${ApiConfig.members}/create/',
       fromJson: (json) => AddMemberResponse.fromJson(json),
+      body: memberRequest.toJson(),
     );
   }
 

@@ -153,15 +153,18 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               }),
               SizedBox(height: 24.h),
               // farm members list
-              Text(
-                '${'farmMembers'.tr}'
-                ' (3)',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textPrimary,
-                ),
-              ),
+              Obx(() {
+                final count = controller.members.length;
+                return Text(
+                  '${'farmMembers'.tr}'
+                  ' ($count)',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textPrimary,
+                  ),
+                );
+              }),
               Obx(() {
                 final isLoading = controller.fetchMemberIsLoading.value;
                 if (isLoading) {
@@ -174,7 +177,6 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   itemCount: members.length,
                   itemBuilder: (context, index) {
                     final member = members[index];
-                    print(member.toJson());
                     String? utcString = member.farmUserProfile?.joinedDate;
                     DateTime? utcDateTime = DateTime.tryParse(utcString ?? '');
                     DateTime? localDateTime = utcDateTime?.toLocal();
@@ -188,7 +190,13 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                         SizedBox(height: 16.h),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(AppRoutes.memberDetails);
+                            Get.toNamed(
+                              AppRoutes.memberDetails,
+                              arguments: {
+                                'memberId': member.memberId,
+                                'farmId': member.farmId,
+                              },
+                            );
                           },
                           child: Container(
                             height: 65.h,

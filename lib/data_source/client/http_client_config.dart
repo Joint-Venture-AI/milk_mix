@@ -4,7 +4,7 @@ class HttpClientConfig {
   final Duration connectionTimeout;
   final Map<String, String> defaultHeaders;
   final bool enableLogging;
-  final bool sanitizeLoggedHeaders = true;
+  final bool sanitizeLoggedHeaders;
   final int maxRetries;
   final Duration retryDelay;
 
@@ -19,5 +19,6 @@ class HttpClientConfig {
     this.enableLogging = true,
     this.maxRetries = 3,
     this.retryDelay = const Duration(seconds: 1),
+    this.sanitizeLoggedHeaders = true,
   });
 }

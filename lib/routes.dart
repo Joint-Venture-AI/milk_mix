@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:milk_mix/view/home/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
@@ -23,7 +24,6 @@ import 'package:milk_mix/view/home/homeConsult/home_consult_bottom_nav_screen.da
 import 'package:milk_mix/view/home/homeConsult/manageFarm/add_farm_screen.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_list.dart';
 import 'package:milk_mix/view/home/homeConsult/manageFarm/consult_farm_screen.dart';
-import 'package:milk_mix/view/home/settingsConsult/change_password_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/edit_language_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/edit_measurement_screen_consult.dart';
 import 'package:milk_mix/view/home/settingsConsult/help_and_support_screen_consult.dart';
@@ -72,6 +72,7 @@ class AppRoutes {
   static String helpAndSupportConsult = "/help-and-support";
   static String subscriptionConsult = "/subscription";
   static String farmMemberHome = "/farm-member-home";
+  static String memberHome = "/member-home";
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -88,12 +89,42 @@ class AppRoutes {
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),
     GetPage(name: addMember, page: () => AddMemberScreen()),
     GetPage(name: onBoarding, page: () => OnboardingScreen()),
-    GetPage(name: memberDetails, page: () => MemberDetailsScreen()),
+    GetPage(
+      name: memberDetails,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final int? memberId =
+            args != null && args.containsKey('memberId')
+                ? args['memberId']
+                : null;
+        final int? farmId =
+            args != null && args.containsKey('farmId') ? args['farmId'] : null;
+        if (memberId == null || farmId == null) {
+          throw ArgumentError('memberId and farmId are required');
+        }
+        return MemberDetailsScreen(memberId: memberId, farmId: farmId);
+      },
+    ),
     GetPage(name: homeConsult, page: () => HomeConsultBottomNavScreen()),
     GetPage(name: homeFarm, page: () => FarmHomeBottomNavBar()),
     GetPage(name: homePersonal, page: () => PersonalHomeBottomNavBar()),
     GetPage(name: addFarm, page: () => AddFarmScreen()),
-    GetPage(name: consultFarm, page: () => ConsultFarmScreen()),
+    GetPage(
+      name: consultFarm,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final int? farmId =
+            args != null && args.containsKey('farmId') ? args['farmId'] : null;
+        final farmName =
+            args != null && args.containsKey('farmName')
+                ? args['farmName']
+                : null;
+        if (farmId == null) {
+          throw ArgumentError('farmId is required');
+        }
+        return ConsultFarmScreen(farmId: farmId, farmName: farmName);
+      },
+    ),
     GetPage(name: consultFarmList, page: () => ConsultFarmList()),
     GetPage(name: editProfile, page: () => EditProfileScreen()),
     GetPage(name: editLanguage, page: () => EditLanguageScreen()),
@@ -108,15 +139,16 @@ class AppRoutes {
       name: editMeasurementConsult,
       page: () => EditMeasurementScreenConsult(),
     ),
-    GetPage(
-      name: changePasswordConsult,
-      page: () => ChangePasswordScreenConsult(),
-    ),
+    // GetPage(
+    //   name: changePasswordConsult,
+    //   page: () => ChangePasswordScreenConsult(),
+    // ),
     GetPage(
       name: helpAndSupportConsult,
       page: () => HelpAndSupportScreenConsult(),
     ),
     GetPage(name: subscriptionConsult, page: () => SubscriptionScreenConsult()),
     GetPage(name: farmMemberHome, page: () => FarmHomeBottomNavBar()),
+    GetPage(name: memberHome, page: () => MemberHomeBottomNavBar()),
   ];
 }

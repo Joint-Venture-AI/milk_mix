@@ -25,6 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
           Get.toNamed(AppRoutes.homeConsult);
         } else if (role == 'farm') {
           Get.toNamed(AppRoutes.farmMemberHome);
+        } else if (role == 'farm_user') {
+          Get.offAllNamed(AppRoutes.memberHome);
         } else {
           Get.toNamed(AppRoutes.signin);
         }
