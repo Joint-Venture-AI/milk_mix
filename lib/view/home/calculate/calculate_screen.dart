@@ -196,6 +196,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Future<void> _postCalculationResults() async {
+    if (totalVolume == 0) return;
     final result = await apiService.milkHistory.createMilkHistory(
       createHistory: CreateHistory(
         bottleSize: double.tryParse(_bottleSizeController.text),
