@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -30,23 +29,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       );
       return;
     }
-
     setState(() => isLoading = true);
-
     try {
-      final url = Uri.parse(
-        "https://lamprey-included-lion.ngrok-free.app/api/auth/otp/verify/",
-      );
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({"email": email, "otp": _otp}),
+      final result = await ApiService.instance.auth.verifyOtp(
+        otp: _otp!,
+        email: email,
       );
 
       setState(() => isLoading = false);
 
-      final resData = jsonDecode(response.body);
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (result.isSuccess) {
         Get.snackbar(
           "Success",
           "OTP verified successfully",
@@ -55,8 +47,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         );
         Get.toNamed(AppRoutes.selectLanguage);
       } else {
-        final message =
-            resData['message'] ?? resData['error'] ?? "OTP verification failed";
+        final message = "OTP verification failed";
         Get.snackbar("Failed", message, snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {

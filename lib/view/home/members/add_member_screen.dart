@@ -44,11 +44,21 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
 
     if (result.isSuccess) {
       print('-------------------');
-      Get.snackbar('Success', 'Member added successfully');
+      Get.snackbar(
+        'Success',
+        'Member added successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
 
       // Get.back();
     } else {
-      Get.snackbar('Error', result.error ?? 'Failed to add member');
+      Get.snackbar(
+        'Error',
+        result.error ?? 'Failed to add member',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 

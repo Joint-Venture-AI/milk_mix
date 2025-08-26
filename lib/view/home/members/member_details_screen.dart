@@ -130,9 +130,10 @@ class MemberDetailsScreen extends StatelessWidget {
                       final formattedTime = DateFormat('hh:mm a').format(date);
                       return HistoryTile(
                         number: (index + 1).toString().padLeft(2, '0'),
-                        volume: history.totalVolume.toString(),
+                        volume: history.totalVolume ?? '',
                         date: formattedDate,
                         time: formattedTime,
+                        historyData: history,
                       );
                     },
                   );

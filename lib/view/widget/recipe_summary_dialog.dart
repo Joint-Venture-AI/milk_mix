@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/model/get_milk_history_response.dart';
 
 class RecipeSummaryDialog extends StatelessWidget {
-  final dynamic historyData;
+  final GetMilkHistoryData historyData;
 
-  const RecipeSummaryDialog({super.key, this.historyData});
+  const RecipeSummaryDialog({super.key, required this.historyData});
 
   @override
   Widget build(BuildContext context) {
@@ -44,60 +45,55 @@ class RecipeSummaryDialog extends StatelessWidget {
             _buildRow(
               'assets/logos/bottle.svg',
               'Number of Bottles',
-              ' = ${historyData?.numberOfBottles ?? 'N/A'}',
+              ' = ${historyData.numberOfBottles ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/drop.svg',
               'Hospital Milk',
-              ' = ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'}',
+              ' = ${historyData.hospitalMilkVolume?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleGreen.svg',
               'Bottle Size',
-              ' = ${historyData?.bottleSize?.toStringAsFixed(2) ?? 'N/A'}',
+              ' = ${historyData.bottleSize?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
-              'Solids in Hospital Milk',
-              ' = ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}',
-            ),
-            _buildRow(
-              'assets/logos/bottleMed.svg',
-              'Hospital Milk Volume',
-              ' = ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'}',
+              'Solids in Hospital Milk (%)',
+              ' = ${historyData.hospitalSolids?.toStringAsFixed(2) ?? 'N/A'} %',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Desired Solids(11-16%)',
-              ' = ${historyData?.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}',
+              ' = ${historyData.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'} %',
             ),
 
             Divider(color: Colors.grey.shade300, thickness: 1, height: 15.h),
             _buildRow(
               'assets/logos/drop.svg',
-              'Pounds of Water',
-              ' = ${historyData?.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'}',
+              'Water',
+              ' = ${historyData.poundsOfWater?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottle.svg',
-              'Pounds of Milk Replacer',
-              ' = ${historyData?.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'}',
+              'Milk Powder',
+              ' = ${historyData.poundsOfMilkReplacer?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
-              'Solids Hospital Milk',
-              ' = ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}',
+              'Water + Milk Powder',
+              ' = ${historyData.solidsHospitalMilk?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(
               'assets/logos/bottleMed.svg',
               'Hospital Milk Used',
-              ' = ${historyData?.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'}',
+              ' = ${historyData.hospitalMilkUsed?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             Divider(color: Colors.grey.shade300, thickness: 1, height: 15.h),
             _buildRow(
               null,
               'Total Volume',
-              historyData?.totalVolume ?? 'N/A',
+              historyData.totalVolume ?? 'N/A',
               bold: true,
             ),
             SizedBox(height: 15.h),
@@ -219,23 +215,23 @@ class RecipeSummaryDialog extends StatelessWidget {
     if (historyData == null) return;
 
     final summary = '''
-Recipe Summary - ${historyData?.createdAt != null ? _formatDateForCopy(historyData!.createdAt!) : 'N/A'}
+Recipe Summary - ${historyData.createdAt != null ? _formatDateForCopy(historyData!.createdAt!) : 'N/A'}
 
 Bottle Information:
-• Number of Bottles: ${historyData?.numberOfBottles ?? 'N/A'}
-• Bottle Size: ${historyData?.bottleSize?.toStringAsFixed(2) ?? 'N/A'} ml
+• Number of Bottles: ${historyData.numberOfBottles ?? 'N/A'}
+• Bottle Size: ${historyData.bottleSize?.toStringAsFixed(2) ?? 'N/A'} ml
 
 Hospital Milk Details:
-• Hospital Milk Volume: ${historyData?.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'} lbs
-• Solids in Hospital Milk: ${historyData?.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}%
-• Hospital Milk Used: ${historyData?.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Hospital Milk Volume: ${historyData.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Solids in Hospital Milk: ${historyData.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}%
+• Hospital Milk Used: ${historyData.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'} lbs
 
 Calculation Results:
-• Desired Solids Content: ${historyData?.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}%
-• Pounds of Water: ${historyData?.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'} lbs
-• Pounds of Milk Replacer: ${historyData?.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Desired Solids Content: ${historyData.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}%
+• Pounds of Water: ${historyData.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'} lbs
+• Pounds of Milk Replacer: ${historyData.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'} lbs
 
-Total Volume: ${historyData?.totalVolume ?? 'N/A'}
+Total Volume: ${historyData.totalVolume ?? 'N/A'}
 
 Generated on: ${DateTime.now().toString()}
 ''';

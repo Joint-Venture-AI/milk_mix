@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:milk_mix/constants/app_constant.dart';
 import 'package:milk_mix/data_source/client/custom_http_client.dart';
 import 'package:milk_mix/data_source/client/http_client_config.dart';
 import 'package:milk_mix/data_source/client/result.dart';
@@ -19,7 +20,7 @@ import 'package:milk_mix/model/profile_response.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://10.10.12.9:8002';
+  static const String baseUrl = AppConstant.baseUrl;
   static const Duration timeout = Duration(seconds: 30);
 
   // API Endpoints
@@ -294,10 +295,10 @@ class MilkHistoryService {
     );
   }
 
-  Future<Result<List<MilkHistoryData>>> getMilkHistoryByUser(int id) {
+  Future<Result<List<GetMilkHistoryData>>> getMilkHistoryByUser(int id) {
     return _httpClient.get(
       '${ApiConfig.milkHistory}/user/$id/',
-      fromJson: (json) => MilkHistoryData.fromJsonList(json['data']),
+      fromJson: (json) => GetMilkHistoryData.listFromJson(json['data']),
     );
   }
 

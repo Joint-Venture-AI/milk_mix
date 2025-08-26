@@ -7,6 +7,7 @@ class LightInputField extends StatelessWidget {
   final String? hintText;
   final bool obscureText;
   final TextInputType keyboardType;
+  final ValueChanged<String>? onChanged;
 
   const LightInputField({
     super.key,
@@ -14,6 +15,7 @@ class LightInputField extends StatelessWidget {
     this.hintText,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.onChanged,
   });
 
   @override
@@ -23,6 +25,7 @@ class LightInputField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       cursorColor: AppColors.textLightGrey,
+      onChanged: onChanged,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.shade,

@@ -5,14 +5,20 @@ class GetMilkHistoryData {
   int? farm;
   String? farmEmail;
   String? createdAt;
-  double? bottleSize;
+  //
   int? numberOfBottles;
-  double? hospitalSolids;
   double? hospitalMilkVolume;
+  //
+  double? bottleSize;
+  double? hospitalSolids;
   double? desiredSolidsContent;
+  //
   double? poundsOfWater;
   double? poundsOfMilkReplacer;
+  //
+  // [Repurposed] to hold water + milk replacer
   double? solidsHospitalMilk;
+  //
   double? hospitalMilkUsed;
   String? totalVolume;
 

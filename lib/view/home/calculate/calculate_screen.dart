@@ -1,16 +1,18 @@
+// lib/view/screen/calculate_screen.dart
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/create_history.dart';
-import 'package:milk_mix/view/widget/light_text_input_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:milk_mix/view/home/calculate/mesurement_unit_widget.dart';
+import 'package:milk_mix/view/home/calculate/mesurement_units.dart';
+import 'package:milk_mix/view/home/calculate/mix_calculation_service.dart';
+import 'package:milk_mix/view/home/calculate/recipe_summery_widget.dart';
+import 'package:milk_mix/view/home/calculate/save_measurement_service.dart';
+import 'package:milk_mix/view/home/calculate/start_mixing_widget.dart';
 
-//api-done: calculate screen
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
 
@@ -22,10 +24,8 @@ class _CalculateScreenState extends State<CalculateScreen> {
   Timer? _debounce;
   final ApiService apiService = ApiService();
 
-  String selectedUnitType = 'english';
-  String selectedUnit = 'gallon';
-  bool isDropdownExpanded = false;
-  bool isSolidsExpanded = false;
+  MeasurementSystem measurementSystem = MeasurementSystem.imperial;
+  dynamic selectedUnit = ImperialUnit.gallon;
 
   // Controllers for input fields
   final TextEditingController _numBottlesController = TextEditingController();
@@ -37,10 +37,12 @@ class _CalculateScreenState extends State<CalculateScreen> {
       TextEditingController();
 
   // Recipe summary variables
-  double waterAmount = 0;
-  double milkReplacerAmount = 0;
-  double hospitalMilkAmount = 0;
-  double totalVolume = 0;
+  CalculationResult calculationResult = CalculationResult(
+    waterAmount: 0,
+    milkReplacerAmount: 0,
+    hospitalMilkAmount: 0,
+    totalVolume: 0,
+  );
 
   @override
   void initState() {
@@ -59,32 +61,36 @@ class _CalculateScreenState extends State<CalculateScreen> {
     _hospitalMilkSolidsController.addListener(_calculateRecipe);
     _desiredSolidsController.addListener(_calculateRecipe);
 
-    // Perform initial calculation
-    // _calculateRecipe();
-
-    //
-
     _loadMeasurementPreference();
   }
 
   void _loadMeasurementPreference() async {
-    final prefs = await SharedPreferences.getInstance();
-    final unitType = prefs.getString('measurement_system') ?? '';
-    // imperial siunit
-    // imperial == english, pounds
-    // siunit == metric, kilo
-    setState(() {
-      if (unitType == 'imperial') {
-        selectedUnitType = 'english';
-        selectedUnit = 'pounds';
-      } else if (unitType == 'siunit') {
-        selectedUnitType = 'metric';
-        selectedUnit = 'kilo';
-      } else {
-        selectedUnitType = 'english';
-        selectedUnit = 'pounds';
-      }
-    });
+    final SaveMeasurementService saveMeasurementService =
+        SaveMeasurementService();
+
+    measurementSystem = await saveMeasurementService.loadMeasurementSystem();
+    final ImperialUnit imperialUnit =
+        await saveMeasurementService.loadImperialUnit();
+    final MetricUnit metricUnit = await saveMeasurementService.loadMetricUnit();
+
+    if (measurementSystem == MeasurementSystem.imperial) {
+      selectedUnit = imperialUnit;
+    } else if (measurementSystem == MeasurementSystem.metric) {
+      selectedUnit = metricUnit;
+    }
+    setState(() {});
+    _calculateRecipe();
+  }
+
+  void _saveMeasurementSystem(String system) async {
+    final SaveMeasurementService saveMeasurementService =
+        SaveMeasurementService();
+    if (system == MeasurementSystem.imperial.name) {
+      await saveMeasurementService.saveImperialUnit(selectedUnit);
+    } else if (system == MeasurementSystem.metric.name) {
+      await saveMeasurementService.saveMetricUnit(selectedUnit);
+    }
+    await saveMeasurementService.saveMeasurementSystem(measurementSystem);
   }
 
   @override
@@ -109,116 +115,66 @@ class _CalculateScreenState extends State<CalculateScreen> {
       double desiredSolids =
           double.tryParse(_desiredSolidsController.text) ?? 0;
 
-      // Convert percentages to decimals
-      hospitalMilkSolids /= 100;
-      desiredSolids /= 100;
-
-      // Ensure non-negative inputs
-      numBottles = numBottles < 0 ? 0 : numBottles;
-      hospitalMilk = hospitalMilk < 0 ? 0 : hospitalMilk;
-      bottleSize = bottleSize < 0 ? 0 : bottleSize;
-      hospitalMilkSolids = hospitalMilkSolids < 0 ? 0 : hospitalMilkSolids;
-      desiredSolids = desiredSolids < 0 ? 0 : desiredSolids;
-
-      if (selectedUnitType == 'english') {
-        // Imperial calculations (based on CSV Option 2, Gallons/Pounds)
-        if (selectedUnit == 'gallon') {
-          // Total volume = number of bottles * bottle size (gallons)
-          totalVolume = numBottles * bottleSize / 4;
-          hospitalMilkAmount = hospitalMilk; // Gallons
-          // Total desired solids (lbs) = total volume * desired solids % * density (8.6 lbs/gallon)
-          double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
-          // Solids from hospital milk (lbs) = hospital milk * hospital milk solids % * density
-          double hospitalMilkSolidsLbs =
-              hospitalMilk * hospitalMilkSolids * 8.6;
-          // Milk replacer solids needed (lbs) = total desired solids - hospital milk solids
-          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
-          // Water (lbs) = total volume * density - hospital milk solids - milk replacer solids
-          waterAmount =
-              totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
-        } else {
-          // Pounds (using quarts for bottle size, hospital milk)
-          totalVolume =
-              numBottles * bottleSize / 4; // Convert quarts to gallons
-          hospitalMilkAmount = hospitalMilk / 4; // Convert quarts to gallons
-          double totalDesiredSolids = totalVolume * desiredSolids * 8.6;
-          double hospitalMilkSolidsLbs =
-              hospitalMilkAmount * hospitalMilkSolids * 8.6;
-          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsLbs;
-          waterAmount =
-              totalVolume * 8.6 - hospitalMilkSolidsLbs - milkReplacerAmount;
-          // Convert outputs to pounds
-          totalVolume *= 8.6;
-          hospitalMilkAmount *= 8.6;
-        }
-      } else {
-        // Metric calculations (based on CSV Option 2, Liters/Kg)
-        if (selectedUnit == 'liter') {
-          totalVolume = numBottles * bottleSize; // Liters
-          hospitalMilkAmount = hospitalMilk; // Liters
-          double totalDesiredSolids =
-              totalVolume * desiredSolids * 1.03; // Density ~1.03 kg/L
-          double hospitalMilkSolidsKg =
-              hospitalMilk * hospitalMilkSolids * 1.03;
-          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
-          waterAmount =
-              totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
-        } else {
-          // Kilo (using liters for bottle size, hospital milk)
-          totalVolume = numBottles * bottleSize; // Liters
-          hospitalMilkAmount = hospitalMilk; // Liters
-          double totalDesiredSolids = totalVolume * desiredSolids * 1.03;
-          double hospitalMilkSolidsKg =
-              hospitalMilkAmount * hospitalMilkSolids * 1.03;
-          milkReplacerAmount = totalDesiredSolids - hospitalMilkSolidsKg;
-          waterAmount =
-              totalVolume * 1.03 - hospitalMilkSolidsKg - milkReplacerAmount;
-          // Convert outputs to kg
-          totalVolume *= 1.03;
-          hospitalMilkAmount *= 1.03;
-        }
-      }
-
-      // Ensure non-negative results
-      waterAmount = waterAmount < 0 ? 0 : waterAmount;
-      milkReplacerAmount = milkReplacerAmount < 0 ? 0 : milkReplacerAmount;
-      hospitalMilkAmount = hospitalMilkAmount < 0 ? 0 : hospitalMilkAmount;
-      totalVolume = totalVolume < 0 ? 0 : totalVolume;
+      calculationResult = MixCalculationService.calculateRecipe(
+        numberOfBottles: numBottles.toInt(),
+        hospitalMilk: hospitalMilk,
+        bottleSize: bottleSize,
+        hospitalMilkSolids: hospitalMilkSolids,
+        desiredSolids: desiredSolids,
+        measurementSystem: measurementSystem,
+        selectedUnit: selectedUnit,
+      );
     });
 
     // Cancel previous timer if still running
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
-    // Start a new debounce timer (e.g., 800ms delay)
+    // Start a new debounce timer
     _debounce = Timer(const Duration(milliseconds: 1600), () {
       _postCalculationResults();
     });
   }
 
   Future<void> _postCalculationResults() async {
-    if (totalVolume == 0) return;
+    if (calculationResult.totalVolume == 0) return;
+
     final result = await apiService.milkHistory.createMilkHistory(
       createHistory: CreateHistory(
-        bottleSize: double.tryParse(_bottleSizeController.text),
         numberOfBottles: int.tryParse(_numBottlesController.text),
-        hospitalSolids: double.tryParse(_hospitalMilkSolidsController.text),
         hospitalMilkVolume: double.tryParse(_hospitalMilkController.text),
+        //
+        bottleSize: double.tryParse(_bottleSizeController.text),
+        hospitalSolids: double.tryParse(_hospitalMilkSolidsController.text),
         desiredSolidsContent: double.tryParse(_desiredSolidsController.text),
-        poundsOfWater: waterAmount,
-        poundsOfMilkReplacer: milkReplacerAmount,
-        solidsHospitalMilk: waterAmount + milkReplacerAmount,
-        hospitalMilkUsed: hospitalMilkAmount,
-        totalVolume: totalVolume.toString(),
+        //
+        poundsOfWater: calculationResult.waterAmount,
+        poundsOfMilkReplacer: calculationResult.milkReplacerAmount,
+        //
+        solidsHospitalMilk:
+            calculationResult.waterAmount +
+            calculationResult.milkReplacerAmount,
+        //
+        hospitalMilkUsed: calculationResult.hospitalMilkAmount,
+        totalVolume:
+            calculationResult.totalVolume.toStringAsFixed(0) +
+            (measurementSystem == MeasurementSystem.imperial ? ' lbs' : ' kg'),
       ),
     );
 
     if (result.isSuccess) {
-      // Handle success, e.g., show a success message
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Calculation successful!')));
     }
+  }
+
+  void _handleUnitChange(MeasurementSystem newSystem, dynamic newUnit) {
+    setState(() {
+      measurementSystem = newSystem;
+      selectedUnit = newUnit;
+      _saveMeasurementSystem(measurementSystem.name);
+      _calculateRecipe();
+    });
   }
 
   @override
@@ -233,300 +189,29 @@ class _CalculateScreenState extends State<CalculateScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20.h),
-              SizedBox(
-                height: 100.h,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightGrey, width: 1.r),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Ads Only',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10.sp,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
+              _buildAdPlaceholder(),
+              SizedBox(height: 14.h),
+              StartMixingWidget(
+                numBottlesController: _numBottlesController,
+                hospitalMilkController: _hospitalMilkController,
+                bottleSizeController: _bottleSizeController,
+                hospitalMilkSolidsController: _hospitalMilkSolidsController,
+                desiredSolidsController: _desiredSolidsController,
+                measurementSystem: measurementSystem,
+                selectedUnit: selectedUnit,
+                onCalculate: _calculateRecipe,
               ),
               SizedBox(height: 14.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.lightGrey),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isDropdownExpanded = !isDropdownExpanded;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(height: 48.h),
-                          SvgPicture.asset(
-                            'assets/logos/scale.svg',
-                            height: 18.h,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'measurementUnits'.tr,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Spacer(),
-                          SvgPicture.asset(
-                            isDropdownExpanded
-                                ? 'assets/logos/up.svg'
-                                : 'assets/logos/down.svg',
-                            height: 24.h,
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (isDropdownExpanded) ...[
-                      SizedBox(height: 8.h),
-                      Container(
-                        padding: EdgeInsets.all(5.h),
-                        decoration: BoxDecoration(
-                          color: AppColors.shade,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children: [
-                            _mainUnitToggle('english', 'English'),
-                            SizedBox(width: 8.w),
-                            _mainUnitToggle('metric', 'Metric'),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Container(
-                        padding: EdgeInsets.all(5.h),
-                        decoration: BoxDecoration(
-                          color: AppColors.shade,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children:
-                              selectedUnitType == 'english'
-                                  ? [
-                                    _subUnitToggle('gallon', 'Gallon'),
-                                    SizedBox(width: 8.w),
-                                    _subUnitToggle('pounds', 'Pounds'),
-                                  ]
-                                  : [
-                                    _subUnitToggle('liter', 'Liter'),
-                                    SizedBox(width: 8.w),
-                                    _subUnitToggle('kilo', 'Kilo'),
-                                  ],
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                    ],
-                  ],
-                ),
+              RecipeSummaryWidget(
+                calculationResult: calculationResult,
+                measurementSystem: measurementSystem,
+                selectedUnit: selectedUnit,
               ),
-              SizedBox(height: 20.h),
-              buildAllUnitColumns(),
-              //--------------summary section----------------
-              Container(
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: AppColors.lightGrey, width: 1.r),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/logos/clip.svg', height: 20.h),
-                        SizedBox(width: 8.w),
-                        Text(
-                          'recipeSummary'.tr,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        Spacer(),
-                        SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
-                      ],
-                    ),
-                    SizedBox(height: 18.h),
-                    Container(
-                      padding: EdgeInsets.all(13.w),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF2F7Fd),
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/logos/water.svg'),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'water'.tr,
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '= ${waterAmount.toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 18.h),
-                    Container(
-                      padding: EdgeInsets.all(13.w),
-                      decoration: BoxDecoration(
-                        color: AppColors.shade,
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/logos/bag.svg'),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'milkPowder'.tr,
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '= ${milkReplacerAmount.toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 18.h),
-                    Container(
-                      padding: EdgeInsets.all(13.w),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFfffae9),
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/logos/water.svg'),
-                          const Text('+'),
-                          SvgPicture.asset('assets/logos/bag.svg'),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'waterMilk'.tr,
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '= ${(waterAmount + milkReplacerAmount).toStringAsFixed(2)} (${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 18.h),
-                    Container(
-                      padding: EdgeInsets.all(13.w),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFffe9e9),
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/logos/aid.svg'),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'hospitalMilkUsed'.tr,
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '= ${hospitalMilkAmount.toStringAsFixed(2)} (${selectedUnitType == 'english'
-                                ? selectedUnit == 'gallon'
-                                    ? 'gal'
-                                    : 'lbs'
-                                : selectedUnit == 'liter'
-                                ? 'L'
-                                : 'kg'})',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Divider(
-                      color: AppColors.lightGrey,
-                      thickness: 1.h,
-                      height: 6.h,
-                    ),
-                    SizedBox(height: 10.h),
-                    Row(
-                      children: [
-                        Text(
-                          'totalVolume'.tr,
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          '= ${totalVolume.toStringAsFixed(2)} '
-                          '(${selectedUnitType == 'english' ? 'lbs' : 'kg'})',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              SizedBox(height: 14.h),
+              MeasurementUnitWidget(
+                measurementSystem: measurementSystem,
+                selectedUnit: selectedUnit,
+                onUnitChanged: _handleUnitChange,
               ),
               SizedBox(height: 12.h),
             ],
@@ -536,268 +221,23 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
   }
 
-  Widget _mainUnitToggle(String value, String label) {
-    final isSelected = selectedUnitType == value;
-
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedUnitType = value;
-            selectedUnit = value == 'english' ? 'gallon' : 'liter';
-            _calculateRecipe();
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.surface : Colors.transparent,
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? AppColors.primary : AppColors.textGrey,
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-              fontSize: 14.sp,
-            ),
+  Widget _buildAdPlaceholder() {
+    return SizedBox(
+      height: 100.h,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.lightGrey, width: 1.r),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          'Ads Only',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 10.sp,
+            color: AppColors.textPrimary,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _subUnitToggle(String value, String label) {
-    final isSelected = selectedUnit == value;
-
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedUnit = value;
-            _calculateRecipe();
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.surface : Colors.transparent,
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? AppColors.primary : AppColors.textGrey,
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-              fontSize: 14.sp,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildAllUnitColumns() {
-    String hospitalMilkUnit =
-        selectedUnitType == 'english'
-            ? (selectedUnit == 'gallon' ? '(Gallon)' : '(Pounds)')
-            : (selectedUnit == 'liter' ? '(Liter)' : '(Kilo)');
-    String bottleSizeUnit =
-        selectedUnitType == 'english' ? '(Quarts)' : '(Liters)';
-
-    return _unitColumn(
-      isExpanded: true,
-      children: [
-        Row(
-          children: [
-            SvgPicture.asset('assets/logos/calculate.svg', height: 20.h),
-            SizedBox(width: 8.w),
-            Text(
-              'startMixing'.tr,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 24.h),
-        Row(
-          children: [
-            SvgPicture.asset('assets/logos/bottle.svg', height: 18.h),
-            SizedBox(width: 8.w),
-            Text(
-              'numberOfBottles'.tr,
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 7.h),
-        LightInputField(controller: _numBottlesController),
-        SizedBox(height: 26.h),
-        Row(
-          children: [
-            SvgPicture.asset('assets/logos/aid.svg', height: 18.h),
-            SizedBox(width: 8.w),
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'hospitalMilk'.tr,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' $hospitalMilkUnit',
-                    style: TextStyle(
-                      color: const Color(0xFFE53935),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 7.h),
-        LightInputField(controller: _hospitalMilkController),
-        SizedBox(height: 24.h),
-        Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
-        SizedBox(height: 14.h),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isSolidsExpanded = !isSolidsExpanded;
-            });
-          },
-          child: Row(
-            children: [
-              Text(
-                'solids'.tr,
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Spacer(),
-              SvgPicture.asset(
-                isSolidsExpanded
-                    ? 'assets/logos/up.svg'
-                    : 'assets/logos/down.svg',
-                height: 24.h,
-              ),
-            ],
-          ),
-        ),
-        if (isSolidsExpanded) ...[
-          SizedBox(height: 10.h),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/logos/bottleGreen.svg',
-                    height: 18.h,
-                  ),
-                  SizedBox(width: 8.w),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'bottleSize'.tr,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' $bottleSizeUnit',
-                          style: TextStyle(
-                            color: const Color(0xFF36C275),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 7.h),
-              LightInputField(controller: _bottleSizeController),
-              SizedBox(height: 24.h),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/logos/bottleMed.svg', height: 20.h),
-                  SizedBox(width: 8.w),
-                  Text(
-                    'solidsInHospitalMilk'.tr,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 7.h),
-              LightInputField(controller: _hospitalMilkSolidsController),
-              SizedBox(height: 24.h),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/logos/drop.svg', height: 20.h),
-                  SizedBox(width: 8.w),
-                  Text(
-                    'desiredSolid'.tr,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 7.h),
-              LightInputField(controller: _desiredSolidsController),
-            ],
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _unitColumn({
-    required bool isExpanded,
-    required List<Widget> children,
-  }) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 14.h),
-      padding: EdgeInsets.all(16.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.r),
-        color: Colors.white,
-        border: Border.all(color: AppColors.lightGrey),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (isExpanded) ...[SizedBox(height: 10.h), ...children],
-        ],
       ),
     );
   }

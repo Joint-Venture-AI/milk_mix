@@ -145,7 +145,7 @@ class AppRoutes {
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
     GetPage(name: helpAndSupport, page: () => HelpAndSupportScreen()),
     GetPage(name: subscription, page: () => SubscriptionScreen()),
-    GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
+    // GetPage(name: recipeSummary, page: () => RecipeSummaryDialog()),
     GetPage(name: member, page: () => MembersScreen()),
     GetPage(name: editLanguageConsult, page: () => EditLanguageScreenConsult()),
     GetPage(name: subscriptionConsult, page: () => SubscriptionScreenConsult()),

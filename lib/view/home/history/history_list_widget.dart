@@ -57,33 +57,33 @@ class _HistoryListWidgetState extends State<HistoryListWidget> {
                       ),
                     ],
                   ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () => _showClearHistoryDialog(controller),
-                    child: Container(
-                      height: 36.h,
-                      width: 90.h,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFFD96346), width: 1),
-                        borderRadius: BorderRadius.circular(5.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('assets/logos/trash.svg'),
-                          SizedBox(width: 9.w),
-                          Text(
-                            'clear'.tr,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFD96346),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Spacer(),
+                  // GestureDetector(
+                  //   onTap: () => _showClearHistoryDialog(controller),
+                  //   child: Container(
+                  //     height: 36.h,
+                  //     width: 90.h,
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(color: Color(0xFFD96346), width: 1),
+                  //       borderRadius: BorderRadius.circular(5.r),
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         SvgPicture.asset('assets/logos/trash.svg'),
+                  //         SizedBox(width: 9.w),
+                  //         Text(
+                  //           'clear'.tr,
+                  //           style: TextStyle(
+                  //             fontSize: 14.sp,
+                  //             fontWeight: FontWeight.w500,
+                  //             color: Color(0xFFD96346),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -166,7 +166,7 @@ class _HistoryListWidgetState extends State<HistoryListWidget> {
                     final history = controller.getSortedHistory()[index];
                     return HistoryTile(
                       number: (index + 1).toString().padLeft(2, '0'),
-                      volume: controller.getTotalVolume(history),
+                      volume: '${history.totalVolume}',
                       date: controller.formatDate(history.createdAt),
                       time: controller.formatTime(history.createdAt),
                       historyData: history,

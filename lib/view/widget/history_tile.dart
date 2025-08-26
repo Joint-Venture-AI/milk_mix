@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/model/get_milk_history_response.dart';
 import 'package:milk_mix/view/widget/recipe_summary_dialog.dart';
 
 class HistoryTile extends StatelessWidget {
@@ -10,7 +11,7 @@ class HistoryTile extends StatelessWidget {
   final String volume;
   final String date;
   final String time;
-  final dynamic historyData;
+  final GetMilkHistoryData historyData;
 
   const HistoryTile({
     super.key,
@@ -18,7 +19,7 @@ class HistoryTile extends StatelessWidget {
     required this.volume,
     required this.date,
     required this.time,
-    this.historyData,
+    required this.historyData,
   });
 
   @override
