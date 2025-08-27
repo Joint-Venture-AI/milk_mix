@@ -46,8 +46,8 @@ class HistoryTile extends StatelessWidget {
             child: Text(
               number,
               style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.primary,
               ),
             ),

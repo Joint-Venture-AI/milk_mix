@@ -13,6 +13,7 @@ import 'package:milk_mix/model/create_history.dart';
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
 import 'package:milk_mix/model/get_pending_req_for_consultant_response.dart';
+import 'package:milk_mix/model/latest_ad_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/milk_history_response.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
@@ -29,6 +30,7 @@ class ApiConfig {
   static const String members = '/members';
   static const String consultants = '/consultants';
   static const String support = '/support';
+  static const String advertisements = '/advertisements';
 }
 
 class ApiService {
@@ -66,6 +68,8 @@ class ApiService {
   ConsultantsService get consultants => ConsultantsService(_httpClient);
 
   SupportService get support => SupportService(_httpClient);
+
+  AdvertisementService get advertisements => AdvertisementService(_httpClient);
 
   void _initialize() async {
     if (_isInitialized) return;
@@ -427,6 +431,19 @@ class SupportService {
       '${ApiConfig.support}/submit/',
       body: body,
       fromJson: (json) => json,
+    );
+  }
+}
+
+class AdvertisementService {
+  final CustomHttpClient _httpClient;
+
+  AdvertisementService(this._httpClient);
+
+  Future<Result<LatestAdResponse>> getLatestAd() {
+    return _httpClient.get(
+      '${ApiConfig.advertisements}/latest/',
+      fromJson: (json) => LatestAdResponse.fromJson(json),
     );
   }
 }

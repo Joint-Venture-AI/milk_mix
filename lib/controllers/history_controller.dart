@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
 // Added for Get.snackbar
@@ -190,7 +191,7 @@ class HistoryController extends GetxController {
   String formatDate(String? dateString) {
     if (dateString == null) return '';
     try {
-      final date = DateTime.parse(dateString);
+      final date = DateTime.parse(dateString).toLocal();
       return '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year.toString().padLeft(2, '0')}';
     } catch (e) {
       return dateString;
@@ -201,7 +202,7 @@ class HistoryController extends GetxController {
   String formatTime(String? dateString) {
     if (dateString == null) return '';
     try {
-      final date = DateTime.parse(dateString);
+      final date = DateTime.parse(dateString).toLocal();
       final hour = date.hour;
       final minute = date.minute;
       final period = hour >= 12 ? 'PM' : 'AM';
@@ -223,5 +224,14 @@ class HistoryController extends GetxController {
     final numberOfBottles = history.numberOfBottles ?? 0;
     final total = bottleSize * numberOfBottles;
     return '${total.toStringAsFixed(0)} ml';
+  }
+
+  String getWeekDayName(String? dateString) {
+    try {
+      final date = DateTime.parse(dateString ?? '').toLocal();
+      return DateFormat('EEE').format(date).toUpperCase();
+    } catch (e) {
+      return '';
+    }
   }
 }

@@ -31,7 +31,6 @@ import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/authentication/subscription/congratulation_screen.dart';
 import 'package:milk_mix/view/authentication/subscription/upgrade_premium_screen.dart';
-import 'package:milk_mix/view/widget/recipe_summary_dialog.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash-screen";

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:milk_mix/constants/app_constant.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/create_history.dart';
@@ -137,7 +138,12 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Future<void> _postCalculationResults() async {
     if (calculationResult.totalVolume == 0) return;
-
+    String? unit;
+    if (selectedUnit is ImperialUnit) {
+      unit = (selectedUnit as ImperialUnit).name;
+    } else if (selectedUnit is MetricUnit) {
+      unit = (selectedUnit as MetricUnit).name;
+    }
     final result = await apiService.milkHistory.createMilkHistory(
       createHistory: CreateHistory(
         numberOfBottles: int.tryParse(_numBottlesController.text),
@@ -158,6 +164,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
         totalVolume:
             calculationResult.totalVolume.toStringAsFixed(0) +
             (measurementSystem == MeasurementSystem.imperial ? ' lbs' : ' kg'),
+        unit: unit,
       ),
     );
 
@@ -222,23 +229,50 @@ class _CalculateScreenState extends State<CalculateScreen> {
   }
 
   Widget _buildAdPlaceholder() {
-    return SizedBox(
-      height: 100.h,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.lightGrey, width: 1.r),
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          'Ads Only',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 10.sp,
-            color: AppColors.textPrimary,
-          ),
-        ),
-      ),
+    return FutureBuilder(
+      future: ApiService.instance.advertisements.getLatestAd(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final ad = snapshot.data!;
+          return Stack(
+            children: [
+              Text('Ad'),
+              Container(
+                height: 150.h,
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.lightGrey, width: 1.r),
+                  borderRadius: BorderRadius.circular(10.r),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      AppConstant.baseUrl + (ad.data?.image ?? ''),
+                    ),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return SizedBox.shrink();
+        // return SizedBox(
+        //   height: 100.h,
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       border: Border.all(color: AppColors.lightGrey, width: 1.r),
+        //       borderRadius: BorderRadius.circular(10.r),
+        //     ),
+        //     alignment: Alignment.center,
+        //     child: Text(
+        //       'Ads Only',
+        //       style: TextStyle(
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 10.sp,
+        //         color: AppColors.textPrimary,
+        //       ),
+        //     ),
+        //   ),
+        // );
+      },
     );
   }
 }

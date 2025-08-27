@@ -165,7 +165,8 @@ class _HistoryListWidgetState extends State<HistoryListWidget> {
                   itemBuilder: (context, index) {
                     final history = controller.getSortedHistory()[index];
                     return HistoryTile(
-                      number: (index + 1).toString().padLeft(2, '0'),
+                      // number: 'FRY',
+                      number: controller.getWeekDayName(history.createdAt),
                       volume: '${history.totalVolume}',
                       date: controller.formatDate(history.createdAt),
                       time: controller.formatTime(history.createdAt),

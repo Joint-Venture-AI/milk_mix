@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/manage_farm_controller.dart';
 import 'package:milk_mix/data_source/api_service.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
@@ -288,6 +289,10 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                               snackPosition: SnackPosition.BOTTOM,
                               duration: Duration(seconds: 2),
                             );
+                            Get.find<ManageFarmController>()
+                                .fetchAcceptedFarms();
+                            Get.find<ManageFarmController>()
+                                .fetchPendingRequests();
                           } else {
                             Get.snackbar(
                               'Error',

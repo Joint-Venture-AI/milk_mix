@@ -30,10 +30,18 @@ class AuthController extends GetxController {
       } else if (role == 'farm_user') {
         Get.offAllNamed(AppRoutes.memberHome);
       } else {
-        Get.snackbar('Error', 'Unknown role: $role');
+        Get.snackbar(
+          'Error',
+          'Unknown role: $role',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } else {
-      Get.snackbar('Login Failed', 'Try again');
+      Get.snackbar(
+        'Login Failed',
+        'Try again',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
     isLoading.value = false;
   }

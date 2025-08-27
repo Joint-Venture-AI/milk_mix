@@ -9,6 +9,7 @@ class CreateHistory {
   double? solidsHospitalMilk;
   double? hospitalMilkUsed;
   String? totalVolume;
+  String? unit;
 
   CreateHistory({
     this.bottleSize,
@@ -21,6 +22,7 @@ class CreateHistory {
     this.solidsHospitalMilk,
     this.hospitalMilkUsed,
     this.totalVolume,
+    this.unit,
   });
 
   // Optional: fromJson factory for parsing
@@ -38,6 +40,7 @@ class CreateHistory {
       solidsHospitalMilk: (json['solids_hospital_milk'] as num?)?.toDouble(),
       hospitalMilkUsed: (json['hospital_milk_used'] as num?)?.toDouble(),
       totalVolume: json['total_volume']?.toString(),
+      unit: json['unit']?.toString(),
     );
   }
 
@@ -54,6 +57,7 @@ class CreateHistory {
       'solids_hospital_milk': solidsHospitalMilk,
       'hospital_milk_used': hospitalMilkUsed,
       'total_volume': totalVolume,
+      'unit': unit,
     };
   }
 }

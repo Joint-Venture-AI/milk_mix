@@ -49,7 +49,7 @@ class RecipeSummaryDialog extends StatelessWidget {
             ),
             _buildRow(
               'assets/logos/drop.svg',
-              'Hospital Milk',
+              'Hospital Milk ${historyData.unit == null ? '' : '(${historyData.unit!})'}',
               ' = ${historyData.hospitalMilkVolume?.toStringAsFixed(0) ?? 'N/A'}',
             ),
             _buildRow(

@@ -22,7 +22,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   bool isLoading = false;
 
-  String _selectedRole = 'consultant';
+  String _selectedRole = 'farm';
   final List<String> _roles = ['consultant', 'farm'];
   final Map<String, String> roleLabels = {
     'consultant': 'Consultant',
@@ -96,54 +96,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         backgroundColor: Colors.red.shade50,
       );
     }
-
-    // try {
-    //   setState(() => isLoading = true);
-
-    //   final url = Uri.parse(
-    //     "https://lamprey-included-lion.ngrok-free.app/api/auth/register/",
-    //   );
-
-    //   final response = await http.post(
-    //     url,
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: jsonEncode({
-    //       "name": name,
-    //       "email": email,
-    //       "role": _selectedRole,
-    //       "password": password,
-    //     }),
-    //   );
-
-    //   setState(() => isLoading = false);
-
-    //   final resData = jsonDecode(response.body);
-
-    //   if (response.statusCode == 200 || response.statusCode == 201) {
-    //     Get.snackbar(
-    //       "Success",
-    //       "Account created. Please verify OTP.",
-    //       snackPosition: SnackPosition.BOTTOM,
-    //       backgroundColor: Colors.green.shade50,
-    //     );
-    //     Get.toNamed(AppRoutes.otpVerification, arguments: {"email": email});
-    //   } else {
-    //     final message =
-    //         resData['message'] ?? resData['error'] ?? "Something went wrong";
-    //     Get.snackbar(
-    //       "Signup Failed",
-    //       message,
-    //       snackPosition: SnackPosition.BOTTOM,
-    //     );
-    //   }
-    // } catch (e) {
-    //   setState(() => isLoading = false);
-    //   Get.snackbar(
-    //     "Error",
-    //     "Unexpected error: $e",
-    //     snackPosition: SnackPosition.BOTTOM,
-    //   );
-    // }
   }
 
   Widget buildLabel(String text) => Text(

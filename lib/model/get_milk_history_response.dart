@@ -21,6 +21,8 @@ class GetMilkHistoryData {
   //
   double? hospitalMilkUsed;
   String? totalVolume;
+  //
+  String? unit;
 
   GetMilkHistoryData({
     this.id,
@@ -39,6 +41,7 @@ class GetMilkHistoryData {
     this.solidsHospitalMilk,
     this.hospitalMilkUsed,
     this.totalVolume,
+    this.unit,
   });
 
   static List<GetMilkHistoryData> listFromJson(List<dynamic> json) {
@@ -89,6 +92,7 @@ class GetMilkHistoryData {
               ? double.tryParse(json['hospital_milk_used'].toString())
               : null,
       totalVolume: json['total_volume']?.toString(),
+      unit: json['unit']?.toString(),
     );
   }
 
@@ -110,6 +114,7 @@ class GetMilkHistoryData {
       'solids_hospital_milk': solidsHospitalMilk?.toStringAsFixed(2),
       'hospital_milk_used': hospitalMilkUsed?.toStringAsFixed(2),
       'total_volume': totalVolume,
+      'unit': unit,
     };
   }
 }
