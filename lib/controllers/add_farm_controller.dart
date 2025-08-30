@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 
 class AddFarmController extends GetxController {
@@ -42,7 +42,7 @@ class AddFarmController extends GetxController {
       return;
     }
     loading.value = true;
-    final result = await ApiService.instance.consultants.searchFarms(
+    final result = await ApiProvider.instance.consultants.searchFarms(
       query: value,
     );
     loading.value = false;
@@ -61,7 +61,7 @@ class AddFarmController extends GetxController {
     }
     selectedFarmId.value = farmId;
     selectedFarmName.value = farmName;
-    final result = await ApiService.instance.consultants.joinRequest(
+    final result = await ApiProvider.instance.consultants.joinRequest(
       farmId: farmId,
       consultantId: consultantId,
     );
@@ -73,7 +73,7 @@ class AddFarmController extends GetxController {
   }
 
   Future<int?> _getConsultantId() async {
-    final profileResult = await ApiService.instance.auth.getProfile();
+    final profileResult = await ApiProvider.instance.auth.getProfile();
     if (profileResult.isSuccess && profileResult.data != null) {
       final user = profileResult.data;
       if (user != null && user.id != null) {

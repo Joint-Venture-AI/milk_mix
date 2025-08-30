@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
-import 'package:milk_mix/data_source/client/token_storage.dart';
+import 'package:milk_mix/data_source/api/client/token_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

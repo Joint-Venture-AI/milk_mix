@@ -5,7 +5,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/manage_farm_controller.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/search_farm_response.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -71,9 +71,8 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
               SizedBox(height: 6.h),
               TypeAheadField<Farm>(
                 suggestionsCallback: (search) async {
-                  final res = await ApiService.instance.consultants.searchFarms(
-                    query: search,
-                  );
+                  final res = await ApiProvider.instance.consultants
+                      .searchFarms(query: search);
                   return res.data?.data ?? [];
                 },
                 builder: (context, controller, focusNode) {
@@ -265,12 +264,12 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                             isLoading = true;
                           });
                           final profileResult =
-                              await ApiService.instance.auth.getProfile();
+                              await ApiProvider.instance.auth.getProfile();
                           final consultantId = profileResult.data?.id;
                           if (consultantId == null) return;
                           final farmId = selectedFarm?.id;
                           if (farmId == null) return;
-                          final joinResult = await ApiService
+                          final joinResult = await ApiProvider
                               .instance
                               .consultants
                               .joinRequest(

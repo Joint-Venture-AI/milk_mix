@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/profile_farm_controller.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_config.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 //api-done:edit profile

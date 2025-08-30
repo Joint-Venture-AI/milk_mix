@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
-import 'package:milk_mix/data_source/client/result.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
+import 'package:milk_mix/data_source/api/client/result.dart';
 import 'package:milk_mix/model/add_member_response.dart' hide FarmMemberData;
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
 
 class MemberController extends GetxController {
-  final apiService = ApiService();
+  final apiService = ApiProvider();
   //
   var fetchMemberIsLoading = false.obs;
   var addMemberIsLoading = false.obs;

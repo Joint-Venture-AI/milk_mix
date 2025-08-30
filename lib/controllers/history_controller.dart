@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/get_milk_history_response.dart';
 // Added for Get.snackbar
 
 class HistoryController extends GetxController {
-  final ApiService _apiService = ApiService.instance;
+  final ApiProvider _apiService = ApiProvider.instance;
 
   // Observable variables
   final RxList<GetMilkHistoryData> historyList = <GetMilkHistoryData>[].obs;

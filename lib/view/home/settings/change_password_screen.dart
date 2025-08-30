@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
@@ -47,7 +47,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     });
 
     try {
-      final result = await ApiService.instance.auth.changePassword(
+      final result = await ApiProvider.instance.auth.changePassword(
         currentPassword: _currentPasswordController.text.trim(),
         newPassword: _newPasswordController.text.trim(),
       );

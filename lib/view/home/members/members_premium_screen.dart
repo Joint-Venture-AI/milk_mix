@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/member_controller.dart';
 import 'package:milk_mix/controllers/profile_controller.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/profile_image_circle.dart';
@@ -263,7 +263,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                                         print(
                                           'Deleting member with ID: ${member.memberId}',
                                         );
-                                        final result = await ApiService()
+                                        final result = await ApiProvider()
                                             .farmMembers
                                             .deleteMember(
                                               memberId: member.memberId!,

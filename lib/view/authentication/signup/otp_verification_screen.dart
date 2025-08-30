@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -31,7 +31,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
     setState(() => isLoading = true);
     try {
-      final result = await ApiService.instance.auth.verifyOtp(
+      final result = await ApiProvider.instance.auth.verifyOtp(
         otp: _otp!,
         email: email,
       );

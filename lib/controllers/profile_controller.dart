@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 
 class ProfileController extends GetxController {
-  final ApiService _apiService = ApiService();
+  final ApiProvider _apiService = ApiProvider();
 
   final RxBool isLoading = false.obs;
   final RxBool isImageLoading = false.obs;

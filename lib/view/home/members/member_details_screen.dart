@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
@@ -92,7 +92,7 @@ class MemberDetailsScreen extends StatelessWidget {
                 ),
               ),
               FutureBuilder(
-                future: ApiService().milkHistory.getMilkHistoryByUser(
+                future: ApiProvider().milkHistory.getMilkHistoryByUser(
                   farmUserId,
                 ),
                 builder: (context, snapshot) {

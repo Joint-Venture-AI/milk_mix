@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:milk_mix/constants/app_constant.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/create_history.dart';
 import 'package:milk_mix/view/home/calculate/mesurement_unit_widget.dart';
 import 'package:milk_mix/view/home/calculate/mesurement_units.dart';
@@ -22,8 +22,8 @@ class CalculateScreen extends StatefulWidget {
 }
 
 class _CalculateScreenState extends State<CalculateScreen> {
-  Timer? _debounce;
-  final ApiService apiService = ApiService();
+  // Timer? _debounce;
+  final ApiProvider apiService = ApiProvider();
 
   MeasurementSystem measurementSystem = MeasurementSystem.imperial;
   dynamic selectedUnit = ImperialUnit.gallon;
@@ -96,7 +96,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
+    // _debounce?.cancel();
     _numBottlesController.dispose();
     _hospitalMilkController.dispose();
     _bottleSizeController.dispose();
@@ -128,12 +128,13 @@ class _CalculateScreenState extends State<CalculateScreen> {
     });
 
     // Cancel previous timer if still running
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    // if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     // Start a new debounce timer
-    _debounce = Timer(const Duration(milliseconds: 1600), () {
-      _postCalculationResults();
-    });
+    // // TODO remove auto save
+    // _debounce = Timer(const Duration(milliseconds: 1600), () {
+    //   _postCalculationResults();
+    // });
   }
 
   Future<void> _postCalculationResults() async {
@@ -169,9 +170,9 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
 
     if (result.isSuccess) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Calculation successful!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Calculation saved successfully!')),
+      );
     }
   }
 
@@ -207,6 +208,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
                 onCalculate: _calculateRecipe,
+                onSaveCalculation: _postCalculationResults,
               ),
               SizedBox(height: 14.h),
               RecipeSummaryWidget(
@@ -230,7 +232,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Widget _buildAdPlaceholder() {
     return FutureBuilder(
-      future: ApiService.instance.advertisements.getLatestAd(),
+      future: ApiProvider.instance.advertisements.getLatestAd(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final ad = snapshot.data!;

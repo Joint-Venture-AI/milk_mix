@@ -91,7 +91,7 @@ class RecipeSummaryWidget extends StatelessWidget {
             '= ${calculationResult.waterAmount.toStringAsFixed(0)} '
             '(${measurementSystem == MeasurementSystem.imperial ? 'lbs' : 'kg'})',
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
             ),
@@ -124,7 +124,7 @@ class RecipeSummaryWidget extends StatelessWidget {
           Text(
             '= ${calculationResult.milkReplacerAmount.toStringAsFixed(0)} '
             '(${measurementSystem == MeasurementSystem.imperial ? 'lbs' : 'kg'})',
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -157,7 +157,7 @@ class RecipeSummaryWidget extends StatelessWidget {
             '= ${(calculationResult.waterAmount + calculationResult.milkReplacerAmount).toStringAsFixed(0)} '
             '(${measurementSystem == MeasurementSystem.imperial ? 'lbs' : 'kg'})',
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w700,
               color: Colors.orange,
             ),
@@ -168,10 +168,8 @@ class RecipeSummaryWidget extends StatelessWidget {
   }
 
   Widget _buildHospitalMilkUsedRow() {
-    final unitAbbreviation = 'kg';
-    // measurementSystem == MeasurementSystem.imperial
-    //     ? (selectedUnit == ImperialUnit.gallon ? 'gal' : 'lbs')
-    //     : (selectedUnit == MetricUnit.liter ? 'L' : 'kg');
+    final unitAbbreviation =
+        measurementSystem == MeasurementSystem.imperial ? 'lbs' : 'kg';
 
     return Container(
       padding: EdgeInsets.all(13.w),
@@ -195,7 +193,7 @@ class RecipeSummaryWidget extends StatelessWidget {
           Text(
             '= ${calculationResult.hospitalMilkAmount.toStringAsFixed(0)} ($unitAbbreviation)',
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w700,
               color: Colors.red,
             ),
@@ -221,7 +219,7 @@ class RecipeSummaryWidget extends StatelessWidget {
           '= ${calculationResult.totalVolume.toStringAsFixed(0)} '
           '(${measurementSystem == MeasurementSystem.imperial ? 'lbs' : 'kg'})',
           style: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w700,
             color: AppColors.primary,
           ),

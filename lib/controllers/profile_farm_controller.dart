@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/profile_response.dart';
 
 class ProfileFarmController extends GetxController {
-  final _apiService = ApiService();
+  final _apiService = ApiProvider();
   var isLoading = false.obs;
   final Rx<User?> userProfile = Rx<User?>(null);
 

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/accepted_farm_response.dart';
 import 'package:milk_mix/model/get_pending_req_for_consultant_response.dart';
 
@@ -18,7 +18,7 @@ class ManageFarmController extends GetxController {
 
   Future<void> fetchAcceptedFarms() async {
     isLoadingAccepted.value = true;
-    final result = await ApiService().consultants.getAcceptedFarms();
+    final result = await ApiProvider().consultants.getAcceptedFarms();
     acceptedFarms.value = result.data?.data ?? [];
     isLoadingAccepted.value = false;
   }
@@ -26,7 +26,7 @@ class ManageFarmController extends GetxController {
   Future<void> fetchPendingRequests() async {
     isLoadingPending.value = true;
     final result =
-        await ApiService().consultants.getPendingRequestsForConsultant();
+        await ApiProvider().consultants.getPendingRequestsForConsultant();
     pendingRequests.value = result.data?.data ?? [];
     isLoadingPending.value = false;
   }

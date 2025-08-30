@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/view/home/calculate/mesurement_units.dart';
 import 'package:milk_mix/view/widget/light_text_input_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartMixingWidget extends StatefulWidget {
   final TextEditingController numBottlesController;
@@ -17,6 +18,7 @@ class StartMixingWidget extends StatefulWidget {
   final MeasurementSystem measurementSystem;
   final dynamic selectedUnit;
   final VoidCallback onCalculate;
+  final VoidCallback onSaveCalculation;
 
   const StartMixingWidget({
     super.key,
@@ -28,6 +30,7 @@ class StartMixingWidget extends StatefulWidget {
     required this.measurementSystem,
     required this.selectedUnit,
     required this.onCalculate,
+    required this.onSaveCalculation,
   });
 
   @override
@@ -55,6 +58,42 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
     //   _validateHospitalMilkSolids,
     // );
     widget.desiredSolidsController.addListener(_validateDesiredSolids);
+    _loadSavedFields();
+  }
+
+  Future<void> _loadSavedFields() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      widget.numBottlesController.text =
+          prefs.getString('num_bottles') ?? widget.numBottlesController.text;
+      widget.hospitalMilkController.text =
+          prefs.getString('hospital_milk') ??
+          widget.hospitalMilkController.text;
+      widget.bottleSizeController.text =
+          prefs.getString('bottle_size') ?? widget.bottleSizeController.text;
+      widget.hospitalMilkSolidsController.text =
+          prefs.getString('hospital_milk_solids') ??
+          widget.hospitalMilkSolidsController.text;
+      widget.desiredSolidsController.text =
+          prefs.getString('desired_solids') ??
+          widget.desiredSolidsController.text;
+      isSolidsExpanded = prefs.getBool('solid_expand') ?? false;
+    });
+  }
+
+  Future<void> _saveFieldsToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('num_bottles', widget.numBottlesController.text);
+    await prefs.setString('hospital_milk', widget.hospitalMilkController.text);
+    await prefs.setString('bottle_size', widget.bottleSizeController.text);
+    await prefs.setString(
+      'hospital_milk_solids',
+      widget.hospitalMilkSolidsController.text,
+    );
+    await prefs.setString(
+      'desired_solids',
+      widget.desiredSolidsController.text,
+    );
   }
 
   @override
@@ -240,6 +279,29 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
           Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
           SizedBox(height: 14.h),
           _buildSolidsSection(bottleSizeUnit),
+          SizedBox(height: 12.h),
+          ElevatedButton(
+            onPressed: () async {
+              await _saveFieldsToPrefs();
+              widget.onSaveCalculation();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+            ),
+            child: Text(
+              'Save Calculation',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -346,10 +408,12 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             setState(() {
               isSolidsExpanded = !isSolidsExpanded;
             });
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setBool('solid_expand', isSolidsExpanded);
           },
           child: Row(
             children: [
@@ -378,6 +442,7 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
           _buildHospitalMilkSolidsInput(),
           SizedBox(height: 24.h),
           _buildDesiredSolidsInput(),
+          SizedBox(height: 12.h),
         ],
       ],
     );

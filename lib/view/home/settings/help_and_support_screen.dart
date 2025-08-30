@@ -7,7 +7,7 @@ import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
 
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 
 class HelpAndSupportScreen extends StatefulWidget {
   const HelpAndSupportScreen({super.key});
@@ -42,7 +42,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final result = await ApiService.instance.support.sendFeedback(
+      final result = await ApiProvider.instance.support.sendFeedback(
         email: email,
         problem: problem,
         description: description,

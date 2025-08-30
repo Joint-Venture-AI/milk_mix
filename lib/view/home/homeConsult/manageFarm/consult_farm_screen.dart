@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/text_button_widget_light.dart';
@@ -60,7 +60,7 @@ class ConsultFarmScreen extends StatelessWidget {
               ),
               SizedBox(height: 34.h),
               FutureBuilder(
-                future: ApiService().farmMembers.getAllMembers(farmId: farmId),
+                future: ApiProvider().farmMembers.getAllMembers(farmId: farmId),
                 builder: (context, snapshot) {
                   final members = snapshot.data?.data?.data ?? [];
                   return Column(

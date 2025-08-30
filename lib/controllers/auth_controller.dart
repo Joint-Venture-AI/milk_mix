@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
 
 class AuthController extends GetxController {
   final RxBool isLoading = false.obs;
-  final ApiService apiService = ApiService();
+  final ApiProvider apiService = ApiProvider();
 
   Future<void> login({required String email, required String password}) async {
     if (email.trim().isEmpty || password.trim().isEmpty) {

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/profile_farm_controller.dart';
-import 'package:milk_mix/data_source/api_service.dart';
+import 'package:milk_mix/data_source/api/provider/api_config.dart';
+import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/settings_tile.dart';
 
@@ -118,13 +119,13 @@ class SettingScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.editLanguage);
                 },
               ),
-              SettingTile(
-                iconPath: 'assets/logos/scale copy.svg',
-                title: 'changeMeasurements'.tr,
-                onTap: () {
-                  Get.toNamed(AppRoutes.editMeasurement);
-                },
-              ),
+              // SettingTile(
+              //   iconPath: 'assets/logos/scale copy.svg',
+              //   title: 'changeMeasurements'.tr,
+              //   onTap: () {
+              //     Get.toNamed(AppRoutes.editMeasurement);
+              //   },
+              // ),
               SettingTile(
                 iconPath: 'assets/logos/lock copy.svg',
                 title: 'changePassword'.tr,
@@ -143,7 +144,7 @@ class SettingScreen extends StatelessWidget {
                 iconPath: 'assets/logos/logout.svg',
                 title: 'logout'.tr,
                 onTap: () async {
-                  await ApiService().logout();
+                  await ApiProvider().logout();
                   Get.offAllNamed(AppRoutes.signin);
                 },
               ),
