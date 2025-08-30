@@ -8,6 +8,17 @@ abstract class Result<T> {
   T? get data => isSuccess ? (this as Success<T>).data : null;
   String? get error => isFailure ? (this as Failure<T>).error : null;
   int? get statusCode => isFailure ? (this as Failure<T>).statusCode : null;
+
+  when({
+    required Function(Success<T>) onSuccess,
+    required Function(Failure<T>) onFailure,
+  }) {
+    if (isSuccess) {
+      onSuccess(this as Success<T>);
+    } else {
+      onFailure(this as Failure<T>);
+    }
+  }
 }
 
 class Success<T> extends Result<T> {
