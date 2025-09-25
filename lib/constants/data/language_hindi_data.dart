@@ -24,8 +24,7 @@ Map<String, String> languageHindiData = {
   'loginTypeSubTitle': 'अपने खाते में साइन इन करने का तरीका चुनें',
   'createAccountTitle': 'अपना खाता बनाएं',
   'verifyEmailTitle': 'अपने ईमेल को सत्यापित करें',
-  'verifyEmailSubTitle':
-      'हमने आपके ईमेल domain@gmail.com पर एक 4 अंकों का कोड भेजा है',
+  'verifyEmailSubTitle': 'हमने आपके ईमेल  पर एक 4 अंकों का कोड भेजा है',
   'selectLanguage': 'अपनी पसंदीदा भाषा चुनें',
   'selectMeasurement': 'अपनी मापन प्रणाली चुनें',
   'englishStandard': 'अंग्रेजी मानक',

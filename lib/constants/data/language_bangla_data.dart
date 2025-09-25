@@ -25,8 +25,7 @@ Map<String, String> languageBanglaData = {
       'আপনি কীভাবে আপনার একাউন্টে সাইন ইন করতে চান তা নির্বাচন করুন',
   'createAccountTitle': 'আপনার একাউন্ট তৈরি করুন',
   'verifyEmailTitle': 'আপনার ইমেইল যাচাই করুন',
-  'verifyEmailSubTitle':
-      'আমরা একটি ৪ সংখ্যার কোড আপনার ইমেইলে পাঠিয়েছি domain@gmail.com',
+  'verifyEmailSubTitle': 'আমরা একটি ৪ সংখ্যার কোড আপনার ইমেইলে পাঠিয়েছি ',
   'selectLanguage': 'আপনার পছন্দের ভাষা নির্বাচন করুন',
   'selectMeasurement': 'আপনার মাপের একক নির্বাচন করুন',
   'englishStandard': 'ইংরেজি স্ট্যান্ডার্ড',

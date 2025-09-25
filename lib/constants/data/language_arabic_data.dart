@@ -21,8 +21,7 @@ Map<String, String> languageArabicData = {
   'loginTypeSubTitle': 'اختر كيف تريد تسجيل الدخول إلى حسابك',
   'createAccountTitle': 'أنشئ حسابك',
   'verifyEmailTitle': 'تحقق من بريدك الإلكتروني',
-  'verifyEmailSubTitle':
-      'أرسلنا رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني domain@gmail.com',
+  'verifyEmailSubTitle': 'أرسلنا رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني ',
   'selectLanguage': 'اختر لغتك المفضلة',
   'selectMeasurement': 'اختر نظام القياس',
   'englishStandard': 'النظام الإنجليزي',

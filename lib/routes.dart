@@ -76,7 +76,17 @@ class AppRoutes {
     GetPage(name: auth, page: () => const AuthenticationScreen()),
     GetPage(name: signin, page: () => SigninScreen()),
     GetPage(name: createAccount, page: () => CreateAccountScreen()),
-    GetPage(name: otpVerification, page: () => OtpVerificationScreen()),
+    GetPage(
+      name: otpVerification,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final email =
+            args != null && args.containsKey('email')
+                ? args['email'] as String
+                : null;
+        return OtpVerificationScreen(email: email);
+      },
+    ),
     GetPage(name: selectLanguage, page: () => SelectPreferredLanguageScreen()),
     GetPage(name: selectMeasurement, page: () => SelectMeasurementSystem()),
     GetPage(name: welcome, page: () => WelcomeScreen()),

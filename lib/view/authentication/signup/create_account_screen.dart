@@ -16,6 +16,7 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _nameController = TextEditingController();
+  final _farmNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   late final ApiProvider _apiService = ApiProvider();
@@ -32,6 +33,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void dispose() {
     _nameController.dispose();
+    _farmNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -39,6 +41,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> registerUser() async {
     final name = _nameController.text.trim();
+    final farmName = _farmNameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -75,6 +78,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       email: email,
       password: password,
       name: name,
+      farmName: farmName,
       role: _selectedRole,
     );
 
@@ -165,6 +169,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               buildTextField(
                 controller: _nameController,
                 hintText: 'enterYourName'.tr,
+                icon: 'assets/logos/user.svg',
+              ),
+              SizedBox(height: 20.h),
+              buildLabel('Farm Name'),
+              buildTextField(
+                controller: _farmNameController,
+                hintText: 'Enter Your Farm Name',
                 icon: 'assets/logos/user.svg',
               ),
               SizedBox(height: 20.h),

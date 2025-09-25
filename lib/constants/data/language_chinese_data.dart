@@ -18,7 +18,7 @@ Map<String, String> languageChineseData = {
   'loginTypeSubTitle': '选择您希望如何登录账户',
   'createAccountTitle': '创建您的账户',
   'verifyEmailTitle': '验证您的邮箱',
-  'verifyEmailSubTitle': '我们已将 4 位验证码发送至您的邮箱 domain@gmail.com',
+  'verifyEmailSubTitle': '我们已将 4 位验证码发送至您的邮箱 ',
   'selectLanguage': '选择您偏好的语言',
   'selectMeasurement': '选择您的计量系统',
   'englishStandard': '英制标准',

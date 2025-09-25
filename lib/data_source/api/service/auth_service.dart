@@ -39,12 +39,14 @@ class AuthService {
 
   Future<Result<dynamic>> register({
     required String name,
+    required String farmName,
     required String email,
     required String password,
     required String role,
   }) {
     final body = {
       'name': name,
+      'farm_name': farmName,
       'email': email,
       'password': password,
       'role': role,

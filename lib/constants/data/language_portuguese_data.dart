@@ -24,8 +24,7 @@ Map<String, String> languagePortugueseData = {
   'loginTypeSubTitle': 'Selecione como deseja entrar em sua conta',
   'createAccountTitle': 'Crie sua conta',
   'verifyEmailTitle': 'Verifique seu e-mail',
-  'verifyEmailSubTitle':
-      'Enviamos um código de 4 dígitos para seu e-mail domain@gmail.com',
+  'verifyEmailSubTitle': 'Enviamos um código de 4 dígitos para seu e-mail ',
   'selectLanguage': 'Selecione seu idioma preferido',
   'selectMeasurement': 'Selecione seu sistema de medição',
   'englishStandard': 'Padrão Inglês',
