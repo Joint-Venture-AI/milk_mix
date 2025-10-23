@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/view/widget/custom_text_field.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -107,31 +108,31 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
   );
 
-  Widget buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required String icon,
-    bool obscureText = false,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: AppColors.textLightGrey,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
-        ),
-        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
-      ),
-      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-    );
-  }
+  // Widget buildTextField({
+  //   required TextEditingController controller,
+  //   required String hintText,
+  //   required String icon,
+  //   bool obscureText = false,
+  // }) {
+  //   return TextField(
+  //     controller: controller,
+  //     obscureText: obscureText,
+  //     decoration: InputDecoration(
+  //       hintText: hintText,
+  //       hintStyle: TextStyle(
+  //         color: AppColors.textLightGrey,
+  //         fontSize: 14.sp,
+  //         fontWeight: FontWeight.w400,
+  //       ),
+  //       prefixIcon: Padding(
+  //         padding: EdgeInsets.all(12.w),
+  //         child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
+  //       ),
+  //       prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
+  //     ),
+  //     style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -166,34 +167,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               SizedBox(height: 24.h),
 
               buildLabel('name'.tr),
-              buildTextField(
+              CustomTextField(
                 controller: _nameController,
                 hintText: 'enterYourName'.tr,
-                icon: 'assets/logos/user.svg',
+                iconPath: 'assets/logos/user.svg',
               ),
               SizedBox(height: 20.h),
               buildLabel('Farm Name'),
-              buildTextField(
+              CustomTextField(
                 controller: _farmNameController,
                 hintText: 'Enter Your Farm Name',
-                icon: 'assets/logos/user.svg',
+                iconPath: 'assets/logos/user.svg',
               ),
               SizedBox(height: 20.h),
 
               buildLabel('email'.tr),
-              buildTextField(
+              CustomTextField(
                 controller: _emailController,
                 hintText: 'enterYourEmail'.tr,
-                icon: 'assets/logos/mail.svg',
+                iconPath: 'assets/logos/mail.svg',
               ),
               SizedBox(height: 20.h),
 
               buildLabel('password'.tr),
-              buildTextField(
+              CustomTextField(
                 controller: _passwordController,
                 hintText: 'enterPassword'.tr,
-                icon: 'assets/logos/lock.svg',
-                obscureText: true,
+                iconPath: 'assets/logos/lock.svg',
+                // obscureText: true,
+                isPassword: true,
               ),
               SizedBox(height: 20.h),
 

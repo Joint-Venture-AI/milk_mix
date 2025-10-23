@@ -46,7 +46,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green.shade50,
         );
-        Get.toNamed(AppRoutes.signin);
+        Get.toNamed(AppRoutes.welcome);
       } else {
         final message = "OTP verification failed";
         Get.snackbar("Failed", message, snackPosition: SnackPosition.BOTTOM);

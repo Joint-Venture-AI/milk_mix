@@ -1,4 +1,5 @@
 // lib/view/widget/recipe_summary_widget.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,12 +12,14 @@ class RecipeSummaryWidget extends StatelessWidget {
   final CalculationResult calculationResult;
   final MeasurementSystem measurementSystem;
   final dynamic selectedUnit;
+  final VoidCallback? onSave;
 
   const RecipeSummaryWidget({
     super.key,
     required this.calculationResult,
     required this.measurementSystem,
     required this.selectedUnit,
+    this.onSave,
   });
 
   @override
@@ -62,7 +65,46 @@ class RecipeSummaryWidget extends StatelessWidget {
           ),
         ),
         Spacer(),
-        SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
+
+        // SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey.shade100,
+            foregroundColor: Colors.grey.shade900,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0.h),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            elevation: 0,
+          ),
+          onPressed: onSave,
+          child: Text(
+            'Save',
+            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+          ),
+        ),
+        // InkWell(
+        //   borderRadius: BorderRadius.circular(20.r),
+        //   onTap: () {
+        //     // Implement save functionality here
+        //   },
+        //   child: Container(
+        //     // height: 30.h,
+        //     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+        //     decoration: BoxDecoration(
+        //       color: Colors.grey.shade100,
+        //       borderRadius: BorderRadius.circular(20.r),
+        //     ),
+        //     child: Text(
+        //       'Save',
+        //       style: TextStyle(
+        //         fontSize: 14.sp,
+        //         fontWeight: FontWeight.w500,
+        //         color: Colors.grey.shade900,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

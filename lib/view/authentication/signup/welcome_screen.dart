@@ -167,7 +167,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               TextWidgetButton(
                 text: 'getStartTheApp'.tr,
                 onPressed: () {
-                  Get.toNamed(AppRoutes.premium);
+                  // Get.toNamed(AppRoutes.premium);
+                  Get.toNamed(AppRoutes.signin);
                 },
               ),
             ],

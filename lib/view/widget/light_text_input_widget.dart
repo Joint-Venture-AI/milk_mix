@@ -26,10 +26,12 @@ class LightInputField extends StatelessWidget {
       keyboardType: keyboardType,
       cursorColor: AppColors.textLightGrey,
       onChanged: onChanged,
+
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.shade,
         hintText: hintText,
+
         contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
         isDense: true,
         enabledBorder: OutlineInputBorder(
@@ -41,7 +43,7 @@ class LightInputField extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.primaryLight, width: 2),
         ),
       ),
-      style: TextStyle(fontSize: 14.sp),
+      style: TextStyle(fontSize: 18.sp),
     );
   }
 }

@@ -13,6 +13,7 @@ import 'package:milk_mix/view/home/calculate/mix_calculation_service.dart';
 import 'package:milk_mix/view/home/calculate/recipe_summery_widget.dart';
 import 'package:milk_mix/view/home/calculate/save_measurement_service.dart';
 import 'package:milk_mix/view/home/calculate/start_mixing_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
@@ -154,14 +155,21 @@ class _CalculateScreenState extends State<CalculateScreen> {
         hospitalSolids: double.tryParse(_hospitalMilkSolidsController.text),
         desiredSolidsContent: double.tryParse(_desiredSolidsController.text),
         //
-        poundsOfWater: calculationResult.waterAmount,
-        poundsOfMilkReplacer: calculationResult.milkReplacerAmount,
+        poundsOfWater: double.parse(
+          calculationResult.waterAmount.toStringAsFixed(2),
+        ),
+        poundsOfMilkReplacer: double.parse(
+          calculationResult.milkReplacerAmount.toStringAsFixed(2),
+        ),
         //
-        solidsHospitalMilk:
-            calculationResult.waterAmount +
-            calculationResult.milkReplacerAmount,
+        solidsHospitalMilk: double.parse(
+          (calculationResult.waterAmount + calculationResult.milkReplacerAmount)
+              .toStringAsFixed(2),
+        ),
         //
-        hospitalMilkUsed: calculationResult.hospitalMilkAmount,
+        hospitalMilkUsed: double.parse(
+          calculationResult.hospitalMilkAmount.toStringAsFixed(2),
+        ),
         totalVolume:
             calculationResult.totalVolume.toStringAsFixed(0) +
             (measurementSystem == MeasurementSystem.imperial ? ' lbs' : ' kg'),
@@ -208,13 +216,17 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
                 onCalculate: _calculateRecipe,
-                onSaveCalculation: _postCalculationResults,
+                // onSaveCalculation: _postCalculationResults,
               ),
               SizedBox(height: 14.h),
               RecipeSummaryWidget(
                 calculationResult: calculationResult,
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
+                onSave: () {
+                  _postCalculationResults();
+                  _saveFieldsToPrefs();
+                },
               ),
               SizedBox(height: 14.h),
               MeasurementUnitWidget(
@@ -230,6 +242,18 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
   }
 
+  Future<void> _saveFieldsToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('num_bottles', _numBottlesController.text);
+    await prefs.setString('hospital_milk', _hospitalMilkController.text);
+    await prefs.setString('bottle_size', _bottleSizeController.text);
+    await prefs.setString(
+      'hospital_milk_solids',
+      _hospitalMilkSolidsController.text,
+    );
+    await prefs.setString('desired_solids', _desiredSolidsController.text);
+  }
+
   Widget _buildAdPlaceholder() {
     return FutureBuilder(
       future: ApiProvider.instance.advertisements.getLatestAd(),
@@ -238,7 +262,7 @@ class _CalculateScreenState extends State<CalculateScreen> {
           final ad = snapshot.data!;
           return Stack(
             children: [
-              Text('Ad'),
+              // Text('Ad'),
               Container(
                 height: 150.h,
                 decoration: BoxDecoration(

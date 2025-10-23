@@ -11,6 +11,7 @@ class ProfileController extends GetxController {
   final Rx<File?> selectedImage = Rx<File?>(null);
   final RxString profileImageUrl = ''.obs;
   final RxString name = ''.obs;
+  final RxString farmName = ''.obs;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -47,6 +48,7 @@ class ProfileController extends GetxController {
           profileImageUrl.value = user.userProfile!.profilePicture!;
         }
         name.value = user.userProfile?.name ?? '';
+        farmName.value = user.userProfile?.farmName ?? '';
 
         // Get.snackbar(
         //   'Success',

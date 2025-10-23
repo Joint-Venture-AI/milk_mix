@@ -52,7 +52,14 @@ class _MembersPremiumScreenState extends State<ManageFarmScreen> {
                       ),
                     ],
                   ),
-                  SvgPicture.asset('assets/logos/i.svg', width: 20.w),
+                  // SvgPicture.asset('assets/logos/i.svg', width: 20.w),
+                  IconButton(
+                    onPressed: () {
+                      controller.fetchAcceptedFarms();
+                      controller.fetchPendingRequests();
+                    },
+                    icon: Icon(Icons.refresh),
+                  ),
                 ],
               ),
 

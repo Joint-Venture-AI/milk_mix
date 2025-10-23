@@ -100,7 +100,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  profileController.name.value,
+                                  profileController.farmName.value,
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
@@ -156,14 +156,27 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               // farm members list
               Obx(() {
                 final count = controller.members.length;
-                return Text(
-                  '${'farmMembers'.tr}'
-                  ' ($count)',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
+                return Row(
+                  children: [
+                    Text(
+                      '${'farmMembers'.tr}'
+                      ' ($count)',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Spacer(),
+
+                    /// refresh button
+                    IconButton(
+                      onPressed: () {
+                        controller.fetchMembers();
+                      },
+                      icon: Icon(Icons.refresh),
+                    ),
+                  ],
                 );
               }),
               Obx(() {

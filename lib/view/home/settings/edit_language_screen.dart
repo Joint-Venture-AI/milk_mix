@@ -73,7 +73,7 @@ class _EditLanguageScreenState extends State<EditLanguageScreen> {
 
       if (success) {
         // Update the app locale
-        Get.updateLocale(
+        await Get.updateLocale(
           Locale(selectedLocale.split('_')[0], selectedLocale.split('_')[1]),
         );
 
@@ -87,7 +87,10 @@ class _EditLanguageScreenState extends State<EditLanguageScreen> {
         );
 
         // Navigate back
-        Get.back();
+        // Get.back();
+        if (mounted) {
+          Navigator.pop(context);
+        }
       } else {
         Get.snackbar(
           'Error',

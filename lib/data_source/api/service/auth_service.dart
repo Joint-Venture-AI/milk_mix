@@ -112,6 +112,7 @@ class AuthService {
 
   Future<Result<dynamic>> updateProfile({
     String? name,
+    String? farmName,
     String? phoneNumber,
     File? profilePicture,
   }) async {
@@ -123,6 +124,9 @@ class AuthService {
     }
     if (phoneNumber != null) {
       fields['phone_number'] = phoneNumber;
+    }
+    if (farmName != null) {
+      fields['farm_name'] = farmName;
     }
     if (profilePicture != null) {
       files.add(

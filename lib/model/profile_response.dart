@@ -35,6 +35,7 @@ class UserProfile {
   int? id;
   int? user;
   String? name;
+  String? farmName;
   String? profilePicture;
   String? phoneNumber;
   String? joinedDate;
@@ -43,6 +44,7 @@ class UserProfile {
     this.id,
     this.user,
     this.name,
+    this.farmName,
     this.profilePicture,
     this.phoneNumber,
     this.joinedDate,
@@ -53,6 +55,7 @@ class UserProfile {
       id: json['id'] as int?,
       user: json['user'] as int?,
       name: json['name'] as String?,
+      farmName: json['farm_name'] as String?,
       profilePicture: json['profile_picture'] as String?,
       phoneNumber: json['phone_number'] as String?,
       joinedDate: json['joined_date'] as String?,
@@ -64,6 +67,7 @@ class UserProfile {
       'id': id,
       'user': user,
       'name': name,
+      'farm_name': farmName,
       'profile_picture': profilePicture,
       'phone_number': phoneNumber,
       'joined_date': joinedDate,
