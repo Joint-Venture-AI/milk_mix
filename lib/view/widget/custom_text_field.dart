@@ -8,14 +8,16 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final String iconPath;
   final bool isPassword;
+  final TextInputType? keyboardType;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.iconPath,
     this.isPassword = false,
-  }) : super(key: key);
+    this.keyboardType,
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -29,6 +31,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextField(
       controller: widget.controller,
       obscureText: widget.isPassword ? _obscure : false,
+      keyboardType:
+          widget.isPassword
+              ? TextInputType.visiblePassword
+              : widget.keyboardType,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: TextStyle(color: AppColors.textLightGrey, fontSize: 14.sp),

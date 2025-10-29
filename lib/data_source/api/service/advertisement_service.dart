@@ -14,4 +14,15 @@ class AdvertisementService {
       fromJson: (json) => LatestAdResponse.fromJson(json),
     );
   }
+
+  Future<Result<List<LatestAdResponse>>> getAllAds() {
+    return _httpClient.get(
+      '${ApiConfig.advertisements}/',
+      fromJson: (json) {
+        return (json as List).map((e) {
+          return LatestAdResponse.fromJson(e as Map<String, dynamic>);
+        }).toList();
+      },
+    );
+  }
 }

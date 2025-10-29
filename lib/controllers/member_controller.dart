@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/data_source/api/client/result.dart';
 import 'package:milk_mix/model/add_member_response.dart' hide FarmMemberData;
+import 'package:milk_mix/model/consultant_of_farm_response.dart';
 import 'package:milk_mix/model/farm_members_response.dart';
 import 'package:milk_mix/model/member_request.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
@@ -10,11 +11,15 @@ class MemberController extends GetxController {
   final apiService = ApiProvider();
   //
   var fetchMemberIsLoading = false.obs;
+  var fetchConsultantIsLoading = false.obs;
+  //
   var addMemberIsLoading = false.obs;
   var getPendingRequestIsLoading = false.obs;
   var acceptConsultantRequestIsLoading = false.obs;
   //
   RxList<FarmMemberData> members = RxList<FarmMemberData>([]);
+  RxList<ConsultantOfFarmResponse> consultants =
+      RxList<ConsultantOfFarmResponse>([]);
   RxList<PendingConsultantRequest> pendingRequests =
       RxList<PendingConsultantRequest>([]);
 
@@ -30,6 +35,15 @@ class MemberController extends GetxController {
       members.value = result.data!.data ?? [];
     }
     fetchMemberIsLoading.value = false;
+  }
+
+  void fetchConsultants() async {
+    fetchConsultantIsLoading.value = true;
+    final result = await apiService.consultants.getAllConsultantsOfFarm();
+    if (result.isSuccess && result.data != null) {
+      consultants.value = result.data ?? [];
+    }
+    fetchConsultantIsLoading.value = false;
   }
 
   Future<Result<AddMemberResponse>> addMember({
@@ -59,7 +73,7 @@ class MemberController extends GetxController {
     getPendingRequestIsLoading.value = false;
   }
 
-  void acceptConsultantRequest(int requestId) async {
+  Future<void> acceptConsultantRequest(int requestId) async {
     acceptConsultantRequestIsLoading.value = true;
     final result = await apiService.consultants.acceptRequest(
       requestId: requestId,
@@ -71,7 +85,6 @@ class MemberController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         duration: Duration(seconds: 2),
       );
-      getPendingRequests();
     } else {
       Get.snackbar(
         'Error',
@@ -79,6 +92,8 @@ class MemberController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+    getPendingRequests();
+    fetchConsultants();
     acceptConsultantRequestIsLoading.value = false;
   }
 }

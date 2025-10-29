@@ -22,14 +22,15 @@ class MembersPremiumScreen extends StatefulWidget {
 }
 
 class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
-  final controller = Get.put<MemberController>(MemberController());
+  final memberController = Get.put<MemberController>(MemberController());
   final profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
-    controller.fetchMembers();
-    controller.getPendingRequests();
+    memberController.fetchMembers();
+    memberController.fetchConsultants();
+    memberController.getPendingRequests();
   }
 
   @override
@@ -140,13 +141,14 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               }),
               SizedBox(height: 28.h),
               Obx(() {
-                final isLoading = controller.getPendingRequestIsLoading.value;
+                final isLoading =
+                    memberController.getPendingRequestIsLoading.value;
                 if (isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return Column(
                   children: <Widget>[
-                    ...controller.pendingRequests.map((request) {
+                    ...memberController.pendingRequests.map((request) {
                       return PendingRequestCard(request: request);
                     }),
                   ],
@@ -155,7 +157,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
               SizedBox(height: 24.h),
               // farm members list
               Obx(() {
-                final count = controller.members.length;
+                final count = memberController.members.length;
                 return Row(
                   children: [
                     Text(
@@ -172,7 +174,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                     /// refresh button
                     IconButton(
                       onPressed: () {
-                        controller.fetchMembers();
+                        memberController.fetchMembers();
                       },
                       icon: Icon(Icons.refresh),
                     ),
@@ -180,11 +182,11 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                 );
               }),
               Obx(() {
-                final isLoading = controller.fetchMemberIsLoading.value;
+                final isLoading = memberController.fetchMemberIsLoading.value;
                 if (isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                final members = controller.members;
+                final members = memberController.members;
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -247,7 +249,6 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                                     ),
                                     SizedBox(height: 4.h),
                                     Text(
-                                      // '${'createdOn'.tr} May 23, 2025',
                                       'Joined on $formatted',
                                       style: TextStyle(
                                         fontSize: 14.sp,
@@ -289,7 +290,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                                             snackPosition: SnackPosition.BOTTOM,
                                           );
 
-                                          controller.fetchMembers();
+                                          memberController.fetchMembers();
                                         } else {
                                           Get.snackbar(
                                             'Error',
@@ -315,6 +316,167 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
                   },
                 );
               }),
+              SizedBox(height: 24.h),
+              // farm consultants list
+              Obx(() {
+                final count = memberController.consultants.length;
+                return Row(
+                  children: [
+                    Text(
+                      'Farm Consultants'
+                      ' ($count)',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Spacer(),
+
+                    /// refresh button
+                    IconButton(
+                      onPressed: () {
+                        memberController.fetchConsultants();
+                      },
+                      icon: Icon(Icons.refresh),
+                    ),
+                  ],
+                );
+              }),
+              Obx(() {
+                final isLoading =
+                    memberController.fetchConsultantIsLoading.value;
+                if (isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final consultants = memberController.consultants;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: consultants.length,
+                  itemBuilder: (context, index) {
+                    final consultant = consultants[index];
+                    return Column(
+                      children: [
+                        SizedBox(height: 16.h),
+                        GestureDetector(
+                          onTap: () {
+                            // Get.toNamed(
+                            //   AppRoutes.memberDetails,
+                            //   arguments: {
+                            //     'farmUserId': member.farmUserId,
+                            //     'farmUserEmail': member.farmUserEmail,
+                            //     'farmUserName':
+                            //         member.farmUserProfile?.name ?? '',
+                            //     'joinedDate': formatted,
+                            //   },
+                            // );
+                          },
+                          child: Container(
+                            height: 65.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: AppColors.lightGrey,
+                                width: 1.w,
+                              ),
+                              color: AppColors.surface,
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/logos/outlinePerson.svg',
+                                  width: 40.w,
+                                ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        consultant.consultantName ?? '',
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Email: ${consultant.consultantEmail}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.textLightGrey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // Spacer(),
+                                InkWell(
+                                  onTap: () async {
+                                    if (consultant.id == null) return;
+
+                                    Get.defaultDialog(
+                                      title: "Confirm Delete",
+                                      backgroundColor: Colors.white,
+                                      buttonColor: AppColors.primary,
+                                      middleText:
+                                          "Are you sure you want to delete this consultant?",
+                                      textCancel: "Cancel",
+                                      textConfirm: "Delete",
+                                      confirmTextColor: Colors.white,
+                                      onConfirm: () async {
+                                        Get.back(); // close dialog before making API call
+                                        print(
+                                          'Deleting consultant with ID: ${consultant.id}',
+                                        );
+                                        final result = await ApiProvider()
+                                            .consultants
+                                            .deleteConsultantFromFarm(
+                                              consultantId: consultant.id!,
+                                            );
+
+                                        if (result.isSuccess) {
+                                          Get.snackbar(
+                                            'Success',
+                                            'Consultant deleted successfully',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+
+                                          memberController.fetchConsultants();
+                                        } else {
+                                          Get.snackbar(
+                                            'Error',
+                                            'Failed to delete consultant',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/logos/trash.svg',
+                                    width: 20.w,
+                                    height: 20.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }),
+
               // SizedBox(height: 16.h),
               // GestureDetector(
               //   onTap: () {
@@ -464,7 +626,8 @@ class PendingRequestCard extends StatelessWidget {
                         return;
                       }
 
-                      controller.acceptConsultantRequest(request.id!);
+                      await controller.acceptConsultantRequest(request.id!);
+                      controller.fetchConsultants();
                     },
                   );
                 }),

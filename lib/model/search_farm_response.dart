@@ -45,15 +45,23 @@ class Farm {
 
 class Profile {
   final String? name;
+  final String? farmName;
   final String? phoneNumber;
   final String? profilePicture;
   final String? joinedDate;
 
-  Profile({this.name, this.phoneNumber, this.profilePicture, this.joinedDate});
+  Profile({
+    this.name,
+    this.farmName,
+    this.phoneNumber,
+    this.profilePicture,
+    this.joinedDate,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       name: json['name'],
+      farmName: json['farm_name'],
       phoneNumber: json['phone_number'],
       profilePicture: json['profile_picture'],
       joinedDate: json['joined_date'],
@@ -62,6 +70,7 @@ class Profile {
 
   Map<String, dynamic> toJson() => {
     'name': name,
+    'farm_name': farmName,
     'phone_number': phoneNumber,
     'profile_picture': profilePicture,
     'joined_date': joinedDate,

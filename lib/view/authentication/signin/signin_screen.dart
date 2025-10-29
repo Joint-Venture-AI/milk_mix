@@ -85,6 +85,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     controller: _emailController,
                     hintText: 'enterYourEmail'.tr,
                     iconPath: 'assets/logos/mail.svg',
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 24.h),
 
