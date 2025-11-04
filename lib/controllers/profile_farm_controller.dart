@@ -9,6 +9,7 @@ class ProfileFarmController extends GetxController {
   final _apiService = ApiProvider();
   var isLoading = false.obs;
   final Rx<User?> userProfile = Rx<User?>(null);
+  final RxString role = RxString('');
 
   @override
   void onInit() {
@@ -21,8 +22,10 @@ class ProfileFarmController extends GetxController {
     final result = await _apiService.auth.getProfile();
     if (result.isSuccess && result.data != null) {
       userProfile.value = result.data!;
+      role.value = result.data!.role ?? '';
     } else {
       userProfile.value = null;
+      role.value = '';
     }
     isLoading.value = false;
   }

@@ -254,7 +254,7 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                 ),
               Spacer(),
               TextWidgetButton(
-                text: isLoading ? 'Adding...' : '+  Add Farm (\$25/farm)',
+                text: isLoading ? 'Adding...' : '+  Add Farm',
                 onPressed:
                     selectedFarm == null
                         ? null

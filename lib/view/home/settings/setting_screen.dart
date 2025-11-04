@@ -104,14 +104,14 @@ class SettingScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.editProfile);
                 },
               ),
-              SettingTile(
-                iconPath: 'assets/logos/subs.svg',
-                title: 'subscriptionAndPlan'.tr,
+              // SettingTile(
+              //   iconPath: 'assets/logos/subs.svg',
+              //   title: 'subscriptionAndPlan'.tr,
 
-                onTap: () {
-                  Get.toNamed(AppRoutes.subscription);
-                },
-              ),
+              //   onTap: () {
+              //     Get.toNamed(AppRoutes.subscription);
+              //   },
+              // ),
               SettingTile(
                 iconPath: 'assets/logos/language copy.svg',
                 title: 'language'.tr,
@@ -140,6 +140,42 @@ class SettingScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.helpAndSupport);
                 },
               ),
+              SettingTile(
+                iconPath: 'assets/logos/alert.svg',
+                title: 'Delete Account',
+                onTap: () {
+                  // show dialog to confirm deletion
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: Text('Delete Account'),
+                          content: Text(
+                            'Are you sure you want to delete your account?',
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            TextButton(
+                              child: Text('Delete'),
+                              onPressed: () async {
+                                final userId = controller.userProfile.value?.id;
+                                if (userId == null) return;
+                                await ApiProvider().auth.deleteUser(
+                                  userId: userId,
+                                );
+                                await ApiProvider().logout();
+                                Get.offAllNamed(AppRoutes.signin);
+                              },
+                            ),
+                          ],
+                        ),
+                  );
+                },
+              ),
+
               SettingTile(
                 iconPath: 'assets/logos/logout.svg',
                 title: 'logout'.tr,

@@ -151,6 +151,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),

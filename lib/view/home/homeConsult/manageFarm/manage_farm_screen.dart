@@ -216,7 +216,7 @@ class _MembersPremiumScreenState extends State<ManageFarmScreen> {
               }),
               SizedBox(height: 360.h),
               TextWidgetButton(
-                text: '+  Add Farm (\$25/farm)',
+                text: '+  Add Farm',
                 onPressed: () {
                   Get.toNamed(AppRoutes.addFarm);
                 },

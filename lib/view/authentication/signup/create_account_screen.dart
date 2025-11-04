@@ -42,14 +42,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> registerUser() async {
     final name = _nameController.text.trim();
-    final farmName = _farmNameController.text.trim();
+    String? farmName = _farmNameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       Get.snackbar(
         "Error",
-        "All fields are required",
+        "Name and password cannot be empty",
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -71,6 +71,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
+    }
+
+    if (_selectedRole == 'farm') {
+      if (farmName.isEmpty) {
+        farmName = name;
+      }
+    }
+    if (_selectedRole == 'consultant') {
+      if (farmName.isEmpty) {
+        farmName = null;
+      }
     }
 
     setState(() => isLoading = true);
@@ -172,13 +183,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 hintText: 'enterYourName'.tr,
                 iconPath: 'assets/logos/user.svg',
               ),
-              SizedBox(height: 20.h),
-              buildLabel('Farm Name'),
-              CustomTextField(
-                controller: _farmNameController,
-                hintText: 'Enter Your Farm Name',
-                iconPath: 'assets/logos/user.svg',
-              ),
+              if (_selectedRole == 'farm')
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    buildLabel('Farm Name (optional)'),
+                    CustomTextField(
+                      controller: _farmNameController,
+                      hintText: 'Enter Your Farm Name',
+                      iconPath: 'assets/logos/user.svg',
+                    ),
+                  ],
+                ),
               SizedBox(height: 20.h),
 
               buildLabel('email'.tr),
@@ -289,95 +306,95 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               SizedBox(height: 20.h),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Text(
-                      'or continue with',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        backgroundColor: AppColors.shade,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/google.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Divider(color: Colors.grey.shade200, thickness: 1),
+              //     ),
+              //     Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: 8.w),
+              //       child: Text(
+              //         'or continue with',
+              //         style: TextStyle(
+              //           fontSize: 12.sp,
+              //           color: Colors.grey.shade600,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Divider(color: Colors.grey.shade200, thickness: 1),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: 20.h),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           minimumSize: Size(double.infinity, 48.h),
+              //           elevation: 0,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
+              //           backgroundColor: AppColors.shade,
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             SvgPicture.asset(
+              //               'assets/logos/google.svg',
+              //               width: 18.w,
+              //             ),
+              //             SizedBox(width: 8.w),
+              //             Text(
+              //               'Google',
+              //               style: TextStyle(
+              //                 fontSize: 16.sp,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: Color(0xFF1A1A1A),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: 14.w),
+              //     Expanded(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           minimumSize: Size(double.infinity, 48.h),
+              //           elevation: 0,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
 
-                        backgroundColor: AppColors.shade,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/apple.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Apple',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              //           backgroundColor: AppColors.shade,
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             SvgPicture.asset(
+              //               'assets/logos/apple.svg',
+              //               width: 18.w,
+              //             ),
+              //             SizedBox(width: 8.w),
+              //             Text(
+              //               'Apple',
+              //               style: TextStyle(
+              //                 fontSize: 14.sp,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: Color(0xFF1A1A1A),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
