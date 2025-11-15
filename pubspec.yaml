@@ -2,7 +2,7 @@ name: milk_mix
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.1+5
+version: 1.0.3+9
 
 environment:
   sdk: ^3.7.2
@@ -26,6 +26,8 @@ dependencies:
   flutter_typeahead: ^5.2.0
   custom_refresh_indicator: ^4.0.1
   url_launcher: ^6.3.2
+  in_app_purchase: ^3.2.3
+  purchases_flutter: ^9.9.5
 
 dev_dependencies:
   flutter_test:

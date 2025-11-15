@@ -301,7 +301,7 @@ class _AutoScrollAdBannerState extends State<AutoScrollAdBanner> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiProvider.instance.advertisements.getAllAds(),
+      future: ApiProvider.instance.advertisements.getLatestAd(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
 

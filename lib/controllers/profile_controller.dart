@@ -12,6 +12,7 @@ class ProfileController extends GetxController {
   final RxString profileImageUrl = ''.obs;
   final RxString name = ''.obs;
   final RxString farmName = ''.obs;
+  final RxnInt userId = RxnInt();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -22,7 +23,7 @@ class ProfileController extends GetxController {
   void onInit() {
     super.onInit();
     // Load current profile data
-    loadProfile();
+    // loadProfile();
   }
 
   @override
@@ -49,6 +50,7 @@ class ProfileController extends GetxController {
         }
         name.value = user.userProfile?.name ?? '';
         farmName.value = user.userProfile?.farmName ?? '';
+        userId.value = user.userProfile?.id;
 
         // Get.snackbar(
         //   'Success',

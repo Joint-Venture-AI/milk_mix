@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_to_premium_user_screen.dart';
 import 'package:milk_mix/view/home/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
@@ -30,7 +31,7 @@ import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/authentication/subscription/congratulation_screen.dart';
-import 'package:milk_mix/view/authentication/subscription/upgrade_premium_screen.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_to_individual_user_screen.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash-screen";
@@ -41,7 +42,8 @@ class AppRoutes {
   static String selectLanguage = "/select-language";
   static String selectMeasurement = "/select-measurement";
   static String welcome = "/welcome";
-  static String premium = "/premium";
+  static String upgradeToIndividualUser = "/upgrade-to-individual-user";
+  static String upgradeToPremiumUser = "/upgrade-to-premium-user";
   static String congratulation = "/congratulation";
   static String home = "/home";
   static String memberPremium = "/member-premium";
@@ -90,7 +92,14 @@ class AppRoutes {
     GetPage(name: selectLanguage, page: () => SelectPreferredLanguageScreen()),
     GetPage(name: selectMeasurement, page: () => SelectMeasurementSystem()),
     GetPage(name: welcome, page: () => WelcomeScreen()),
-    GetPage(name: premium, page: () => UpgradePremium()),
+    GetPage(
+      name: upgradeToIndividualUser,
+      page: () => UpgradeToIndividualUserScreen(),
+    ),
+    GetPage(
+      name: upgradeToPremiumUser,
+      page: () => UpgradeToPremiumUserScreen(),
+    ),
     GetPage(name: congratulation, page: () => CongratulationScreen()),
     GetPage(name: home, page: () => HomeBottomNavScreen()),
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),
