@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
+import 'package:milk_mix/model/get_milk_history_response.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/history_tile.dart';
 
@@ -123,16 +124,11 @@ class MemberDetailsScreen extends StatelessWidget {
                     itemCount: historyList.length,
                     itemBuilder: (context, index) {
                       final history = historyList[index];
-                      final date = DateTime.tryParse(history.createdAt ?? '');
-                      final formattedDate = DateFormat(
-                        'yyyy-MM-dd',
-                      ).format(date!);
-                      final formattedTime = DateFormat('hh:mm a').format(date);
                       return HistoryTile(
-                        number: (index + 1).toString().padLeft(2, '0'),
-                        volume: history.totalVolume ?? '',
-                        date: formattedDate,
-                        time: formattedTime,
+                        number: getWeekDayName(history.createdAt),
+                        volume: '${history.totalVolume}',
+                        date: formatDate(history.createdAt),
+                        time: formatTime(history.createdAt),
                         historyData: history,
                       );
                     },
@@ -144,5 +140,53 @@ class MemberDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// Format date for display
+String formatDate(String? dateString) {
+  if (dateString == null) return '';
+  try {
+    final date = DateTime.parse(dateString).toLocal();
+    return '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year.toString().padLeft(2, '0')}';
+  } catch (e) {
+    return dateString;
+  }
+}
+
+// Format time for display
+String formatTime(String? dateString) {
+  if (dateString == null) return '';
+  try {
+    final date = DateTime.parse(dateString).toLocal();
+    final hour = date.hour;
+    final minute = date.minute;
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+    return '${displayHour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+  } catch (e) {
+    return '';
+  }
+}
+
+// Get total volume for a history item
+String getTotalVolume(GetMilkHistoryData history) {
+  if (history.totalVolume != null) {
+    return history.totalVolume!;
+  }
+
+  // Calculate total volume if not provided
+  final bottleSize = history.bottleSize ?? 0;
+  final numberOfBottles = history.numberOfBottles ?? 0;
+  final total = bottleSize * numberOfBottles;
+  return '${total.toStringAsFixed(0)} ml';
+}
+
+String getWeekDayName(String? dateString) {
+  try {
+    final date = DateTime.parse(dateString ?? '').toLocal();
+    return DateFormat('EEE').format(date).toUpperCase();
+  } catch (e) {
+    return '';
   }
 }

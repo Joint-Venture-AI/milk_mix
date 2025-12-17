@@ -99,24 +99,26 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                   SizedBox(height: 6.h),
 
-                  // Align(
-                  //   alignment: Alignment.bottomRight,
-                  //   child: TextButton(
-                  //     style: TextButton.styleFrom(
-                  //       padding: EdgeInsets.zero,
-                  //       minimumSize: Size.zero,
-                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  //     ),
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'forgotPassword'.tr,
-                  //       style: TextStyle(
-                  //         color: AppColors.primary,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.forgotPassword);
+                      },
+                      child: Text(
+                        'forgotPassword'.tr,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 44.h),
 
                   Obx(

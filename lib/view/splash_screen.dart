@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final biPassSubscription = kDebugMode;
   @override
   void initState() {
     super.initState();
@@ -43,18 +45,21 @@ class _SplashScreenState extends State<SplashScreen> {
     //
     //
     if (role == 'farm') {
-      if (subscription.hasAddMemberAccess.value) {
+      if (biPassSubscription) {
         Get.offAllNamed(AppRoutes.home);
-      } else if (subscription.hasIndividualAccess.value) {
-        Get.offAllNamed(AppRoutes.farmMemberHome);
       } else {
-        Get.snackbar('Subscription Required', 'Please subscribe to continue');
-        Get.offAllNamed(AppRoutes.upgradeToIndividualUser);
+        if (subscription.hasAddMemberAccess.value) {
+          Get.offAllNamed(AppRoutes.home);
+        } else if (subscription.hasIndividualAccess.value) {
+          Get.offAllNamed(AppRoutes.farmMemberHome);
+        } else {
+          Get.snackbar('Subscription Required', 'Please subscribe to continue');
+          Get.offAllNamed(AppRoutes.upgradeToIndividualUser);
+        }
       }
-    } else
+    } //
     //
-    //
-    if (role == 'farm_user') {
+    else if (role == 'farm_user') {
       Get.offAllNamed(AppRoutes.memberHome);
     } else {
       Get.offAllNamed(AppRoutes.signin);

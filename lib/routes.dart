@@ -5,6 +5,8 @@ import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_ba
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
+import 'package:milk_mix/view/authentication/signin/forgot_password_screen.dart';
+import 'package:milk_mix/view/authentication/signin/reset_password_screen.dart';
 import 'package:milk_mix/view/authentication/signup/otp_verification_screen.dart';
 import 'package:milk_mix/view/authentication/signup/select_measurement_system.dart';
 import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
@@ -37,6 +39,8 @@ class AppRoutes {
   static String splashScreen = "/splash-screen";
   static String auth = "/authentication";
   static String signin = "/signin";
+  static String forgotPassword = "/forgot-password";
+  static String resetPassword = "/reset-password";
   static String createAccount = "/create-account";
   static String otpVerification = "/otp-verification";
   static String selectLanguage = "/select-language";
@@ -77,6 +81,18 @@ class AppRoutes {
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: auth, page: () => const AuthenticationScreen()),
     GetPage(name: signin, page: () => SigninScreen()),
+    GetPage(name: forgotPassword, page: () => ForgotPasswordScreen()),
+    GetPage(
+      name: resetPassword,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final email =
+            args != null && args.containsKey('email')
+                ? args['email'] as String
+                : '';
+        return ResetPasswordScreen(email: email);
+      },
+    ),
     GetPage(name: createAccount, page: () => CreateAccountScreen()),
     GetPage(
       name: otpVerification,

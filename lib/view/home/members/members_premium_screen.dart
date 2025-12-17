@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/member_controller.dart';
 import 'package:milk_mix/controllers/profile_controller.dart';
+import 'package:milk_mix/controllers/profile_farm_controller.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/model/pending_consultant_request_response.dart';
 import 'package:milk_mix/routes.dart';
@@ -28,6 +29,7 @@ class _MembersPremiumScreenState extends State<MembersPremiumScreen> {
   @override
   void initState() {
     super.initState();
+    profileController.loadProfile();
     memberController.fetchMembers();
     memberController.fetchConsultants();
     memberController.getPendingRequests();
@@ -572,7 +574,7 @@ class PendingRequestCard extends StatelessWidget {
               //   height: 40.w,
               // ),
               ProfileImageCircle(
-                image: request.farmProfilePicture ?? '',
+                image: request.consultantProfilePicture ?? '',
                 size: 40,
               ),
               SizedBox(width: 8.w),
@@ -581,7 +583,7 @@ class PendingRequestCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      request.farmName ?? '',
+                      request.consultantName ?? '',
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
