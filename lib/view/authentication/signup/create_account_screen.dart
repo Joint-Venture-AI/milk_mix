@@ -177,45 +177,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               SizedBox(height: 24.h),
 
-              buildLabel('name'.tr),
-              CustomTextField(
-                controller: _nameController,
-                hintText: 'enterYourName'.tr,
-                iconPath: 'assets/logos/user.svg',
-              ),
-              if (_selectedRole == 'farm')
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20.h),
-                    buildLabel('Farm Name (optional)'),
-                    CustomTextField(
-                      controller: _farmNameController,
-                      hintText: 'Enter Your Farm Name',
-                      iconPath: 'assets/logos/user.svg',
-                    ),
-                  ],
-                ),
-              SizedBox(height: 20.h),
-
-              buildLabel('email'.tr),
-              CustomTextField(
-                controller: _emailController,
-                hintText: 'enterYourEmail'.tr,
-                iconPath: 'assets/logos/mail.svg',
-              ),
-              SizedBox(height: 20.h),
-
-              buildLabel('password'.tr),
-              CustomTextField(
-                controller: _passwordController,
-                hintText: 'enterPassword'.tr,
-                iconPath: 'assets/logos/lock.svg',
-                // obscureText: true,
-                isPassword: true,
-              ),
-              SizedBox(height: 20.h),
-
               buildLabel('Role'),
               DropdownButtonFormField<String>(
                 value: _selectedRole,
@@ -269,6 +230,47 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 dropdownColor: Colors.white,
                 style: TextStyle(fontSize: 14.sp, color: Colors.black),
               ),
+
+              SizedBox(height: 20.h),
+
+              buildLabel('name'.tr),
+              CustomTextField(
+                controller: _nameController,
+                hintText: 'enterYourName'.tr,
+                iconPath: 'assets/logos/user.svg',
+              ),
+              if (_selectedRole == 'farm')
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    buildLabel('Farm Name (optional)'),
+                    CustomTextField(
+                      controller: _farmNameController,
+                      hintText: 'Enter Your Farm Name',
+                      iconPath: 'assets/logos/user.svg',
+                    ),
+                  ],
+                ),
+              SizedBox(height: 20.h),
+
+              buildLabel('email'.tr),
+              CustomTextField(
+                controller: _emailController,
+                hintText: 'enterYourEmail'.tr,
+                iconPath: 'assets/logos/mail.svg',
+              ),
+              SizedBox(height: 20.h),
+
+              buildLabel('password'.tr),
+              CustomTextField(
+                controller: _passwordController,
+                hintText: 'enterPassword'.tr,
+                iconPath: 'assets/logos/lock.svg',
+                // obscureText: true,
+                isPassword: true,
+              ),
+
               SizedBox(height: 40.h),
 
               isLoading
