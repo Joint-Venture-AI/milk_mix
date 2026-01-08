@@ -1,5 +1,6 @@
 // lib/view/screen/calculate_screen.dart
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ import 'package:milk_mix/view/home/calculate/recipe_summery_widget.dart';
 import 'package:milk_mix/view/home/calculate/save_measurement_service.dart';
 import 'package:milk_mix/view/home/calculate/start_mixing_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
@@ -158,14 +160,21 @@ class _CalculateScreenState extends State<CalculateScreen> {
         hospitalSolids: double.tryParse(_hospitalMilkSolidsController.text),
         desiredSolidsContent: double.tryParse(_desiredSolidsController.text),
         //
-        poundsOfWater: calculationResult.waterAmount,
-        poundsOfMilkReplacer: calculationResult.milkReplacerAmount,
+        poundsOfWater: double.parse(
+          calculationResult.waterAmount.toStringAsFixed(2),
+        ),
+        poundsOfMilkReplacer: double.parse(
+          calculationResult.milkReplacerAmount.toStringAsFixed(2),
+        ),
         //
-        solidsHospitalMilk:
-            calculationResult.waterAmount +
-            calculationResult.milkReplacerAmount,
+        solidsHospitalMilk: double.parse(
+          (calculationResult.waterAmount + calculationResult.milkReplacerAmount)
+              .toStringAsFixed(2),
+        ),
         //
-        hospitalMilkUsed: calculationResult.hospitalMilkAmount,
+        hospitalMilkUsed: double.parse(
+          calculationResult.hospitalMilkAmount.toStringAsFixed(2),
+        ),
         totalVolume:
             calculationResult.totalVolume.toStringAsFixed(0) +
             (measurementSystem == MeasurementSystem.imperial ? ' lbs' : ' kg'),
@@ -213,7 +222,8 @@ class _CalculateScreenState extends State<CalculateScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20.h),
-              _buildAdPlaceholder(),
+              // _buildAdPlaceholder(),
+              const AutoScrollAdBanner(),
               SizedBox(height: 14.h),
               StartMixingWidget(
                 numBottlesController: _numBottlesController,
@@ -224,13 +234,17 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
                 onCalculate: _calculateRecipe,
+                // onSaveCalculation: _postCalculationResults,
               ),
               SizedBox(height: 14.h),
               RecipeSummaryWidget(
                 calculationResult: calculationResult,
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
-                onSaveClick: _postCalculationResults,
+                onSave: () {
+                  _postCalculationResults();
+                  _saveFieldsToPrefs();
+                },
               ),
               SizedBox(height: 14.h),
               MeasurementUnitWidget(
@@ -246,50 +260,114 @@ class _CalculateScreenState extends State<CalculateScreen> {
     );
   }
 
-  Widget _buildAdPlaceholder() {
+  Future<void> _saveFieldsToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('num_bottles', _numBottlesController.text);
+    await prefs.setString('hospital_milk', _hospitalMilkController.text);
+    await prefs.setString('bottle_size', _bottleSizeController.text);
+    await prefs.setString(
+      'hospital_milk_solids',
+      _hospitalMilkSolidsController.text,
+    );
+    await prefs.setString('desired_solids', _desiredSolidsController.text);
+  }
+}
+
+class AutoScrollAdBanner extends StatefulWidget {
+  const AutoScrollAdBanner({super.key});
+
+  @override
+  State<AutoScrollAdBanner> createState() => _AutoScrollAdBannerState();
+}
+
+class _AutoScrollAdBannerState extends State<AutoScrollAdBanner> {
+  static const _loopCount = 10000;
+  final PageController _pageController = PageController();
+  Timer? _timer;
+  bool _initialized = false;
+
+  void _startAutoScroll(int itemCount) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (!mounted) return;
+      final nextPage = _pageController.page!.toInt() + 1;
+
+      _pageController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+
+      // Reset near the end, silently
+      if (nextPage > _loopCount - 2000) {
+        final middle = _loopCount ~/ 2;
+        _pageController.jumpToPage(middle);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder(
       future: ApiProvider.instance.advertisements.getLatestAd(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final ad = snapshot.data!;
-          return Stack(
-            children: [
-              Text('Ad'),
-              Container(
-                height: 150.h,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.lightGrey, width: 1.r),
-                  borderRadius: BorderRadius.circular(10.r),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      AppConstant.baseUrl + (ad.data?.image ?? ''),
+        if (!snapshot.hasData) return const SizedBox.shrink();
+
+        final ads = (snapshot.data?.data ?? []).reversed.toList();
+        if (ads.isEmpty) return const SizedBox.shrink();
+
+        if (!_initialized) {
+          _initialized = true;
+
+          final randomStart =
+              (_loopCount ~/ 2) +
+              Random().nextInt(ads.length); // random circular point
+
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            _pageController.jumpToPage(randomStart);
+            _startAutoScroll(ads.length);
+          });
+        }
+
+        return SizedBox(
+          height: 150.h,
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: _loopCount,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final actualIndex = index % ads.length;
+              final ad = ads[actualIndex];
+              return GestureDetector(
+                onTap: () {
+                  if (ad.externalLink != null && ad.externalLink!.isNotEmpty) {
+                    launchUrl(Uri.parse(ad.externalLink!));
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.lightGrey, width: 1.r),
+                    borderRadius: BorderRadius.circular(10.r),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        AppConstant.baseUrl + (ad.image ?? ''),
+                      ),
+                      fit: BoxFit.contain,
                     ),
-                    fit: BoxFit.contain,
                   ),
                 ),
-              ),
-            ],
-          );
-        }
-        return SizedBox.shrink();
-        // return SizedBox(
-        //   height: 100.h,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       border: Border.all(color: AppColors.lightGrey, width: 1.r),
-        //       borderRadius: BorderRadius.circular(10.r),
-        //     ),
-        //     alignment: Alignment.center,
-        //     child: Text(
-        //       'Ads Only',
-        //       style: TextStyle(
-        //         fontWeight: FontWeight.bold,
-        //         fontSize: 10.sp,
-        //         color: AppColors.textPrimary,
-        //       ),
-        //     ),
-        //   ),
-        // );
+              );
+            },
+          ),
+        );
       },
     );
   }

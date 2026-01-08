@@ -108,7 +108,7 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                   );
                 },
                 itemBuilder: (context, farm) {
-                  final farmName = farm.profile?.name ?? '';
+                  final farmName = farm.profile?.farmName ?? '';
                   final farmId = farm.id;
                   return ListTile(
                     tileColor: Colors.white,
@@ -230,7 +230,7 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                selectedFarm?.profile?.name ?? 'Farm Name',
+                                selectedFarm?.profile?.farmName ?? 'Farm Name',
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
@@ -254,7 +254,7 @@ class _AddFarmScreenState extends State<AddFarmScreen> {
                 ),
               Spacer(),
               TextWidgetButton(
-                text: isLoading ? 'Adding...' : '+  Add Farm (\$25/farm)',
+                text: isLoading ? 'Adding...' : '+  Add Farm',
                 onPressed:
                     selectedFarm == null
                         ? null

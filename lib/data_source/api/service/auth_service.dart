@@ -39,12 +39,14 @@ class AuthService {
 
   Future<Result<dynamic>> register({
     required String name,
+    String? farmName,
     required String email,
     required String password,
     required String role,
   }) {
     final body = {
       'name': name,
+      if (farmName != null) 'farm_name': farmName,
       'email': email,
       'password': password,
       'role': role,
@@ -110,6 +112,7 @@ class AuthService {
 
   Future<Result<dynamic>> updateProfile({
     String? name,
+    String? farmName,
     String? phoneNumber,
     File? profilePicture,
   }) async {
@@ -121,6 +124,9 @@ class AuthService {
     }
     if (phoneNumber != null) {
       fields['phone_number'] = phoneNumber;
+    }
+    if (farmName != null) {
+      fields['farm_name'] = farmName;
     }
     if (profilePicture != null) {
       files.add(
@@ -140,5 +146,12 @@ class AuthService {
     );
 
     return result;
+  }
+
+  Future<Result<dynamic>> deleteUser({required int userId}) {
+    return _httpClient.delete(
+      '${ApiConfig.auth}/user/$userId/delete/',
+      fromJson: (json) => json,
+    );
   }
 }

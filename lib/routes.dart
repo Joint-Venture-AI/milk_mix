@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_to_premium_user_screen.dart';
 import 'package:milk_mix/view/home/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/authentication/authentication_screen.dart';
 import 'package:milk_mix/view/authentication/signin/signin_screen.dart';
 import 'package:milk_mix/view/authentication/signup/create_account_screen.dart';
+import 'package:milk_mix/view/authentication/signin/forgot_password_screen.dart';
+import 'package:milk_mix/view/authentication/signin/reset_password_screen.dart';
 import 'package:milk_mix/view/authentication/signup/otp_verification_screen.dart';
 import 'package:milk_mix/view/authentication/signup/select_measurement_system.dart';
 import 'package:milk_mix/view/authentication/signup/select_preferred_language_screen.dart';
@@ -30,18 +33,21 @@ import 'package:milk_mix/view/onboarding/onboarding_screen.dart'
     show OnboardingScreen;
 import 'package:milk_mix/view/splash_screen.dart';
 import 'package:milk_mix/view/authentication/subscription/congratulation_screen.dart';
-import 'package:milk_mix/view/authentication/subscription/upgrade_premium_screen.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_to_individual_user_screen.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash-screen";
   static String auth = "/authentication";
   static String signin = "/signin";
+  static String forgotPassword = "/forgot-password";
+  static String resetPassword = "/reset-password";
   static String createAccount = "/create-account";
   static String otpVerification = "/otp-verification";
   static String selectLanguage = "/select-language";
   static String selectMeasurement = "/select-measurement";
   static String welcome = "/welcome";
-  static String premium = "/premium";
+  static String upgradeToIndividualUser = "/upgrade-to-individual-user";
+  static String upgradeToPremiumUser = "/upgrade-to-premium-user";
   static String congratulation = "/congratulation";
   static String home = "/home";
   static String memberPremium = "/member-premium";
@@ -75,12 +81,41 @@ class AppRoutes {
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: auth, page: () => const AuthenticationScreen()),
     GetPage(name: signin, page: () => SigninScreen()),
+    GetPage(name: forgotPassword, page: () => ForgotPasswordScreen()),
+    GetPage(
+      name: resetPassword,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final email =
+            args != null && args.containsKey('email')
+                ? args['email'] as String
+                : '';
+        return ResetPasswordScreen(email: email);
+      },
+    ),
     GetPage(name: createAccount, page: () => CreateAccountScreen()),
-    GetPage(name: otpVerification, page: () => OtpVerificationScreen()),
+    GetPage(
+      name: otpVerification,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
+        final email =
+            args != null && args.containsKey('email')
+                ? args['email'] as String
+                : null;
+        return OtpVerificationScreen(email: email);
+      },
+    ),
     GetPage(name: selectLanguage, page: () => SelectPreferredLanguageScreen()),
     GetPage(name: selectMeasurement, page: () => SelectMeasurementSystem()),
     GetPage(name: welcome, page: () => WelcomeScreen()),
-    GetPage(name: premium, page: () => UpgradePremium()),
+    GetPage(
+      name: upgradeToIndividualUser,
+      page: () => UpgradeToIndividualUserScreen(),
+    ),
+    GetPage(
+      name: upgradeToPremiumUser,
+      page: () => UpgradeToPremiumUserScreen(),
+    ),
     GetPage(name: congratulation, page: () => CongratulationScreen()),
     GetPage(name: home, page: () => HomeBottomNavScreen()),
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),

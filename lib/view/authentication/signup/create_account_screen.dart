@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/view/widget/custom_text_field.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _nameController = TextEditingController();
+  final _farmNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   late final ApiProvider _apiService = ApiProvider();
@@ -32,6 +34,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void dispose() {
     _nameController.dispose();
+    _farmNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -39,13 +42,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> registerUser() async {
     final name = _nameController.text.trim();
+    String? farmName = _farmNameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       Get.snackbar(
         "Error",
-        "All fields are required",
+        "Name and password cannot be empty",
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -69,12 +73,24 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       return;
     }
 
+    if (_selectedRole == 'farm') {
+      if (farmName.isEmpty) {
+        farmName = name;
+      }
+    }
+    if (_selectedRole == 'consultant') {
+      if (farmName.isEmpty) {
+        farmName = null;
+      }
+    }
+
     setState(() => isLoading = true);
 
     final result = await _apiService.auth.register(
       email: email,
       password: password,
       name: name,
+      farmName: farmName,
       role: _selectedRole,
     );
 
@@ -103,31 +119,31 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
   );
 
-  Widget buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required String icon,
-    bool obscureText = false,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: AppColors.textLightGrey,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
-        ),
-        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
-      ),
-      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-    );
-  }
+  // Widget buildTextField({
+  //   required TextEditingController controller,
+  //   required String hintText,
+  //   required String icon,
+  //   bool obscureText = false,
+  // }) {
+  //   return TextField(
+  //     controller: controller,
+  //     obscureText: obscureText,
+  //     decoration: InputDecoration(
+  //       hintText: hintText,
+  //       hintStyle: TextStyle(
+  //         color: AppColors.textLightGrey,
+  //         fontSize: 14.sp,
+  //         fontWeight: FontWeight.w400,
+  //       ),
+  //       prefixIcon: Padding(
+  //         padding: EdgeInsets.all(12.w),
+  //         child: SvgPicture.asset(icon, width: 20.w, height: 20.h),
+  //       ),
+  //       prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
+  //     ),
+  //     style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +176,45 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
               ),
               SizedBox(height: 24.h),
+
+              buildLabel('name'.tr),
+              CustomTextField(
+                controller: _nameController,
+                hintText: 'enterYourName'.tr,
+                iconPath: 'assets/logos/user.svg',
+              ),
+              if (_selectedRole == 'farm')
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    buildLabel('Farm Name (optional)'),
+                    CustomTextField(
+                      controller: _farmNameController,
+                      hintText: 'Enter Your Farm Name',
+                      iconPath: 'assets/logos/user.svg',
+                    ),
+                  ],
+                ),
+              SizedBox(height: 20.h),
+
+              buildLabel('email'.tr),
+              CustomTextField(
+                controller: _emailController,
+                hintText: 'enterYourEmail'.tr,
+                iconPath: 'assets/logos/mail.svg',
+              ),
+              SizedBox(height: 20.h),
+
+              buildLabel('password'.tr),
+              CustomTextField(
+                controller: _passwordController,
+                hintText: 'enterPassword'.tr,
+                iconPath: 'assets/logos/lock.svg',
+                // obscureText: true,
+                isPassword: true,
+              ),
+              SizedBox(height: 20.h),
 
               buildLabel('Role'),
               DropdownButtonFormField<String>(
@@ -276,95 +331,95 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               SizedBox(height: 20.h),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Text(
-                      'or continue with',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade200, thickness: 1),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        backgroundColor: AppColors.shade,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/google.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Divider(color: Colors.grey.shade200, thickness: 1),
+              //     ),
+              //     Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: 8.w),
+              //       child: Text(
+              //         'or continue with',
+              //         style: TextStyle(
+              //           fontSize: 12.sp,
+              //           color: Colors.grey.shade600,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Divider(color: Colors.grey.shade200, thickness: 1),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: 20.h),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           minimumSize: Size(double.infinity, 48.h),
+              //           elevation: 0,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
+              //           backgroundColor: AppColors.shade,
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             SvgPicture.asset(
+              //               'assets/logos/google.svg',
+              //               width: 18.w,
+              //             ),
+              //             SizedBox(width: 8.w),
+              //             Text(
+              //               'Google',
+              //               style: TextStyle(
+              //                 fontSize: 16.sp,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: Color(0xFF1A1A1A),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: 14.w),
+              //     Expanded(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           minimumSize: Size(double.infinity, 48.h),
+              //           elevation: 0,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
 
-                        backgroundColor: AppColors.shade,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/logos/apple.svg',
-                            width: 18.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Apple',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              //           backgroundColor: AppColors.shade,
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             SvgPicture.asset(
+              //               'assets/logos/apple.svg',
+              //               width: 18.w,
+              //             ),
+              //             SizedBox(width: 8.w),
+              //             Text(
+              //               'Apple',
+              //               style: TextStyle(
+              //                 fontSize: 14.sp,
+              //                 fontWeight: FontWeight.w600,
+              //                 color: Color(0xFF1A1A1A),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

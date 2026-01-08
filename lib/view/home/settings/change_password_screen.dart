@@ -153,7 +153,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                 // Current Password
                 Text(
-                  'currentPassword'.tr,
+                  // 'currentPassword'.tr,
+                  'Current Password',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -166,7 +167,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   validator: _validateCurrentPassword,
                   decoration: InputDecoration(
-                    hintText: 'enterCurrentPassword'.tr,
+                    // hintText: 'enterCurrentPassword'.tr,
+                    hintText: 'Enter Current Password',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -208,7 +210,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                 // New Password
                 Text(
-                  'newPassword'.tr,
+                  // 'newPassword'.tr,
+                  'New Password',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -221,7 +224,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   validator: _validateNewPassword,
                   decoration: InputDecoration(
-                    hintText: 'enterNewPassword'.tr,
+                    // hintText: 'enterNewPassword'.tr,
+                    hintText: 'Enter New Password',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,
@@ -263,7 +267,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                 // Confirm Password
                 Text(
-                  'confirmPassword'.tr,
+                  // 'confirmPassword'.tr,
+                  'Confirm Password',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -276,7 +281,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   validator: _validateConfirmPassword,
                   decoration: InputDecoration(
-                    hintText: 'confirmPassword'.tr,
+                    // hintText: 'confirmPassword'.tr,
+                    hintText: 'Confirm Password',
                     hintStyle: TextStyle(
                       color: AppColors.textLightGrey,
                       fontSize: 14.sp,

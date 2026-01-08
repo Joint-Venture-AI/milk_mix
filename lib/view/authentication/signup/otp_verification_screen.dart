@@ -9,7 +9,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:milk_mix/constants/color.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  final String? email;
+  const OtpVerificationScreen({this.email, super.key});
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -45,7 +46,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green.shade50,
         );
-        Get.toNamed(AppRoutes.signin);
+        Get.toNamed(AppRoutes.welcome);
       } else {
         final message = "OTP verification failed";
         Get.snackbar("Failed", message, snackPosition: SnackPosition.BOTTOM);
@@ -97,7 +98,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               SizedBox(height: 6.h),
 
               Text(
-                'verifyEmailSubTitle'.tr,
+                '${'verifyEmailSubTitle'.tr} ${widget.email}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,

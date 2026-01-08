@@ -20,8 +20,7 @@ Map<String, String> languageEnglishData = {
   'loginTypeSubTitle': 'Select how you want to sign in to your account',
   'createAccountTitle': 'Create Your Account',
   'verifyEmailTitle': 'Verify Your Email',
-  'verifyEmailSubTitle':
-      'We sent a 6 digit code to your email domain@gmail.com',
+  'verifyEmailSubTitle': 'We sent a 6 digit code to your email ',
   'selectLanguage': 'Select your preferred language',
   'selectMeasurement': 'Select Your Measurement System',
   'englishStandard': 'English Standard',

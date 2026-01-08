@@ -19,7 +19,7 @@ class AuthenticationScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 509.h,
+                // height: 509.h,
                 width: double.infinity,
                 child: Stack(
                   children: [

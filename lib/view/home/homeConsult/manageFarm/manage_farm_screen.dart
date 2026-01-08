@@ -34,7 +34,7 @@ class _MembersPremiumScreenState extends State<ManageFarmScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Join Farm',
+                        'joinFarm'.tr,
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w500,
@@ -52,149 +52,171 @@ class _MembersPremiumScreenState extends State<ManageFarmScreen> {
                       ),
                     ],
                   ),
-                  SvgPicture.asset('assets/logos/i.svg', width: 20.w),
+                  // SvgPicture.asset('assets/logos/i.svg', width: 20.w),
+                  IconButton(
+                    onPressed: () {
+                      controller.fetchAcceptedFarms();
+                      controller.fetchPendingRequests();
+                    },
+                    icon: Icon(Icons.refresh),
+                  ),
                 ],
               ),
 
-              SizedBox(height: 20.h),
               Obx(() {
-                if (controller.isLoadingAccepted.value) {
-                  return Center(child: CircularProgressIndicator());
+                if (controller.isLoadingAccepted.value &&
+                    controller.isLoadingPending.value) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 20.h),
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  );
                 }
-                final farms = controller.acceptedFarms;
                 return Column(
                   children: [
-                    for (var farm in farms)
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(
-                            AppRoutes.consultFarm,
-                            arguments: {
-                              'farmId': farm.farm,
-                              'farmName': farm.farmName,
-                            },
-                          );
-                        },
-                        child: Container(
-                          height: 52.h,
-                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(
-                              color: AppColors.surfaceGrey,
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/logos/sample.svg',
-                                width: 24.w,
-                                height: 24.h,
-                              ),
-                              SizedBox(width: 10.w),
-                              Text(
-                                farm.farmName ?? 'Unknown Farm',
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              }),
-              SizedBox(height: 20.h),
-              Obx(() {
-                if (controller.isLoadingPending.value) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                final pendingRequests = controller.pendingRequests;
-                return Column(
-                  children: [
-                    for (var request in pendingRequests)
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10.h),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 8.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(
-                            color: AppColors.surfaceGrey,
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Opacity(
-                                  opacity: 0.5,
-                                  child: SvgPicture.asset(
-                                    'assets/logos/sample.svg',
-                                    width: 24.w,
-                                    height: 24.h,
+                    SizedBox(height: 20.h),
+                    Obx(() {
+                      if (controller.isLoadingAccepted.value) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      final farms = controller.acceptedFarms;
+                      return Column(
+                        children: [
+                          for (var farm in farms)
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  AppRoutes.consultFarm,
+                                  arguments: {
+                                    'farmId': farm.farm,
+                                    'farmName': farm.farmName,
+                                  },
+                                );
+                              },
+                              child: Container(
+                                height: 52.h,
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  border: Border.all(
+                                    color: AppColors.surfaceGrey,
+                                    width: 1,
                                   ),
                                 ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  request.farmName ?? 'Unknown Farm',
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textPrimary.withOpacity(
-                                      .5,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/logos/sample.svg',
+                                      width: 24.w,
+                                      height: 24.h,
                                     ),
-                                  ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      farm.farmName ?? 'Unknown Farm',
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            Container(
-                              padding: EdgeInsets.all(6.w),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFFFEBC4),
-                                borderRadius: BorderRadius.circular(5.r),
                               ),
-                              child: Row(
+                            ),
+                        ],
+                      );
+                    }),
+                    SizedBox(height: 20.h),
+                    Obx(() {
+                      if (controller.isLoadingPending.value) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      final pendingRequests = controller.pendingRequests;
+                      return Column(
+                        children: [
+                          for (var request in pendingRequests)
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: AppColors.surfaceGrey,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SvgPicture.asset(
-                                    'assets/logos/history_h.svg',
-                                    width: 14.w,
-                                    color: AppColors.textPrimary,
+                                  Row(
+                                    children: [
+                                      Opacity(
+                                        opacity: 0.5,
+                                        child: SvgPicture.asset(
+                                          'assets/logos/sample.svg',
+                                          width: 24.w,
+                                          height: 24.h,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Text(
+                                        request.farmName ?? 'Unknown Farm',
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.textPrimary
+                                              .withOpacity(.5),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 6.w),
-                                  Text(
-                                    'Your request is pending',
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.textPrimary,
+                                  SizedBox(height: 10.h),
+                                  Container(
+                                    padding: EdgeInsets.all(6.w),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFEBC4),
+                                      borderRadius: BorderRadius.circular(5.r),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/logos/history_h.svg',
+                                          width: 14.w,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Text(
+                                          'Your request is pending',
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.textPrimary,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                        ],
+                      );
+                    }),
                   ],
                 );
               }),
               SizedBox(height: 360.h),
               TextWidgetButton(
-                text: '+  Add Farm (\$25/farm)',
+                text: '+  Add Farm',
                 onPressed: () {
                   Get.toNamed(AppRoutes.addFarm);
                 },

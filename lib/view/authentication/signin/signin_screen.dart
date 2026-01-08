@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/routes.dart';
+import 'package:milk_mix/view/widget/custom_text_field.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 import 'package:milk_mix/controllers/auth_controller.dart';
 
@@ -80,41 +81,44 @@ class _SigninScreenState extends State<SigninScreen> {
                   // EMAIL
                   Text('email'.tr, style: labelStyle()),
                   SizedBox(height: 6.h),
-                  buildTextField(
-                    _emailController,
-                    'enterYourEmail'.tr,
-                    'assets/logos/mail.svg',
+                  CustomTextField(
+                    controller: _emailController,
+                    hintText: 'enterYourEmail'.tr,
+                    iconPath: 'assets/logos/mail.svg',
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 24.h),
 
                   Text('password'.tr, style: labelStyle()),
                   SizedBox(height: 6.h),
-                  buildTextField(
-                    _passwordController,
-                    'enterPassword'.tr,
-                    'assets/logos/lock.svg',
-                    obscure: true,
+                  CustomTextField(
+                    controller: _passwordController,
+                    hintText: 'enterPassword'.tr,
+                    iconPath: 'assets/logos/lock.svg',
+                    isPassword: true,
                   ),
                   SizedBox(height: 6.h),
 
-                  // Align(
-                  //   alignment: Alignment.bottomRight,
-                  //   child: TextButton(
-                  //     style: TextButton.styleFrom(
-                  //       padding: EdgeInsets.zero,
-                  //       minimumSize: Size.zero,
-                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  //     ),
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'forgotPassword'.tr,
-                  //       style: TextStyle(
-                  //         color: AppColors.primary,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.forgotPassword);
+                      },
+                      child: Text(
+                        'forgotPassword'.tr,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 44.h),
 
                   Obx(
@@ -149,6 +153,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),
@@ -279,32 +284,32 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
-  Widget buildTextField(
-    TextEditingController controller,
-    String hintText,
-    String iconPath, {
-    bool obscure = false,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscure,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(color: AppColors.textLightGrey, fontSize: 14.sp),
-        prefixIcon: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: SvgPicture.asset(
-            iconPath,
-            width: 20.w,
-            height: 20.h,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
-      ),
-      style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
-    );
-  }
+  // Widget buildTextField(
+  //   TextEditingController controller,
+  //   String hintText,
+  //   String iconPath, {
+  //   bool obscure = false,
+  // }) {
+  //   return TextField(
+  //     controller: controller,
+  //     obscureText: obscure,
+  //     decoration: InputDecoration(
+  //       hintText: hintText,
+  //       hintStyle: TextStyle(color: AppColors.textLightGrey, fontSize: 14.sp),
+  //       prefixIcon: Padding(
+  //         padding: EdgeInsets.all(12.w),
+  //         child: SvgPicture.asset(
+  //           iconPath,
+  //           width: 20.w,
+  //           height: 20.h,
+  //           color: AppColors.textPrimary,
+  //         ),
+  //       ),
+  //       prefixIconConstraints: BoxConstraints(minWidth: 40.w, minHeight: 40.h),
+  //     ),
+  //     style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
+  //   );
+  // }
 
   TextStyle labelStyle() =>
       TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600);

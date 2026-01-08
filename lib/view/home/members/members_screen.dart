@@ -45,8 +45,8 @@ class MembersScreen extends StatelessWidget {
               SizedBox(height: 160.h),
               TextWidgetButton(
                 text: 'Upgrade Now!',
-                onPressed: () {
-                  Get.toNamed(AppRoutes.home);
+                onPressed: () async {
+                  Get.toNamed(AppRoutes.upgradeToPremiumUser);
                 },
               ),
             ],

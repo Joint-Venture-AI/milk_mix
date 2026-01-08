@@ -20,8 +20,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _masterUsernameController =
-      TextEditingController();
+  final TextEditingController _farmNameController = TextEditingController();
   final controller = Get.put(ProfileFarmController());
 
   @override
@@ -29,6 +28,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameController.text =
         controller.userProfile.value?.userProfile?.name ?? '';
+    _farmNameController.text =
+        controller.userProfile.value?.userProfile?.farmName ?? '';
   }
 
   @override
@@ -175,7 +176,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 6.h),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.name,
                 controller: _nameController,
                 decoration: InputDecoration(
                   hintText: 'changeName'.tr,
@@ -195,6 +196,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 style: TextStyle(color: AppColors.textPrimary, fontSize: 14.sp),
               ),
+              SizedBox(height: 16.h),
+              Obx(() {
+                if (controller.role.value == 'farm') {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Change Farm Name',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 6.h),
+                      TextField(
+                        keyboardType: TextInputType.name,
+                        controller: _farmNameController,
+                        decoration: InputDecoration(
+                          hintText: 'Your Farm Name',
+                          hintStyle: TextStyle(
+                            color: AppColors.textLightGrey,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.all(12.w),
+                            child: SvgPicture.asset(
+                              'assets/logos/milkmix.svg',
+                              width: 20.w,
+                              height: 20.h,
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              }),
               // SizedBox(height: 24.h),
               // Text(
               //   'changeEmail'.tr,
@@ -283,7 +328,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             controller.isLoading.value
                                 ? null
                                 : () async {
-                                  print('object');
                                   if (_nameController.text.isEmpty) {
                                     Get.snackbar(
                                       'Name',
@@ -296,6 +340,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   }
                                   await controller.updateProfile(
                                     name: _nameController.text.trim(),
+                                    farmName: _farmNameController.text.trim(),
                                   );
                                 },
                       ),

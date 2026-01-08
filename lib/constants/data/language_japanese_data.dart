@@ -18,7 +18,7 @@ Map<String, String> languageJapaneseData = {
   'loginTypeSubTitle': 'アカウントにサインインする方法を選択してください',
   'createAccountTitle': 'アカウントを作成する',
   'verifyEmailTitle': 'メールアドレスを確認',
-  'verifyEmailSubTitle': '4桁のコードを domain@gmail.com に送信しました',
+  'verifyEmailSubTitle': '4桁のコードを  に送信しました',
   'selectLanguage': '言語を選択してください',
   'selectMeasurement': '計測単位を選択',
   'englishStandard': '英語規格',

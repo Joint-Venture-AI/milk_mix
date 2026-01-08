@@ -1,4 +1,4 @@
-package com.example.milk_mix
+package com.carbonanik.milkmix
 
 import io.flutter.embedding.android.FlutterActivity
 

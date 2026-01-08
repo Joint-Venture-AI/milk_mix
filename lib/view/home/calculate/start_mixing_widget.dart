@@ -1,6 +1,4 @@
-// lib/view/widget/start_mixing_widget.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +16,8 @@ class StartMixingWidget extends StatefulWidget {
   final MeasurementSystem measurementSystem;
   final dynamic selectedUnit;
   final VoidCallback onCalculate;
+  // final VoidCallback onSaveCalculation;
+  // final fieldsSaver;
 
   const StartMixingWidget({
     super.key,
@@ -29,6 +29,8 @@ class StartMixingWidget extends StatefulWidget {
     required this.measurementSystem,
     required this.selectedUnit,
     required this.onCalculate,
+    // required this.onSaveCalculation,
+    // this.fieldsSaver,
   });
 
   @override
@@ -44,15 +46,12 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
   @override
   void initState() {
     super.initState();
-    // Add listeners to controllers for real-time validation
-    // widget.numBottlesController.addListener(_validateNumBottles);
-    // widget.hospitalMilkController.addListener(_validateHospitalMilk);
-    // widget.bottleSizeController.addListener(_validateBottleSize);
-    // widget.hospitalMilkSolidsController.addListener(
-    //   _validateHospitalMilkSolids,
-    // );
     widget.desiredSolidsController.addListener(_validateDesiredSolids);
     _loadSavedFields();
+    //  onPressed: () async {
+    // await _saveFieldsToPrefs();
+    // widget.onSaveCalculation();
+    // },
   }
 
   Future<void> _loadSavedFields() async {
@@ -77,13 +76,6 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
 
   @override
   void dispose() {
-    // Remove listeners
-    // widget.numBottlesController.removeListener(_validateNumBottles);
-    // widget.hospitalMilkController.removeListener(_validateHospitalMilk);
-    // widget.bottleSizeController.removeListener(_validateBottleSize);
-    // widget.hospitalMilkSolidsController.removeListener(
-    //   _validateHospitalMilkSolids,
-    // );
     widget.desiredSolidsController.removeListener(_validateDesiredSolids);
     super.dispose();
   }
@@ -157,7 +149,29 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
           Divider(color: AppColors.lightGrey, thickness: 1.h, height: 1.h),
           SizedBox(height: 14.h),
           _buildSolidsSection(bottleSizeUnit),
-          SizedBox(height: 12.h),
+          // SizedBox(height: 12.h),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     await _saveFieldsToPrefs();
+          //     widget.onSaveCalculation();
+          //   },
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: AppColors.primary,
+          //     elevation: 0,
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(8.r),
+          //     ),
+          //     padding: EdgeInsets.symmetric(vertical: 10.h),
+          //   ),
+          //   child: Text(
+          //     'Save Calculation',
+          //     style: TextStyle(
+          //       color: Colors.white,
+          //       fontSize: 15.sp,
+          //       fontWeight: FontWeight.w600,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

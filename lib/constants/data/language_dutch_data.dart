@@ -24,7 +24,7 @@ Map<String, String> languageDutchData = {
   'createAccountTitle': 'Maak je account aan',
   'verifyEmailTitle': 'Verifieer je e-mail',
   'verifyEmailSubTitle':
-      'We hebben een 4-cijferige code gestuurd naar je e-mail domain@gmail.com',
+      'We hebben een 4-cijferige code gestuurd naar je e-mail ',
   'selectLanguage': 'Selecteer je voorkeurstaal',
   'selectMeasurement': 'Selecteer je meetsysteem',
   'englishStandard': 'Engelse standaard',

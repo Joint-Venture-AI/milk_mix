@@ -212,38 +212,54 @@ class RecipeSummaryDialog extends StatelessWidget {
   }
 
   void _copyRecipeSummary() {
-    if (historyData == null) return;
-
     final summary = '''
-Recipe Summary - ${historyData.createdAt != null ? _formatDateForCopy(historyData!.createdAt!) : 'N/A'}
+Recipe Summary
+${historyData.createdAt != null ? _formatDateForCopy(historyData.createdAt!) : 'N/A'}
 
-Bottle Information:
-• Number of Bottles: ${historyData.numberOfBottles ?? 'N/A'}
-• Bottle Size: ${historyData.bottleSize?.toStringAsFixed(2) ?? 'N/A'} ml
+Number of Bottles
+= ${historyData.numberOfBottles ?? 'N/A'}
 
-Hospital Milk Details:
-• Hospital Milk Volume: ${historyData.hospitalMilkVolume?.toStringAsFixed(2) ?? 'N/A'} lbs
-• Solids in Hospital Milk: ${historyData.solidsHospitalMilk?.toStringAsFixed(2) ?? 'N/A'}%
-• Hospital Milk Used: ${historyData.hospitalMilkUsed?.toStringAsFixed(2) ?? 'N/A'} lbs
+Hospital Milk ${historyData.unit == null ? '' : '(${historyData.unit!})'}
+= ${historyData.hospitalMilkVolume?.toStringAsFixed(0) ?? 'N/A'}
 
-Calculation Results:
-• Desired Solids Content: ${historyData.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'}%
-• Pounds of Water: ${historyData.poundsOfWater?.toStringAsFixed(2) ?? 'N/A'} lbs
-• Pounds of Milk Replacer: ${historyData.poundsOfMilkReplacer?.toStringAsFixed(2) ?? 'N/A'} lbs
+Bottle Size
+= ${historyData.bottleSize?.toStringAsFixed(0) ?? 'N/A'}
 
-Total Volume: ${historyData.totalVolume ?? 'N/A'}
+Solids in Hospital Milk (%)
+= ${historyData.hospitalSolids?.toStringAsFixed(2) ?? 'N/A'} %
 
-Generated on: ${DateTime.now().toString()}
+Desired Solids (11–16%)
+= ${historyData.desiredSolidsContent?.toStringAsFixed(2) ?? 'N/A'} %
+
+----------------------------
+
+Water
+= ${historyData.poundsOfWater?.toStringAsFixed(0) ?? 'N/A'}
+
+Milk Powder
+= ${historyData.poundsOfMilkReplacer?.toStringAsFixed(0) ?? 'N/A'}
+
+Water + Milk Powder
+= ${historyData.solidsHospitalMilk?.toStringAsFixed(0) ?? 'N/A'}
+
+Hospital Milk Used
+= ${historyData.hospitalMilkUsed?.toStringAsFixed(0) ?? 'N/A'}
+
+----------------------------
+
+Total Volume
+= ${historyData.totalVolume ?? 'N/A'}
 ''';
 
     Clipboard.setData(ClipboardData(text: summary));
+
     Get.snackbar(
       'Copied!',
       'Recipe summary copied to clipboard',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppColors.primary,
       colorText: Colors.white,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
   }
 
