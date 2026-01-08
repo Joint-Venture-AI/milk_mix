@@ -161,31 +161,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               SizedBox(height: 24.h),
 
-              buildLabel('name'.tr),
-              buildTextField(
-                controller: _nameController,
-                hintText: 'enterYourName'.tr,
-                icon: 'assets/logos/user.svg',
-              ),
-              SizedBox(height: 20.h),
-
-              buildLabel('email'.tr),
-              buildTextField(
-                controller: _emailController,
-                hintText: 'enterYourEmail'.tr,
-                icon: 'assets/logos/mail.svg',
-              ),
-              SizedBox(height: 20.h),
-
-              buildLabel('password'.tr),
-              buildTextField(
-                controller: _passwordController,
-                hintText: 'enterPassword'.tr,
-                icon: 'assets/logos/lock.svg',
-                obscureText: true,
-              ),
-              SizedBox(height: 20.h),
-
               buildLabel('Role'),
               DropdownButtonFormField<String>(
                 value: _selectedRole,
@@ -238,6 +213,31 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 dropdownColor: Colors.white,
                 style: TextStyle(fontSize: 14.sp, color: Colors.black),
+              ),
+              SizedBox(height: 20.h),
+
+              buildLabel('name'.tr),
+              buildTextField(
+                controller: _nameController,
+                hintText: 'enterYourName'.tr,
+                icon: 'assets/logos/user.svg',
+              ),
+              SizedBox(height: 20.h),
+
+              buildLabel('email'.tr),
+              buildTextField(
+                controller: _emailController,
+                hintText: 'enterYourEmail'.tr,
+                icon: 'assets/logos/mail.svg',
+              ),
+              SizedBox(height: 20.h),
+
+              buildLabel('password'.tr),
+              buildTextField(
+                controller: _passwordController,
+                hintText: 'enterPassword'.tr,
+                icon: 'assets/logos/lock.svg',
+                obscureText: true,
               ),
               SizedBox(height: 40.h),
 

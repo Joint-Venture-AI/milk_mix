@@ -6,7 +6,7 @@ Map<String, String> languageChineseData = {
   'onboardTitle2': '轻松混合',
   'onboardSubTitle2': '登录到MilkMix',
   'onboardTitle3': '追踪小牛成长',
-  'onboardSubTitle3': '快速配奶，无需登录或Wi-Fi连接',
+  'onboardSubTitle3': '快速配奶体验',
   'onboardDescription1': 'Milk Mix 是一款帮助您轻松为小牛配奶的智能应用程序。',
   'onboardDescription2': '使用 Milk Mix，您可以轻松配奶并追踪小牛的成长情况。',
   'onboardDescription3': '追踪成长情况并获取提升健康的建议。',

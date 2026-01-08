@@ -8,7 +8,7 @@ Map<String, String> languagePortugueseData = {
   'onboardTitle2': 'Mistura facilitada',
   'onboardSubTitle2': 'Rápido, fácil e preciso',
   'onboardTitle3': 'Acompanhe o crescimento do seu bezerro',
-  'onboardSubTitle3': 'Misture sólidos rapidamente, sem login ou Wi-Fi',
+  'onboardSubTitle3': 'Misture sólidos rapidamente',
   'onboardDescription1':
       'O Milk Mix é um app inteligente que ajuda a preparar leite para seus bezerros com facilidade.',
   'onboardDescription2':

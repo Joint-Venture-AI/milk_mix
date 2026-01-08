@@ -25,7 +25,6 @@ class CreateHistory {
     this.unit,
   });
 
-  // Optional: fromJson factory for parsing
   factory CreateHistory.fromJson(Map<String, dynamic> json) {
     return CreateHistory(
       bottleSize: (json['bottle_size'] as num?)?.toDouble(),
@@ -44,18 +43,23 @@ class CreateHistory {
     );
   }
 
-  // Optional: toJson method
+  /// Helper to round doubles to 2 decimals (null safe)
+  double? _toTwoDecimals(double? value) {
+    if (value == null) return null;
+    return double.parse(value.toStringAsFixed(2));
+  }
+
   Map<String, dynamic> toJson() {
     return {
-      'bottle_size': bottleSize,
+      'bottle_size': _toTwoDecimals(bottleSize),
       'number_of_bottles': numberOfBottles,
-      'hospital_solids': hospitalSolids,
-      'hospital_milk_volume': hospitalMilkVolume,
-      'desired_solids_content': desiredSolidsContent,
-      'pounds_of_water': poundsOfWater,
-      'pounds_of_milk_replacer': poundsOfMilkReplacer,
-      'solids_hospital_milk': solidsHospitalMilk,
-      'hospital_milk_used': hospitalMilkUsed,
+      'hospital_solids': _toTwoDecimals(hospitalSolids),
+      'hospital_milk_volume': _toTwoDecimals(hospitalMilkVolume),
+      'desired_solids_content': _toTwoDecimals(desiredSolidsContent),
+      'pounds_of_water': _toTwoDecimals(poundsOfWater),
+      'pounds_of_milk_replacer': _toTwoDecimals(poundsOfMilkReplacer),
+      'solids_hospital_milk': _toTwoDecimals(solidsHospitalMilk),
+      'hospital_milk_used': _toTwoDecimals(hospitalMilkUsed),
       'total_volume': totalVolume,
       'unit': unit,
     };

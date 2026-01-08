@@ -8,7 +8,7 @@ Map<String, String> languageHindiData = {
   'onboardTitle2': 'मिक्सिंग को आसान बनाएं',
   'onboardSubTitle2': 'तेज़, आसान और सटीक',
   'onboardTitle3': 'अपने बछड़े की वृद्धि को ट्रैक करें',
-  'onboardSubTitle3': 'सॉलिड्स को बिना लॉगिन या वाई-फाई के तुरंत मिक्स करें',
+  'onboardSubTitle3': "सॉलिड्स को तुरंत मिक्स करें",
   'onboardDescription1':
       'Milk Mix एक स्मार्ट ऐप है जो आपको आसानी से बछड़ों के लिए दूध मिक्स करने में मदद करता है।',
   'onboardDescription2':

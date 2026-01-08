@@ -4,7 +4,7 @@ Map<String, String> languageEnglishData = {
   'onboardTitle2': 'Designed for Real Farm Environments',
   'onboardSubTitle2': 'Fast, easy and accurate',
   'onboardTitle3': 'User friendly and easy to use',
-  'onboardSubTitle3': 'Mix solids quickly, without logging in or needing Wi-Fi',
+  'onboardSubTitle3': 'Mix solids quickly',
   'onboardDescription1':
       'Milk Mix is a smart mixing app that helps you mix milk for your baby calves with ease.',
   'onboardDescription2':

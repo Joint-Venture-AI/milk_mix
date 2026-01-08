@@ -6,8 +6,7 @@ Map<String, String> languageArabicData = {
   'onboardTitle2': 'الخلط أصبح سهلاً',
   'onboardSubTitle2': 'سريع وسهل ودقيق',
   'onboardTitle3': 'تتبع نمو عجلتك',
-  'onboardSubTitle3':
-      'اخلط المواد الصلبة بسرعة، دون الحاجة لتسجيل الدخول أو الاتصال بالإنترنت',
+  'onboardSubTitle3': 'اخلط المواد الصلبة بسرعة',
   'onboardDescription1':
       'Milk Mix هو تطبيق ذكي يساعدك على خلط الحليب لعجولك بسهولة.',
   'onboardDescription2':

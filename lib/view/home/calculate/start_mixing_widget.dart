@@ -18,7 +18,6 @@ class StartMixingWidget extends StatefulWidget {
   final MeasurementSystem measurementSystem;
   final dynamic selectedUnit;
   final VoidCallback onCalculate;
-  final VoidCallback onSaveCalculation;
 
   const StartMixingWidget({
     super.key,
@@ -30,7 +29,6 @@ class StartMixingWidget extends StatefulWidget {
     required this.measurementSystem,
     required this.selectedUnit,
     required this.onCalculate,
-    required this.onSaveCalculation,
   });
 
   @override
@@ -40,11 +38,7 @@ class StartMixingWidget extends StatefulWidget {
 class _StartMixingWidgetState extends State<StartMixingWidget> {
   bool isSolidsExpanded = false;
 
-  // Validation state for each field
-  String? numBottlesError;
-  String? hospitalMilkError;
-  String? bottleSizeError;
-  String? hospitalMilkSolidsError;
+  // Validation state for desired solids field
   String? desiredSolidsError;
 
   @override
@@ -81,21 +75,6 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
     });
   }
 
-  Future<void> _saveFieldsToPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('num_bottles', widget.numBottlesController.text);
-    await prefs.setString('hospital_milk', widget.hospitalMilkController.text);
-    await prefs.setString('bottle_size', widget.bottleSizeController.text);
-    await prefs.setString(
-      'hospital_milk_solids',
-      widget.hospitalMilkSolidsController.text,
-    );
-    await prefs.setString(
-      'desired_solids',
-      widget.desiredSolidsController.text,
-    );
-  }
-
   @override
   void dispose() {
     // Remove listeners
@@ -107,87 +86,6 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
     // );
     widget.desiredSolidsController.removeListener(_validateDesiredSolids);
     super.dispose();
-  }
-
-  // Validation methods
-  void _validateNumBottles() {
-    setState(() {
-      final value = widget.numBottlesController.text;
-      if (value.isEmpty) {
-        numBottlesError = null; // Allow empty for optional fields
-      } else {
-        final numValue = int.tryParse(value);
-        if (numValue == null) {
-          numBottlesError = 'Please enter a valid number';
-        } else if (numValue <= 0) {
-          numBottlesError = 'Number of bottles must be greater than 0';
-        } else if (numValue > 1000) {
-          numBottlesError = 'Number seems too high (max 1000)';
-        } else {
-          numBottlesError = null;
-        }
-      }
-    });
-  }
-
-  void _validateHospitalMilk() {
-    setState(() {
-      final value = widget.hospitalMilkController.text;
-      if (value.isEmpty) {
-        hospitalMilkError = null;
-      } else {
-        final numValue = double.tryParse(value);
-        if (numValue == null) {
-          hospitalMilkError = 'Please enter a valid number';
-        } else if (numValue <= 0) {
-          hospitalMilkError = 'Hospital milk amount must be greater than 0';
-        } else if (numValue > 10000) {
-          hospitalMilkError = 'Amount seems too high';
-        } else {
-          hospitalMilkError = null;
-        }
-      }
-    });
-  }
-
-  void _validateBottleSize() {
-    setState(() {
-      final value = widget.bottleSizeController.text;
-      if (value.isEmpty) {
-        bottleSizeError = null;
-      } else {
-        final numValue = double.tryParse(value);
-        if (numValue == null) {
-          bottleSizeError = 'Please enter a valid number';
-        } else if (numValue <= 0) {
-          bottleSizeError = 'Bottle size must be greater than 0';
-        } else if (numValue > 100) {
-          bottleSizeError = 'Bottle size seems too large';
-        } else {
-          bottleSizeError = null;
-        }
-      }
-    });
-  }
-
-  void _validateHospitalMilkSolids() {
-    setState(() {
-      final value = widget.hospitalMilkSolidsController.text;
-      if (value.isEmpty) {
-        hospitalMilkSolidsError = null;
-      } else {
-        final numValue = double.tryParse(value);
-        if (numValue == null) {
-          hospitalMilkSolidsError = 'Please enter a valid percentage';
-        } else if (numValue < 0) {
-          hospitalMilkSolidsError = 'Percentage cannot be negative';
-        } else if (numValue > 100) {
-          hospitalMilkSolidsError = 'Percentage cannot exceed 100%';
-        } else {
-          hospitalMilkSolidsError = null;
-        }
-      }
-    });
   }
 
   void _validateDesiredSolids() {
@@ -210,26 +108,6 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         }
       }
     });
-  }
-
-  // Helper method to get input formatters for numeric fields
-  List<TextInputFormatter> _getNumericFormatters({
-    bool allowDecimals = true,
-    int? maxLength,
-  }) {
-    List<TextInputFormatter> formatters = [];
-
-    if (allowDecimals) {
-      formatters.add(FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')));
-    } else {
-      formatters.add(FilteringTextInputFormatter.digitsOnly);
-    }
-
-    if (maxLength != null) {
-      formatters.add(LengthLimitingTextInputFormatter(maxLength));
-    }
-
-    return formatters;
   }
 
   @override
@@ -280,28 +158,6 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
           SizedBox(height: 14.h),
           _buildSolidsSection(bottleSizeUnit),
           SizedBox(height: 12.h),
-          ElevatedButton(
-            onPressed: () async {
-              await _saveFieldsToPrefs();
-              widget.onSaveCalculation();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-            ),
-            child: Text(
-              'Save Calculation',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -329,21 +185,8 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         LightInputField(
           controller: widget.numBottlesController,
           keyboardType: TextInputType.number,
-          // inputFormatters: _getNumericFormatters(allowDecimals: false, maxLength: 4),
           onChanged: (_) => widget.onCalculate(),
-          // errorText: numBottlesError,
         ),
-        if (numBottlesError != null) ...[
-          SizedBox(height: 4.h),
-          Text(
-            numBottlesError!,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -384,21 +227,8 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         LightInputField(
           controller: widget.hospitalMilkController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          // inputFormatters: _getNumericFormatters(allowDecimals: true, maxLength: 8),
           onChanged: (_) => widget.onCalculate(),
-          // errorText: hospitalMilkError,
         ),
-        if (hospitalMilkError != null) ...[
-          SizedBox(height: 4.h),
-          Text(
-            hospitalMilkError!,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -484,21 +314,8 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         LightInputField(
           controller: widget.bottleSizeController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          // inputFormatters: _getNumericFormatters(allowDecimals: true, maxLength: 6),
           onChanged: (_) => widget.onCalculate(),
-          // errorText: bottleSizeError,
         ),
-        if (bottleSizeError != null) ...[
-          SizedBox(height: 4.h),
-          Text(
-            bottleSizeError!,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -525,22 +342,8 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         LightInputField(
           controller: widget.hospitalMilkSolidsController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          // inputFormatters: _getNumericFormatters(allowDecimals: true, maxLength: 5),
           onChanged: (_) => widget.onCalculate(),
-          // errorText: hospitalMilkSolidsError,
-          // suffixText: '%',
         ),
-        if (hospitalMilkSolidsError != null) ...[
-          SizedBox(height: 4.h),
-          Text(
-            hospitalMilkSolidsError!,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -567,22 +370,8 @@ class _StartMixingWidgetState extends State<StartMixingWidget> {
         LightInputField(
           controller: widget.desiredSolidsController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          // inputFormatters: _getNumericFormatters(allowDecimals: true, maxLength: 5),
           onChanged: (_) => widget.onCalculate(),
-          // errorText: desiredSolidsError,
-          // suffixText: '%',
         ),
-        if (desiredSolidsError != null) ...[
-          SizedBox(height: 4.h),
-          Text(
-            desiredSolidsError!,
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ],
     );
   }

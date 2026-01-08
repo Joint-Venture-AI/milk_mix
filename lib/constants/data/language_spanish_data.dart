@@ -8,8 +8,7 @@ Map<String, String> languageSpanishData = {
   'onboardTitle2': '	Iniciar sesión en MilkMix',
   'onboardSubTitle2': 'Rápido, fácil y preciso',
   'onboardTitle3': 'Sigue el crecimiento de tu ternero',
-  'onboardSubTitle3':
-      'Mezcla sólidos rápidamente, sin iniciar sesión ni necesitar Wi-Fi',
+  'onboardSubTitle3': 'Mezcla sólidos rápidamente',
   'onboardDescription1':
       'Milk Mix es una aplicación inteligente que te ayuda a mezclar leche para tus terneros con facilidad.',
   'onboardDescription2':

@@ -41,7 +41,7 @@ class LightInputField extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.primaryLight, width: 2),
         ),
       ),
-      style: TextStyle(fontSize: 14.sp),
+      style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
     );
   }
 }

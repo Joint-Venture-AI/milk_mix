@@ -11,12 +11,14 @@ class RecipeSummaryWidget extends StatelessWidget {
   final CalculationResult calculationResult;
   final MeasurementSystem measurementSystem;
   final dynamic selectedUnit;
+  final Function() onSaveClick;
 
   const RecipeSummaryWidget({
     super.key,
     required this.calculationResult,
     required this.measurementSystem,
     required this.selectedUnit,
+    required this.onSaveClick,
   });
 
   @override
@@ -62,7 +64,18 @@ class RecipeSummaryWidget extends StatelessWidget {
           ),
         ),
         Spacer(),
-        SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
+        // SvgPicture.asset('assets/logos/copy.svg', height: 20.h),
+        InkWell(
+          onTap: onSaveClick,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
+            decoration: BoxDecoration(
+              color: AppColors.shade,
+              borderRadius: BorderRadius.circular(18.r),
+            ),
+            child: Text('Save', style: TextStyle(fontWeight: FontWeight.w500)),
+          ),
+        ),
       ],
     );
   }

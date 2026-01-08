@@ -8,7 +8,7 @@ Map<String, String> languageBanglaData = {
   'onboardTitle2': 'মিল্ক মিক্সে লগইন করুন',
   'onboardSubTitle2': 'দ্রুত, সহজ এবং সঠিক',
   'onboardTitle3': 'আপনার বাছুরের বৃদ্ধির ট্র্যাক রাখুন',
-  'onboardSubTitle3': 'দ্রুত সলিড মিক্স করুন, লগইন বা ওয়াই-ফাই প্রয়োজন নেই',
+  'onboardSubTitle3': 'দ্রুত সলিড মিক্স করুন',
   'enterYourEmail': 'আপনার ইমেইল লিখুন',
   'onboardDescription1':
       'মিল্কমিক্স একটি স্মার্ট মিক্সিং অ্যাপ যা বাচ্চা বাছুরদের জন্য সহজেই দুধ মেশাতে সাহায্য করে।',

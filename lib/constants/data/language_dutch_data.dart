@@ -7,7 +7,7 @@ Map<String, String> languageDutchData = {
   'onboardTitle2': 'Inloggen bij MilkMix',
   'onboardSubTitle2': 'Snel, eenvoudig en nauwkeurig',
   'onboardTitle3': 'Volg de groei van je kalf',
-  'onboardSubTitle3': 'Meng snel zonder in te loggen of wifi nodig te hebben',
+  'onboardSubTitle3': 'Meng snel en eenvoudig',
   'onboardDescription1':
       'Milk Mix is een slimme mengapp die je helpt om gemakkelijk melk te mengen voor je kalfjes.',
   'onboardDescription2':

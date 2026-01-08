@@ -8,7 +8,7 @@ Map<String, String> languageGermanData = {
   'onboardTitle2': 'Bei MilkMix anmelden',
   'onboardSubTitle2': 'Schnell, einfach und exakt',
   'onboardTitle3': 'Beobachte das Kalbwachstum',
-  'onboardSubTitle3': 'Mische Feststoffe zügig, ohne Anmeldung oder WLAN',
+  'onboardSubTitle3': 'Mische Feststoffe zügig',
   'onboardDescription1':
       'Milk Mix ist eine clevere Misch-App, die dir das Zusammenstellen der Milch für deine Kälber erleichtert.',
   'onboardDescription2':

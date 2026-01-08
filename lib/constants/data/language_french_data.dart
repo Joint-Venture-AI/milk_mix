@@ -8,7 +8,7 @@ Map<String, String> languageFrenchData = {
   'onboardTitle2': 'Mélange simplifié',
   'onboardSubTitle2': 'Se connecter à MilkMix',
   'onboardTitle3': 'Suivez la croissance de vos veaux',
-  'onboardSubTitle3': 'Mélangez rapidement sans connexion ou compte requis',
+  'onboardSubTitle3': 'Mélangez rapidement les solides',
   'onboardDescription1':
       'Milk Mix est une application intelligente qui vous aide à mélanger le lait pour vos veaux en toute simplicité.',
   'onboardDescription2':

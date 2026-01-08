@@ -13,6 +13,7 @@ import 'package:milk_mix/view/home/calculate/mix_calculation_service.dart';
 import 'package:milk_mix/view/home/calculate/recipe_summery_widget.dart';
 import 'package:milk_mix/view/home/calculate/save_measurement_service.dart';
 import 'package:milk_mix/view/home/calculate/start_mixing_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CalculateScreen extends StatefulWidget {
   const CalculateScreen({super.key});
@@ -139,6 +140,9 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Future<void> _postCalculationResults() async {
     if (calculationResult.totalVolume == 0) return;
+
+    // Save field values to preferences
+    await _saveFieldsToPrefs();
     String? unit;
     if (selectedUnit is ImperialUnit) {
       unit = (selectedUnit as ImperialUnit).name;
@@ -185,6 +189,18 @@ class _CalculateScreenState extends State<CalculateScreen> {
     });
   }
 
+  Future<void> _saveFieldsToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('num_bottles', _numBottlesController.text);
+    await prefs.setString('hospital_milk', _hospitalMilkController.text);
+    await prefs.setString('bottle_size', _bottleSizeController.text);
+    await prefs.setString(
+      'hospital_milk_solids',
+      _hospitalMilkSolidsController.text,
+    );
+    await prefs.setString('desired_solids', _desiredSolidsController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,13 +224,13 @@ class _CalculateScreenState extends State<CalculateScreen> {
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
                 onCalculate: _calculateRecipe,
-                onSaveCalculation: _postCalculationResults,
               ),
               SizedBox(height: 14.h),
               RecipeSummaryWidget(
                 calculationResult: calculationResult,
                 measurementSystem: measurementSystem,
                 selectedUnit: selectedUnit,
+                onSaveClick: _postCalculationResults,
               ),
               SizedBox(height: 14.h),
               MeasurementUnitWidget(

@@ -8,7 +8,7 @@ Map<String, String> languageItalianData = {
   'onboardTitle2': 'Miscelazione semplificata',
   'onboardSubTitle2': 'Veloce, facile e accurata',
   'onboardTitle3': 'Monitora la crescita del tuo vitello',
-  'onboardSubTitle3': 'Miscela rapidamente senza bisogno di accesso o Wi-Fi',
+  'onboardSubTitle3': 'Miscela rapidamente.',
   'onboardDescription1':
       'Milk Mix è un’app intelligente che ti aiuta a miscelare il latte per i tuoi vitelli con facilità.',
   'onboardDescription2':

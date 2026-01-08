@@ -6,7 +6,7 @@ Map<String, String> languageJapaneseData = {
   'onboardTitle2': '簡単なミキシング',
   'onboardSubTitle2': '速く、簡単で、正確',
   'onboardTitle3': '子牛の成長を追跡',
-  'onboardSubTitle3': 'ログインやWi-Fi不要で素早く固形分をミックス',
+  'onboardSubTitle3': '素早く固形分をミックス',
   'onboardDescription1': 'Milk Mixは、子牛のためのミルクを簡単にミックスできるスマートなアプリです。',
   'onboardDescription2': 'Milk Mixを使えば、子牛用のミルクを簡単にミックスし、成長を追跡できます。',
   'onboardDescription3': '子牛の成長を追跡し、健康改善のための洞察を得ましょう。',

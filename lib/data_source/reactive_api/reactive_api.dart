@@ -9,5 +9,3 @@ Future<User> getUser() {
       .get(Uri.parse('${ApiConfig.baseUrl}/auth/profile/'))
       .then((response) => User.fromJson(jsonDecode(response.body)));
 }
-
-class StateController {}
