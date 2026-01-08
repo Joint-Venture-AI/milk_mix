@@ -142,9 +142,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
 
   Future<void> _postCalculationResults() async {
     if (calculationResult.totalVolume == 0) return;
-
-    // Save field values to preferences
-    await _saveFieldsToPrefs();
     String? unit;
     if (selectedUnit is ImperialUnit) {
       unit = (selectedUnit as ImperialUnit).name;
@@ -196,18 +193,6 @@ class _CalculateScreenState extends State<CalculateScreen> {
       _saveMeasurementSystem(measurementSystem.name);
       _calculateRecipe();
     });
-  }
-
-  Future<void> _saveFieldsToPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('num_bottles', _numBottlesController.text);
-    await prefs.setString('hospital_milk', _hospitalMilkController.text);
-    await prefs.setString('bottle_size', _bottleSizeController.text);
-    await prefs.setString(
-      'hospital_milk_solids',
-      _hospitalMilkSolidsController.text,
-    );
-    await prefs.setString('desired_solids', _desiredSolidsController.text);
   }
 
   @override
