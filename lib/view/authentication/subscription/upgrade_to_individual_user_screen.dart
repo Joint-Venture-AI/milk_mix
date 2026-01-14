@@ -6,7 +6,6 @@ import 'package:milk_mix/constants/color.dart';
 import 'package:milk_mix/controllers/subscription_controller.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
-import 'package:milk_mix/services/revenuecat_service.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/subscription_plan_card.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -40,8 +39,8 @@ class UpgradeToIndividualUserScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               SubscriptionPlanCard(
-                title: 'Personal Plan -',
-                subtitle: 'Start 30 Days Free',
+                title: 'Individual Plan -',
+                subtitle: 'Individual access for a Year',
                 price: '\$25',
                 duration: '/year',
                 onTap: () async {
@@ -61,6 +60,8 @@ class UpgradeToIndividualUserScreen extends StatelessWidget {
                   await controller.checkSubscriptionStatus();
                   if (controller.hasIndividualAccess.value) {
                     Get.offAllNamed(AppRoutes.farmMemberHome);
+                  } else {
+                    Get.snackbar('Error', 'Failed to restore purchases');
                   }
                 },
               ),

@@ -10,8 +10,8 @@ import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/subscription_plan_card.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
 
-class UpgradeToPremiumUserScreen extends StatelessWidget {
-  const UpgradeToPremiumUserScreen({super.key});
+class UpgradeToConsultantScreen extends StatelessWidget {
+  const UpgradeToConsultantScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class UpgradeToPremiumUserScreen extends StatelessWidget {
               const AppBarWidget(),
               SizedBox(height: 30.h),
               Text(
-                'Purchase to Add Farm Members',
+                'Purchase to Unlock the Consultant Feature',
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
@@ -38,14 +38,14 @@ class UpgradeToPremiumUserScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               SubscriptionPlanCard(
-                title: 'Premium Plan -',
-                subtitle: 'Premium access for a Year',
+                title: 'Consultant Plan -',
+                subtitle: 'Consultant access for a Year',
                 price: '\$25',
                 duration: '/year',
                 onTap: () async {
-                  await controller.purchaseAddMemberPlan();
-                  if (controller.hasAddMemberAccess.value) {
-                    Get.offAndToNamed(AppRoutes.home);
+                  await controller.purchaseConsultantPlan();
+                  if (controller.hasConsultantAccess.value) {
+                    Get.offAndToNamed(AppRoutes.homeConsult);
                   } else {
                     Get.snackbar('Error', 'Failed to purchase plan');
                   }
@@ -56,8 +56,8 @@ class UpgradeToPremiumUserScreen extends StatelessWidget {
                 text: 'Restore Purchases',
                 onPressed: () async {
                   await controller.checkSubscriptionStatus();
-                  if (controller.hasAddMemberAccess.value) {
-                    Get.offAllNamed(AppRoutes.home);
+                  if (controller.hasConsultantAccess.value) {
+                    Get.offAllNamed(AppRoutes.homeConsult);
                   } else {
                     Get.snackbar('Error', 'Failed to restore purchases');
                   }

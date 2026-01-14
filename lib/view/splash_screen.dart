@@ -19,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final biPassSubscription = kDebugMode;
+  final biPassSubscription = false;
   @override
   void initState() {
     super.initState();
@@ -40,13 +40,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final role = await TokenStorage.getRole();
     if (role == 'consultant') {
-      Get.offAllNamed(AppRoutes.homeConsult);
+      if (biPassSubscription) {
+        Get.offAllNamed(AppRoutes.homeConsult);
+      } else {
+        if (subscription.hasConsultantAccess.value) {
+          Get.offAllNamed(AppRoutes.homeConsult);
+        } else {
+          Get.snackbar('Subscription Required', 'Please subscribe to continue');
+          Get.offAllNamed(AppRoutes.upgradeToConsultant);
+        }
+      }
     } else
-    //
     //
     if (role == 'farm') {
       if (biPassSubscription) {
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.farmMemberHome);
       } else {
         if (subscription.hasAddMemberAccess.value) {
           Get.offAllNamed(AppRoutes.home);

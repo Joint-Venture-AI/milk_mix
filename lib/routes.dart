@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:milk_mix/view/authentication/subscription/upgrade_to_consultant_screen.dart';
 import 'package:milk_mix/view/authentication/subscription/upgrade_to_premium_user_screen.dart';
 import 'package:milk_mix/view/home/homeFarm/farm_home_bottom_nav_bar.dart';
 import 'package:milk_mix/view/home/homeFarmMember/farm_member_home_bottom_nav_bar.dart';
@@ -48,6 +49,7 @@ class AppRoutes {
   static String welcome = "/welcome";
   static String upgradeToIndividualUser = "/upgrade-to-individual-user";
   static String upgradeToPremiumUser = "/upgrade-to-premium-user";
+  static String upgradeToConsultant = "/upgrade-to-consultant";
   static String congratulation = "/congratulation";
   static String home = "/home";
   static String memberPremium = "/member-premium";
@@ -116,6 +118,7 @@ class AppRoutes {
       name: upgradeToPremiumUser,
       page: () => UpgradeToPremiumUserScreen(),
     ),
+    GetPage(name: upgradeToConsultant, page: () => UpgradeToConsultantScreen()),
     GetPage(name: congratulation, page: () => CongratulationScreen()),
     GetPage(name: home, page: () => HomeBottomNavScreen()),
     GetPage(name: memberPremium, page: () => MembersPremiumScreen()),
