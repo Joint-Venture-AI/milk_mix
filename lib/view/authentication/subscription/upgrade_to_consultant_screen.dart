@@ -9,6 +9,7 @@ import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/appbar_widget.dart';
 import 'package:milk_mix/view/widget/subscription_plan_card.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UpgradeToConsultantScreen extends StatelessWidget {
   const UpgradeToConsultantScreen({super.key});
@@ -51,6 +52,80 @@ class UpgradeToConsultantScreen extends StatelessWidget {
                   }
                 },
               ),
+              SizedBox(height: 20.h),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What you get:',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text('• Consultant access to MilkMix'),
+                  Text('• Join and manage multiple farms'),
+                  Text('• View and analyze farm calculations'),
+                  Text('• Collaborate with farm owners'),
+                  SizedBox(height: 12.h),
+                  Text(
+                    'Subscription Terms:',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    '\$25.00 per year. Auto-renewable subscription. '
+                    'Payment will be charged to your Apple ID. '
+                    'Subscription automatically renews unless canceled at least 24 hours before the end of the current period.',
+                    style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 16.h),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://milkmix.net/privacy-policy'),
+                      );
+                    },
+                    child: Text(
+                      'Privacy Policy',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(
+                          'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Terms of Use',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
               SizedBox(height: 20.h),
               TextWidgetButton(
                 text: 'Restore Purchases',
