@@ -21,22 +21,6 @@ class AuthController extends GetxController {
 
     if (result.isSuccess) {
       Get.offAllNamed(AppRoutes.splashScreen);
-      // final auth = result.data!;
-      // final role = auth.role;
-
-      // if (role == 'consultant') {
-      //   Get.offAllNamed(AppRoutes.homeConsult);
-      // } else if (role == 'farm') {
-      //   Get.offAllNamed(AppRoutes.farmMemberHome);
-      // } else if (role == 'farm_user') {
-      //   Get.offAllNamed(AppRoutes.memberHome);
-      // } else {
-      //   Get.snackbar(
-      //     'Error',
-      //     'Unknown role: $role',
-      //     snackPosition: SnackPosition.BOTTOM,
-      //   );
-      // }
     } else {
       Get.snackbar(
         'Login Failed',

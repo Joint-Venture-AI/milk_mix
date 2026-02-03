@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/constants/color.dart';
+import 'package:milk_mix/controllers/profile_controller.dart';
 import 'package:milk_mix/controllers/subscription_controller.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
@@ -37,6 +38,45 @@ class UpgradeToConsultantScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+              if (Get.find<ProfileController>().isTrialActive) ...[
+                SizedBox(height: 20.h),
+                Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.green),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'You are in a 30-day Free Trial!',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[800],
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'Expires on: ${Get.find<ProfileController>().trialExpiryDate?.toString().split(' ')[0]}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.green[700],
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      TextWidgetButton(
+                        text: 'Proceed with Free Trial',
+                        onPressed: () async {
+                          await controller.setTrialAcknowledged();
+                          Get.offAllNamed(AppRoutes.homeConsult);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               SizedBox(height: 20.h),
               SubscriptionPlanCard(
                 title: 'Consultant Plan -',

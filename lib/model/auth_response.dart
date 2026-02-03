@@ -75,4 +75,26 @@ class Profile {
       'joined_date': joinedDate,
     };
   }
+
+  bool get isTrialActive {
+    if (joinedDate == null) return false;
+    try {
+      final joined = DateTime.parse(joinedDate!);
+      final now = DateTime.now();
+      final difference = now.difference(joined).inDays;
+      return difference < 30;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  DateTime? get trialExpiryDate {
+    if (joinedDate == null) return null;
+    try {
+      final joined = DateTime.parse(joinedDate!);
+      return joined.add(const Duration(days: 30));
+    } catch (e) {
+      return null;
+    }
+  }
 }

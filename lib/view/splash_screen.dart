@@ -43,7 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAllNamed(AppRoutes.homeConsult);
       } else {
         if (subscription.hasConsultantAccess.value) {
-          Get.offAllNamed(AppRoutes.homeConsult);
+          if (subscription.isTrialAccess.value &&
+              !subscription.hasAcknowledgedTrial.value) {
+            Get.offAllNamed(AppRoutes.upgradeToConsultant);
+          } else {
+            Get.offAllNamed(AppRoutes.homeConsult);
+          }
         } else {
           Get.snackbar('Subscription Required', 'Please subscribe to continue');
           Get.offAllNamed(AppRoutes.upgradeToConsultant);
@@ -56,9 +61,19 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAllNamed(AppRoutes.farmMemberHome);
       } else {
         if (subscription.hasAddMemberAccess.value) {
-          Get.offAllNamed(AppRoutes.home);
+          if (subscription.isTrialAccess.value &&
+              !subscription.hasAcknowledgedTrial.value) {
+            Get.offAllNamed(AppRoutes.upgradeToPremiumUser);
+          } else {
+            Get.offAllNamed(AppRoutes.home);
+          }
         } else if (subscription.hasIndividualAccess.value) {
-          Get.offAllNamed(AppRoutes.farmMemberHome);
+          if (subscription.isTrialAccess.value &&
+              !subscription.hasAcknowledgedTrial.value) {
+            Get.offAllNamed(AppRoutes.upgradeToIndividualUser);
+          } else {
+            Get.offAllNamed(AppRoutes.farmMemberHome);
+          }
         } else {
           Get.snackbar('Subscription Required', 'Please subscribe to continue');
           Get.offAllNamed(AppRoutes.upgradeToIndividualUser);

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
+import 'package:milk_mix/model/profile_response.dart';
 
 class ProfileController extends GetxController {
   final ApiProvider _apiService = ApiProvider();
@@ -13,6 +14,7 @@ class ProfileController extends GetxController {
   final RxString name = ''.obs;
   final RxString farmName = ''.obs;
   final RxnInt userId = RxnInt();
+  final Rxn<User> userProfileData = Rxn<User>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -51,6 +53,7 @@ class ProfileController extends GetxController {
         name.value = user.userProfile?.name ?? '';
         farmName.value = user.userProfile?.farmName ?? '';
         userId.value = user.userProfile?.id;
+        userProfileData.value = user;
 
         // Get.snackbar(
         //   'Success',
@@ -242,4 +245,9 @@ class ProfileController extends GetxController {
   bool get hasProfileImage {
     return selectedImage.value != null || profileImageUrl.value.isNotEmpty;
   }
+
+  bool get isTrialActive =>
+      userProfileData.value?.userProfile?.isTrialActive ?? false;
+  DateTime? get trialExpiryDate =>
+      userProfileData.value?.userProfile?.trialExpiryDate;
 }
