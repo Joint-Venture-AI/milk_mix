@@ -200,45 +200,50 @@ class _CalculateScreenState extends State<CalculateScreen> {
     return Scaffold(
       backgroundColor: AppColors.surfaceGrey,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 20.h),
-              // _buildAdPlaceholder(),
-              const AutoScrollAdBanner(),
-              SizedBox(height: 14.h),
-              StartMixingWidget(
-                numBottlesController: _numBottlesController,
-                hospitalMilkController: _hospitalMilkController,
-                bottleSizeController: _bottleSizeController,
-                hospitalMilkSolidsController: _hospitalMilkSolidsController,
-                desiredSolidsController: _desiredSolidsController,
-                measurementSystem: measurementSystem,
-                selectedUnit: selectedUnit,
-                onCalculate: _calculateRecipe,
-                // onSaveCalculation: _postCalculationResults,
-              ),
-              SizedBox(height: 14.h),
-              RecipeSummaryWidget(
-                calculationResult: calculationResult,
-                measurementSystem: measurementSystem,
-                selectedUnit: selectedUnit,
-                onSave: () {
-                  _postCalculationResults();
-                  _saveFieldsToPrefs();
-                },
-              ),
-              SizedBox(height: 14.h),
-              MeasurementUnitWidget(
-                measurementSystem: measurementSystem,
-                selectedUnit: selectedUnit,
-                onUnitChanged: _handleUnitChange,
-              ),
-              SizedBox(height: 12.h),
-            ],
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 20.h),
+                // _buildAdPlaceholder(),
+                const AutoScrollAdBanner(),
+                SizedBox(height: 14.h),
+                StartMixingWidget(
+                  numBottlesController: _numBottlesController,
+                  hospitalMilkController: _hospitalMilkController,
+                  bottleSizeController: _bottleSizeController,
+                  hospitalMilkSolidsController: _hospitalMilkSolidsController,
+                  desiredSolidsController: _desiredSolidsController,
+                  measurementSystem: measurementSystem,
+                  selectedUnit: selectedUnit,
+                  onCalculate: _calculateRecipe,
+                  // onSaveCalculation: _postCalculationResults,
+                ),
+                SizedBox(height: 14.h),
+                RecipeSummaryWidget(
+                  calculationResult: calculationResult,
+                  measurementSystem: measurementSystem,
+                  selectedUnit: selectedUnit,
+                  onSave: () {
+                    _postCalculationResults();
+                    _saveFieldsToPrefs();
+                  },
+                ),
+                SizedBox(height: 14.h),
+                MeasurementUnitWidget(
+                  measurementSystem: measurementSystem,
+                  selectedUnit: selectedUnit,
+                  onUnitChanged: _handleUnitChange,
+                ),
+                SizedBox(height: 12.h),
+              ],
+            ),
           ),
         ),
       ),

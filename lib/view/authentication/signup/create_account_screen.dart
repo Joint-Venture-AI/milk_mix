@@ -28,7 +28,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final List<String> _roles = ['consultant', 'farm'];
   final Map<String, String> roleLabels = {
     'consultant': 'Consultant',
-    'farm': 'Individual',
+    'farm': 'Farm',
   };
 
   @override
