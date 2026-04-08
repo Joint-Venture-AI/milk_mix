@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:milk_mix/controllers/auth_controller.dart';
 import 'package:milk_mix/data_source/api/provider/api_provider.dart';
 import 'package:milk_mix/routes.dart';
 import 'package:milk_mix/view/widget/text_button_widget.dart';
@@ -19,10 +20,36 @@ class OtpVerificationScreen extends StatefulWidget {
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   String? _otp;
   bool isLoading = false;
+  bool _resendLoading = false;
+
+  AuthController get _authController => Get.isRegistered<AuthController>()
+      ? Get.find<AuthController>()
+      : Get.put(AuthController());
+
+  String? get _email =>
+      Get.arguments?['email'] as String? ?? widget.email?.trim();
+
+  Future<void> resendOtp() async {
+    final email = _email;
+    if (email == null || email.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Email is required to resend OTP',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+    setState(() => _resendLoading = true);
+    try {
+      await _authController.resendOtp(email: email);
+    } finally {
+      if (mounted) setState(() => _resendLoading = false);
+    }
+  }
 
   Future<void> verifyOtp() async {
-    final email = Get.arguments?['email'] as String?;
-    if (email == null || _otp == null || _otp!.length != 6) {
+    final email = _email;
+    if (email == null || email.isEmpty || _otp == null || _otp!.length != 6) {
       Get.snackbar(
         "Error",
         "Please enter a valid 6-digit OTP",
@@ -157,21 +184,24 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    onPressed: () {
-                      Get.snackbar(
-                        "Info",
-                        "Resend OTP functionality not implemented",
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    },
-                    child: Text(
-                      'sendAgain'.tr,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    onPressed: _resendLoading ? null : resendOtp,
+                    child: _resendLoading
+                        ? SizedBox(
+                            width: 14.w,
+                            height: 14.h,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.primary,
+                            ),
+                          )
+                        : Text(
+                            'sendAgain'.tr,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ],
               ),

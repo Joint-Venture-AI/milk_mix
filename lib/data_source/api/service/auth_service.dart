@@ -66,6 +66,15 @@ class AuthService {
     );
   }
 
+  Future<Result<dynamic>> resendOtp({required String email}) {
+    final body = {'email': email};
+    return _httpClient.post(
+      '${ApiConfig.auth}/otp/create/',
+      body: body,
+      fromJson: (json) => json,
+    );
+  }
+
   Future<Result<dynamic>> passwordResetRequest({required String email}) {
     final body = {'email': email};
     return _httpClient.post(
